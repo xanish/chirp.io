@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\User;
 
 class ProfileController extends Controller
 {
@@ -11,10 +12,10 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index($username)
     {
-        $user = Auth::user();
+        $user = User::where('username', $username)->firstOrFail();
         $append = 'true';
         return view('home', compact('user', 'append'));
     }
