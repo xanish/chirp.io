@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -22,9 +23,9 @@ class HomeController extends Controller
   *
   * @return \Illuminate\Http\Response
   */
-  public function index($username)
+  public function index()
   {
-    $data = User::where('username', $username)->firstOrFail();
+    $data = User::where('username', Auth::user()->username)->firstOrFail();
     return view('home', compact('data'));
   }
 }

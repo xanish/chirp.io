@@ -28,3 +28,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/followers', 'FollowsController@followers');
 Route::get('/following', 'FollowsController@following');
+Route::get('/{username}/followers', 'FollowsController@followersForUser');
+Route::get('/{username}/following', 'FollowsController@followingForUser');

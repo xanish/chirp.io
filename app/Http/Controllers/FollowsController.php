@@ -13,11 +13,21 @@ class FollowsController extends Controller
 
     public function followers()
     {
-        # code...
+        return view('follows');
     }
 
     public function following()
     {
-        # code...
+        return view('follows');
+    }
+
+    public function followersForUser($username)
+    {
+        return view('follows');
+    }
+
+    public function followingForUser($username)
+    {
+        return view('follows');
     }
 }

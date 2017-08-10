@@ -1,23 +1,55 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+:root {
+  --main: #6255b2;
+  --grey: #d3e0e9;
+  --green: #2de087;
+  --violet: #b48ead;
+  --red: #e72d2d;
+  --blue: #678bdc;
+  --pink: #ff6f9f;
+  --purple: #6255b2;
+  --yellow: #e5c07b;
+  --white: #ffffff;
+}
+.font-size-14 {
+    font-size: 14px;
+}
+.no-margins {
+    margin: 0px;
+}
+.no-padding {
+    padding: 0px;
+}
 .navbar-brand {
   font-family: Pacifico;
 }
 .navbar {
     margin-bottom: 0px;
 }
+.container-wide {
+    width: 75%;
+}
+#nav-links {
+    padding: 20px;
+    text-align: center;
+}
 #welcome-banner {
     height: 400px;
-    background-color: rgb(120, 144, 205);
+    background-color: var(--main);
 }
 #message {
     padding-top: 40px;
 }
 #welcome-logo {
     font-size: 160px;
-    color: #ffffff;
+    color: var(--white);
 }
 #welcome-message {
     font-family: Pacifico;
-    color: #ffffff;
+    color: var(--white);
     font-size: 60px;
+}
+.colored-text-nav-links {
+    color: var(--main);
+    font-weight: bold;
 }

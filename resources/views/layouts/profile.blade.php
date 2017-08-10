@@ -78,7 +78,42 @@
       </div>
     </div>
   </nav>
+  <div class="container container-wide">
+      <div class="col-lg-2">
+          <img src="http://via.placeholder.com/220x220/6255b2/ffffff" alt="">
+          <div class="text-center">
+              <h3>Name</h3>
+              <h4>@username</h4>
+              <h5><span class="fa fa-map-marker"></span> Mumbai, India</h5>
+              <h5><span class="fa fa-calendar-o"></span> 2016</h5>
+          </div>
+      </div>
+      <div class="col-lg-10">
+          <div class="row" id="nav-links">
+              <div class="col-lg-1">
+                  <h3 class="font-size-14 no-margins">Followers</h3>
+                  <span class="colored-text-nav-links font-size-14">5</span>
+              </div>
+              <div class="col-lg-1">
+                  <h3 class="font-size-14 no-margins">Following</h3>
+                  <span class="colored-text-nav-links font-size-14">12</span>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-4">
+                  <div class="card">
+                      <div class="profile-img">
 
+                      </div>
+                      <div class="personal-details">
+
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
   @yield('content')
 </div>
 
