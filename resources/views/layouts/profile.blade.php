@@ -82,39 +82,54 @@
       <div class="col-lg-2">
           <img src="http://via.placeholder.com/220x220/6255b2/ffffff" alt="">
           <div class="text-center">
-              <h3>Name</h3>
-              <h4>@username</h4>
-              <h5><span class="fa fa-map-marker"></span> Mumbai, India</h5>
-              <h5><span class="fa fa-calendar-o"></span> 2016</h5>
+              <h3>{{ $user->name }}</h3>
+              <h4>{{ '@'.$user->username}}</h4>
+              @if ($user->city and $user->country)
+              <h5><span class="fa fa-map-marker"></span> {{ $user->city . ', ' . $user->country }}</h5>
+              @endif
+              @if ($user->birthdate)
+              <h5><span class="fa fa-birthday-cake"></span> {{ $user->birthdate }}</h5>
+              @endif
+              @if ($user->created_at)
+              <h5><span class="fa fa-calendar-o"></span> {{ $user->created_at->diffForHumans() }}</h5>
+              @endif
           </div>
       </div>
       <div class="col-lg-10">
           <div class="row" id="nav-links">
-              <div class="col-lg-1">
-                  <h3 class="font-size-14 no-margins">Followers</h3>
-                  <span class="colored-text-nav-links font-size-14">5</span>
-              </div>
-              <div class="col-lg-1">
-                  <h3 class="font-size-14 no-margins">Following</h3>
-                  <span class="colored-text-nav-links font-size-14">12</span>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-lg-4">
-                  <div class="card">
-                      <div class="profile-img">
-
-                      </div>
-                      <div class="personal-details">
-
-                      </div>
+              @if ($append)
+              <a href="/{{ $user->username }}/followers">
+                  <div class="col-lg-1">
+                      <h3 class="font-size-14 no-margins">Followers</h3>
+                      <span class="colored-text-nav-links font-size-14">{{ $user->follower_count }}</span>
                   </div>
-              </div>
-
+              </a>
+              <a href="/{{ $user->username }}/following">
+                  <div class="col-lg-1">
+                      <h3 class="font-size-14 no-margins">Following</h3>
+                      <span class="colored-text-nav-links font-size-14">{{ $user->following_count }}</span>
+                  </div>
+              </a>
+              @else
+              <a href="/followers">
+                  <div class="col-lg-1">
+                      <h3 class="font-size-14 no-margins">Followers</h3>
+                      <span class="colored-text-nav-links font-size-14">{{ $user->follower_count }}</span>
+                  </div>
+              </a>
+              <a href="/following">
+                  <div class="col-lg-1">
+                      <h3 class="font-size-14 no-margins">Following</h3>
+                      <span class="colored-text-nav-links font-size-14">{{ $user->following_count }}</span>
+                  </div>
+              </a>
+              @endif
+          </div>
+          <div class="row padding-20">
+              @yield('content')
           </div>
       </div>
   </div>
-  @yield('content')
 </div>
 
 <!-- Scripts -->
