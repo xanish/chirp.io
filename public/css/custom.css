@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+.navbar-brand {
+  font-family: Pacifico;
+}
+.navbar {
+    margin-bottom: 0px;
+}
+#welcome-banner {
+    height: 400px;
+    background-color: rgb(120, 144, 205);
+}
+#message {
+    padding-top: 40px;
+}
+#welcome-logo {
+    font-size: 160px;
+    color: #ffffff;
+}
+#welcome-message {
+    font-family: Pacifico;
+    color: #ffffff;
+    font-size: 60px;
+}
