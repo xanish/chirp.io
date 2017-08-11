@@ -40,7 +40,7 @@ class ProfileController extends Controller
         return view('home', compact('user', 'append', 'showFollows', 'follower_count', 'following_count'));
     }
 
-    public function indexakki()
+    public function viewfeed()
     {
         $tweet = new Tweet;
         $formatted_feeds = new DateFormatter;
