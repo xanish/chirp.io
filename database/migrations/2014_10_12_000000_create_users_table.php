@@ -19,9 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('city')->default(null);
-            $table->string('country')->default(null);
-            $table->date('birthdate')->default(null);
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->date('birthdate')->nullable();
             $table->integer('tweet_count')->default(0);
             $table->integer('follower_count')->default(0);
             $table->integer('following_count')->default(0);

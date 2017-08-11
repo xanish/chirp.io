@@ -82,9 +82,9 @@
       <div class="col-lg-2">
           <img src="http://via.placeholder.com/220x220/6255b2/ffffff" alt="">
           <div class="text-center">
-              <h3>Name</h3>
-              <h4>@username</h4>
-              <h5><span class="fa fa-map-marker"></span> Mumbai, India</h5>
+              <h3>{{ Auth::user()->name }}</h3>
+              <h4>{{'@'. Auth::user()->username}}</h4>
+              <h5><span class="fa fa-map-marker"></span> {{ Auth::user()->city . ', ' . Auth::user()->country }}</h5>
               <h5><span class="fa fa-calendar-o"></span> 2016</h5>
           </div>
       </div>
@@ -100,21 +100,10 @@
               </div>
           </div>
           <div class="row">
-              <div class="col-lg-4">
-                  <div class="card">
-                      <div class="profile-img">
-
-                      </div>
-                      <div class="personal-details">
-
-                      </div>
-                  </div>
-              </div>
-
+              @yield('content')
           </div>
       </div>
   </div>
-  @yield('content')
 </div>
 
 <!-- Scripts -->
