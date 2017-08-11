@@ -14,6 +14,12 @@
 .font-size-14 {
     font-size: 14px;
 }
+.padding-20 {
+    padding: 20px;
+}
+.circle-img {
+    border-radius: 100%;
+}
 .no-margins {
     margin: 0px;
 }
@@ -63,4 +69,15 @@
 #feed-tweet .col-lg-10 {
   padding-right: 0;
   padding-left: 0;
+}
+.card {
+    border: 1px solid var(--grey);
+    padding: 10px;
+    margin: 10px;
+}
+.header {
+    margin-bottom: 20px;
+}
+.btn-rounded {
+    border-radius: 17px;
 }
