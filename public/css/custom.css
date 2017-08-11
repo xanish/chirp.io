@@ -67,3 +67,6 @@
 .header {
     margin-bottom: 20px;
 }
+.btn-rounded {
+    border-radius: 17px;
+}

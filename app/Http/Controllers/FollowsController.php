@@ -55,4 +55,13 @@ class FollowsController extends Controller
         $data = Follower::where('user_id', $user->id)->join('users', 'followers.following', '=', 'users.id')->select('username', 'name', 'follower_count', 'following_count')->get();
         return view('follows', compact('data', 'header', 'user', 'append'));
     }
+
+    public function create($username) {
+
+    }
+
+    public function destroy($username)
+    {
+        # code...
+    }
 }

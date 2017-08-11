@@ -15,21 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/{username}', 'ProfileController');
-//
-// Route::get('/followers', 'FollowsController@followers');
-//
-// Route::get('/following', 'FollowsController@following');
-//
-// Route::post('/chirp', 'ChirpController@index');
-
 Auth::routes();
 
+Route::resource('/followers', 'FollowersController');
+Route::resource('/following', 'FollowingsController');
+
 Route::get('/home', 'HomeController@index');
-Route::get('/followers', 'FollowsController@followers');
-Route::get('/following', 'FollowsController@following');
-Route::post('/follower/{follower}', 'FollowsController@create');
-Route::delete('/follower/{follower}', 'FollowsController@destroy');
 Route::get('/{username}', 'ProfileController@index');
-Route::get('/{username}/followers', 'FollowsController@followersForUser');
-Route::get('/{username}/following', 'FollowsController@followingForUser');
+
+// Route::get('/followers', 'FollowsController@followers');
+// Route::get('/following', 'FollowsController@following');
+// Route::post('/follow/user/{username}', 'FollowsController@create');
+// Route::delete('/unfollow/user/{username}', 'FollowsController@destroy');
+// Route::get('/{username}', 'ProfileController@index');
+// Route::get('/{username}/followers', 'FollowsController@followersForUser');
+// Route::get('/{username}/following', 'FollowsController@followingForUser');

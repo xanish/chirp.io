@@ -7,5 +7,5 @@
         <span id="welcome-message">Welcome to Chirp.io</span>
     </div>
 </div>
-
+{{$data}}
 @endsection
