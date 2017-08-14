@@ -26,16 +26,7 @@ class ProfileController extends Controller
         else {
             $showFollows = (new Follower)->authUserFollowsPerson($username);
         }
-        return view('home', compact('user', 'append', 'showFollows', 'follower_count', 'following_count'));
-    }
-
-    public function viewfeed()
-    {
-        $tweet = new Tweet;
-        $formatted_feeds = new DateFormatter;
-        $feeds = $tweet->getTweets();
-        $feeds = $formatted_feeds->formatDate($feeds);
-
-        return view('profile', compact('feeds'));
+        $tweets = (new Tweet)->getTweets($username);
+        return view('profile', compact('user', 'append', 'showFollows', 'follower_count', 'following_count', 'tweets'));
     }
 }
