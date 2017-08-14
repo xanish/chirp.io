@@ -31,9 +31,15 @@
           </button>
 
           <!-- Branding Image -->
+          @if (Auth::guest())
           <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Chirp.io') }}
+              {{ config('app.name', 'Chirp.io') }}
           </a>
+          @else
+          <a class="navbar-brand" href="{{ url('/home') }}">
+              {{ config('app.name', 'Chirp.io') }}
+          </a>
+          @endif
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -55,6 +61,9 @@
               </a>
 
               <ul class="dropdown-menu" role="menu">
+                  <li>
+                      <a href="/edit-profile">Edit Profile</a>
+                  </li>
                 <li>
                   <a href="{{ route('logout') }}"
                   onclick="event.preventDefault();
@@ -66,11 +75,6 @@
                   {{ csrf_field() }}
                 </form>
               </li>
-              <li>
-                <a href="#">
-                Edit Profile
-              </a>
-            </li>
             </ul>
           </li>
           @endif

@@ -9,11 +9,11 @@
         <div class="profile-img col-lg-2 col-md-12">
             <img class="circle-img" src="http://via.placeholder.com/60x60/6255b2/ffffff" alt="">
         </div>
-        <div class="personal-details col-lg-8 col-md-12">
+        <div class="personal-details col-lg-7 col-md-12">
             <a href="/{{ $person->username }}"><h4>{{ $person->name }}</h4></a>
             <h5>{{ '@'.$person->username }}</h5>
         </div>
-        <div class="col-lg-2 col-md-12">
+        <div class="col-lg-3 col-md-12">
             @if ($header == 'Following')
             {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$person->username]) !!}
             {!! Form::hidden('following', $user->username) !!}
@@ -23,6 +23,6 @@
         </div>
     </div>
 </div>
-
 @endforeach
+
 @endsection

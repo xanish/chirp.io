@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'SiteHomepageController@index');
+// function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -21,6 +22,10 @@ Route::resource('/followers', 'FollowersController');
 Route::resource('/following', 'FollowingsController');
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/edit-profile', 'EditProfileController@index');
+Route::patch('/edit-profile', 'EditProfileController@update');
+
 Route::get('/{username}', 'ProfileController@index');
 
 // Route::get('/followers', 'FollowsController@followers');
