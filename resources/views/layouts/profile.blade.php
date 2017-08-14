@@ -79,8 +79,8 @@
     </div>
   </nav>
   <div class="container container-wide">
-      <div class="col-lg-2">
-          <img src="http://via.placeholder.com/220x220/6255b2/ffffff" alt="">
+      <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+          <img class="img-responsive" src="http://via.placeholder.com/220x220/6255b2/ffffff" alt="">
           <div class="text-center">
               <h3>{{ $user->name }}</h3>
               <h4>{{ '@'.$user->username}}</h4>
@@ -108,30 +108,36 @@
               @endif
           </div>
       </div>
-      <div class="col-lg-10">
+      <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">
           <div class="row" id="nav-links">
+              <a href="/{{ $user->username }}">
+                  <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                      <h3 class="font-size-14 no-margins">Tweets</h3>
+                      <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
+                  </div>
+              </a>
               @if ($append)
               <a href="/{{ $user->username }}/followers">
-                  <div class="col-lg-1">
+                  <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
                       <h3 class="font-size-14 no-margins">Followers</h3>
                       <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
                   </div>
               </a>
               <a href="/{{ $user->username }}/following">
-                  <div class="col-lg-1">
+                  <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
                       <h3 class="font-size-14 no-margins">Following</h3>
                       <span class="colored-text-nav-links font-size-14">{{ $following_count }}</span>
                   </div>
               </a>
               @else
               <a href="/followers">
-                  <div class="col-lg-1">
+                  <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
                       <h3 class="font-size-14 no-margins">Followers</h3>
                       <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
                   </div>
               </a>
               <a href="/following">
-                  <div class="col-lg-1">
+                  <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
                       <h3 class="font-size-14 no-margins">Following</h3>
                       <span class="colored-text-nav-links font-size-14">{{ $following_count }}</span>
                   </div>
