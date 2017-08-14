@@ -59,6 +59,17 @@
     color: var(--main);
     font-weight: bold;
 }
+#tweetbox {
+    resize: none;
+}
+#tweet-button {
+  background-color: var(--main);
+  color: white;
+}
+#feed-tweet .col-lg-10 {
+  padding-right: 0;
+  padding-left: 0;
+}
 .card {
     border: 1px solid var(--grey);
     padding: 10px;

@@ -18,9 +18,6 @@ Route::get('/', 'SiteHomepageController@index');
 
 Auth::routes();
 
-Route::resource('/followers', 'FollowersController');
-Route::resource('/following', 'FollowingsController');
-
 Route::get('/home', 'HomeController@index');
 
 Route::get('/edit-profile', 'EditProfileController@index');
@@ -35,3 +32,4 @@ Route::get('/{username}', 'ProfileController@index');
 // Route::get('/{username}', 'ProfileController@index');
 // Route::get('/{username}/followers', 'FollowsController@followersForUser');
 // Route::get('/{username}/following', 'FollowsController@followingForUser');
+Route::post('/tweet', 'TweetController@create');

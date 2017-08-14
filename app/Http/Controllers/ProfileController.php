@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\DateFormatter;
+use Carbon\Carbon;
 use Auth;
 use App\User;
 use App\Follower;
@@ -25,5 +27,15 @@ class ProfileController extends Controller
             $showFollows = (new Follower)->authUserFollowsPerson($username);
         }
         return view('home', compact('user', 'append', 'showFollows', 'follower_count', 'following_count'));
+    }
+
+    public function viewfeed()
+    {
+        $tweet = new Tweet;
+        $formatted_feeds = new DateFormatter;
+        $feeds = $tweet->getTweets();
+        $feeds = $formatted_feeds->formatDate($feeds);
+
+        return view('profile', compact('feeds'));
     }
 }
