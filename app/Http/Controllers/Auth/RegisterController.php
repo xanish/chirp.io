@@ -74,6 +74,7 @@ class RegisterController extends Controller
             'tweet_count' => 0,
             'follower_count' => 0,
             'following_count' => 0,
+            'profile-image' => 'placeholder.jpg',
         ]);
     }
 }

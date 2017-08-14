@@ -3,40 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Tweet;
 use App\DateFormatter;
 use Carbon\Carbon;
+use Auth;
+use App\User;
+use App\Follower;
+use App\Tweet;
 
 class ProfileController extends Controller
 {
     public function index($username)
     {
         $user = User::where('username', $username)->firstOrFail();
-        $append = 'true';
+        $append = true;
         $showFollows = '';
-
+        $follower_count = (new Follower)->getFollowersCount($username);
+        $following_count = (new Follower)->getFollowingsCount($username);
+        $tweets = Tweet::where('posted_by', $user->id);
         if (Auth::guest()) {
-
+            $showFollows = '';
         }
         else {
-            if ($user->username != Auth::user()->username) {
-                $follows = Follower::where('following', $user->id)->where(function ($query) {
-                    $query->whereColumn('updated_at', 'created_at');
-                })->get();
-                $follower_count = count($follows);
-                $following = Follower::where('user_id', $user->id)->where(function ($query) {
-                    $query->whereColumn('updated_at', 'created_at');
-                })->get();
-                $following_count = count($following);
-                if (count($follows) == 0) {
-                    $showFollows = 'false';
-                }
-                else if (count($follows) > 0) {
-                    $showFollows = 'true';
-                }
-            }
+            $showFollows = (new Follower)->authUserFollowsPerson($username);
         }
-        // else {}
         return view('home', compact('user', 'append', 'showFollows', 'follower_count', 'following_count'));
     }
 

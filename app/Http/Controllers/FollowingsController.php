@@ -46,4 +46,16 @@ class FollowingsController extends Controller
             })->update(['updated_at' => Carbon::now()]);
         return redirect('/following');
     }
+
+    public function show($username)
+    {
+        $header = "Following";
+        $append = true;
+        $user = (new User)->getUserByUsername($username);
+        $showFollows = (new Follower)->authUserFollowsPerson($username);
+        $data = (new Follower)->getPeopleFollowedByUser($user->username);
+        $following_count = count($data);
+        $follower_count = (new Follower)->getFollowersCount($user->username);
+        return view('follows', compact('header', 'append', 'user', 'data', 'showFollows', 'follower_count', 'following_count'));
+    }
 }

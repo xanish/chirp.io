@@ -10,7 +10,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'username', 'email', 'password', 'city', 'country', 'birthdate'
+        'name', 'username', 'email', 'password', 'city', 'country', 'birthdate', 'profile_image',
     ];
 
     protected $hidden = [
@@ -21,5 +21,11 @@ class User extends Authenticatable
     {
         $data = User::where('username', $username)->get();
         return $data[0]->id;
+    }
+
+    public function getUserByUsername($username)
+    {
+        $data = User::where('username', $username)->get();
+        return $data[0];
     }
 }
