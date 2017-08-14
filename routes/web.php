@@ -25,4 +25,4 @@ Route::delete('/unfollow/user/{username}', 'FollowsController@destroy');
 Route::get('/{username}', 'ProfileController@viewfeed');
 Route::get('/{username}/followers', 'FollowsController@followersForUser');
 Route::get('/{username}/following', 'FollowsController@followingForUser');
-Route::post('/{username}/tweet', 'TweetController@create');
+Route::post('/tweet', 'TweetController@create');

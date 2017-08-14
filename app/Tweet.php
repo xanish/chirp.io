@@ -12,9 +12,12 @@ class Tweet extends Model
     public function createTweet($tweet)
     {
       $userid = Auth::user()->id;
-      DB::table('tweets')->insert(
-          ['text' => $tweet->text, 'user_id' => $userid, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
-      );
+      if($tweet != NULL)
+      {
+        DB::table('tweets')->insert(
+            ['text' => $tweet, 'user_id' => $userid, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
+          );
+      }
     }
 
     public function getTweets()

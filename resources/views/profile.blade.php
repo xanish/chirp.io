@@ -1,15 +1,36 @@
+{{$showFollows = 'false'}}
+{{$follower_count = '10'}}
+{{$following_count = '14'}}
+{{$user = Auth::user()}}
+{{$append = 'true'}}
 @extends('layouts.profile')
 
 @section('content')
+<script>
+         function getTweet(){
+            $.ajax({
+               type:'POST',
+               url:'/tweet',
+               data:'tweet_text',
+               success:function(data){
+                  alert("Your tweet has been posted");
+               }
+            });
+         }
+</script>
+
 <div class="profile-feed container">
+  @if (Auth::user())
   <div class="row">
     <form class="form">
-      <textarea class="form-control" name="tweet-text" id="tweetbox" rows="4" placeholder="What's happening !"></textarea>
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+      <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !"></textarea>
       <br>
-      <button class="btn btn-default" id="tweet-button" type="submit" style="float: right;"><i class="icofont icofont-animal-woodpecker"></i> Chirp it</button>
+      <button onclick="getTweet()" class="btn btn-default" id="tweet-button" type="submit" style="float: right;"><i class="icofont icofont-animal-woodpecker"></i> Chirp it</button>
     </form>
   </div>
   <br>
+  @endif
   <div class="tweets container" id="feed-tweet">
     @foreach ($feeds as $feed)
     <div class="row">
