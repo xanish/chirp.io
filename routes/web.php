@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/edit-profile', 'EditProfileController@index');
 Route::patch('/edit-profile', 'EditProfileController@update');
 
-Route::get('/{username}', 'ProfileController@index');
+Route::get('/{username}', 'ProfileController@viewFeed');
 
 // Route::get('/followers', 'FollowsController@followers');
 // Route::get('/following', 'FollowsController@following');

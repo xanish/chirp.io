@@ -29,7 +29,7 @@ class ProfileController extends Controller
         return view('home', compact('user', 'append', 'showFollows', 'follower_count', 'following_count'));
     }
 
-    public function viewfeed()
+    public function viewFeed()
     {
         $tweet = new Tweet;
         $formatted_feeds = new DateFormatter;

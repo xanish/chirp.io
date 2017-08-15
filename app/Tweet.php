@@ -14,9 +14,11 @@ class Tweet extends Model
       $userid = Auth::user()->id;
       if($tweet != NULL)
       {
-        DB::table('tweets')->insert(
+        $id = DB::table('tweets')->insertGetId(
             ['text' => $tweet, 'user_id' => $userid, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
           );
+
+        return $id; 
       }
     }
 
