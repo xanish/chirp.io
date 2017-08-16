@@ -22,3 +22,7 @@ Route::patch('/edit-profile', 'EditProfileController@update');
 // Route::get('/{username}/following', 'FollowsController@followingForUser');
 Route::post('/tweet', 'TweetController@create');
 Route::get('/{username}', 'ProfileController@index');
+
+Route::get('/ajaxfeed', function (){
+    return view('ajaxfeed');
+});

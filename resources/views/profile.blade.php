@@ -1,24 +1,17 @@
-<!--{{$showFollows = 'false'}}
-{{$follower_count = '10'}}
-{{$following_count = '14'}}
-{{$user = Auth::user()}}
-{{$append = 'true'}}-->
 @extends('layouts.profile')
 
 @section('content')
 
 @if ($user->username == Auth::user()->username)
-{!! Form::open(['method' => 'POST', 'url' => 'tweet']) !!}
     <div class="form-group">
         <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !"></textarea>
     </div>
     <div class="form-group">
-        <button onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
+        <label onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="button" disabled="disabled"><i class="icofont icofont-animal-woodpecker"></i> Chirp</label>
     </div>
-{!! Form::close() !!}
 @endif
 
-<div class="container">
+<div class="container" id="feed-tweet">
     @foreach ($tweets as $tweet)
     <div class="row padding-20-top-bottom">
         <div class="col-lg-1">

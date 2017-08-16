@@ -11,8 +11,9 @@ function getTweet() {
     url: '/chirp.io/public/tweet',
     data: { tweet: text },
     dataType: 'json',
-    success: function(){
-          alert("Your message has been Chirped..!!");
+    success: function(data){
+          $("#tweetbox").val('');
+          $("#feed-tweet").load("ajaxfeed #feed-tweet");
       },
     error: function(xhr) {
         console.log(xhr);

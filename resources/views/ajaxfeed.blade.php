@@ -1,23 +1,22 @@
-<div class="tweets container" id="feed-tweet">
-  @foreach ($feeds as $feed)
-  <div class="row">
-      <div class="col-sm-1">
-          <img class="img-circle img-responsive" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
-      </div>
-      <div class="col-lg-10">
-          <b>{{ Auth::user()->name }}</b>
-          {{'@'. Auth::user()->username}} . {{ $feed->created_at }}
-          <div class="">
-            {{ $feed->text }}
-            <!--<div>
-              <br>
-              <button type="submit" class="btn">
-                <i class="fa fa-retweet"></i>
-              </button>
-            </div>-->
-          </div>
-      </div>
-  </div>
-  <br><br><br>
-  @endforeach
+<div class="container" id="feed-tweet">
+    @foreach ($tweets as $tweet)
+    <div class="row padding-20-top-bottom">
+        <div class="col-lg-1">
+            <img class="img-circle img-responsive" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
+        </div>
+        <div class="col-lg-11">
+            <div class="row">
+                <div class="col-lg-8">
+                    <b>{{ $user->name }}</b>&nbsp;{{ '@'. $user->username }}
+                </div>
+                <div class="col-lg-4 text-right grey-text">
+                    {{ $tweet->created_at->diffForHumans() }}
+                </div>
+            </div>
+            <div class="">
+              {{ $tweet->text }}
+            </div>
+        </div>
+    </div>
+    @endforeach
 </div>
