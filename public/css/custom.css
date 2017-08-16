@@ -28,7 +28,7 @@
     padding: 0px;
 }
 .navbar-brand {
-  font-family: Pacifico;
+  font-family: Pacifico, cursive;
 }
 .navbar {
     margin-bottom: 0px;
@@ -52,7 +52,7 @@
     color: var(--white);
 }
 #welcome-message {
-    font-family: Pacifico;
+    font-family: Pacifico, cursive;
     color: var(--white);
     font-size: 60px;
 }
@@ -69,8 +69,9 @@
 }
 .card {
     border: 1px solid var(--grey);
-    padding: 10px;
-    margin: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 1%;
 }
 .header {
     margin-bottom: 20px;
@@ -94,4 +95,41 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+.styled-input {
+    height: 45px;
+    font-size: 18px;
+    border-radius: 2px;
+    border: 1px solid #e6ecf0;
+}
+.inactive-bg {
+    padding: 15px;
+    background-color: #e6ecf0;
+}
+.panel {
+    margin-top: 30px;
+}
+.col-no-pad {
+    padding: 0;
+}
+.footer-fixed {
+    position: fixed;
+    bottom: 0;
+}
+.list-inline > li {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.nounderline:hover {
+    text-decoration: none;
+}
+.no-bottom-margin {
+    margin-bottom: 0;
+}
+.corner-button {
+    border-radius: 2px;
+    height: 90px;
+}
+.padding-10 {
+    padding: 10px;
 }

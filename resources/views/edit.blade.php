@@ -5,16 +5,20 @@
     <h1>Edit Profile</h1>
     <div class="row">
         {!! Form::model($user, ['method' => 'PATCH', 'url' => 'edit-profile', 'files' => true]) !!}
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-sm-12">
             <img class="img-responsive center-block" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
             <div class="text-center">
                 <h3>{{ $user->name }}</h3>
                 <h4>{{ '@'.$user->username}}</h4>
             </div>
-            {!! Form::file('profile_image',['class' => 'form-control']) !!}
+            <div class="form-group">
+              {!! Form::label('profile_image', 'Avatar') !!}
+              {!! Form::file('profile_image',['class' => 'form-control']) !!}
+            </div>
+
         </div>
 
-        <div class="col-lg-9">
+        <div class="col-lg-9 col-sm-12">
 
             <div class="form-group">
               {!! Form::label('name', 'Name') !!}

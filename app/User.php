@@ -25,7 +25,9 @@ class User extends Authenticatable
 
     public function getUserByUsername($username)
     {
-        $data = User::where('username', $username)->get();
+        $data = User::where('username', $username)
+                    ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image')
+                    ->get();
         return $data[0];
     }
 }
