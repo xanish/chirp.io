@@ -1,4 +1,3 @@
-<div class="container" id="feed-tweet">
     @foreach ($tweets as $tweet)
     <div class="row padding-20-top-bottom">
         <div class="col-lg-1">
@@ -14,9 +13,8 @@
                 </div>
             </div>
             <div class="">
-              {{ $tweet->text }}
+              {!! nl2br($tweet->text) !!}
             </div>
         </div>
     </div>
     @endforeach
-</div>

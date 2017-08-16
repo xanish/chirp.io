@@ -13,6 +13,8 @@ Route::post('/tweet', 'TweetController@create');
 Route::get('/edit-profile', 'EditProfileController@index');
 Route::patch('/edit-profile', 'EditProfileController@update');
 
+Route::get('/ajaxfeed', 'ProfileController@ajaxfeed');
+
 // Route::get('/followers', 'FollowsController@followers');
 // Route::get('/following', 'FollowsController@following');
 // Route::post('/follow/user/{username}', 'FollowsController@create');
@@ -22,7 +24,3 @@ Route::patch('/edit-profile', 'EditProfileController@update');
 // Route::get('/{username}/following', 'FollowsController@followingForUser');
 Route::post('/tweet', 'TweetController@create');
 Route::get('/{username}', 'ProfileController@index');
-
-Route::get('/ajaxfeed', function (){
-    return view('ajaxfeed');
-});

@@ -29,4 +29,11 @@ class ProfileController extends Controller
         $tweets = (new Tweet)->getTweets($username);
         return view('profile', compact('user', 'append', 'showFollows', 'follower_count', 'following_count', 'tweets'));
     }
+
+    public function ajaxfeed()
+    {
+      $user = Auth::user();
+      $tweets = (new Tweet)->getTweets($user->username);
+      return view('ajaxfeed', compact('tweets','user'));
+    }
 }
