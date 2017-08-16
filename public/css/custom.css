@@ -10,6 +10,7 @@
   --purple: #6255b2;
   --yellow: #e5c07b;
   --white: #ffffff;
+  --dark-grey: #989898;
 }
 .font-size-14 {
     font-size: 14px;
@@ -80,4 +81,21 @@
 }
 .btn-rounded {
     border-radius: 17px;
+}
+.padding-20-top-bottom {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.grey-text {
+    color: var(--dark-grey);
+}
+body, html {
+    height: 100%;
+}
+.bg-image {
+    background-image: url('http://chirp.io/avatars/pattern.png');
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

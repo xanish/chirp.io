@@ -1,29 +1,17 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', 'SiteHomepageController@index');
-// function () {
-//     return view('welcome');
-// });
 
 Auth::routes();
 
+Route::resource('/followers', 'FollowersController');
+Route::resource('/following', 'FollowingsController');
+
 Route::get('/home', 'HomeController@index');
+Route::post('/tweet', 'TweetController@create');
 
 Route::get('/edit-profile', 'EditProfileController@index');
 Route::patch('/edit-profile', 'EditProfileController@update');
-
-Route::get('/{username}', 'ProfileController@viewFeed');
 
 // Route::get('/followers', 'FollowsController@followers');
 // Route::get('/following', 'FollowsController@following');
@@ -33,3 +21,4 @@ Route::get('/{username}', 'ProfileController@viewFeed');
 // Route::get('/{username}/followers', 'FollowsController@followersForUser');
 // Route::get('/{username}/following', 'FollowsController@followingForUser');
 Route::post('/tweet', 'TweetController@create');
+Route::get('/{username}', 'ProfileController@index');

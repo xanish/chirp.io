@@ -10,7 +10,6 @@ class TweetController extends Controller
   public function create(Request $request)
   {
         $tweet = new Tweet;
-        //$text = 'hello';
         $text = $request->input('tweet');
         $id = $tweet->createTweet($text);
         return response()->json(array('insert_id' => $id), 200);

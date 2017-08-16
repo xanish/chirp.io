@@ -16,7 +16,11 @@
   <link href="{{ asset('css/icofont.css') }}" rel="stylesheet">
   <link href="{{ asset('fonts/icofont.ttf') }}" rel="stylesheet">
 </head>
+@if (Request::url() == 'http://chirp.io/login')
+<body class="bg-image">
+@else
 <body>
+@endif
   <div id="app">
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container-fluid">
