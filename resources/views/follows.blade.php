@@ -1,28 +1,38 @@
 @extends('layouts.profile')
 
 @section('content')
-<h1 class="header">{{ $header }}</h1>
-
-@foreach ($data as $person)
-<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="row card">
-        <div class="profile-img col-lg-2 col-md-12">
-            <img class="circle-img" src="http://via.placeholder.com/60x60/6255b2/ffffff" alt="">
-        </div>
-        <div class="personal-details col-lg-7 col-md-12">
-            <a href="/{{ $person->username }}"><h4>{{ $person->name }}</h4></a>
-            <h5>{{ '@'.$person->username }}</h5>
-        </div>
-        <div class="col-lg-3 col-md-12">
-            @if ($header == 'Following')
-            {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$person->username]) !!}
-            {!! Form::hidden('following', $user->username) !!}
-            <button type="submit" class="btn btn-danger btn-rounded" onclick="this.disabled=true;this.innerHTML='Unfollowing..'; this.form.submit();">Unfollow</button>
-            {!! Form::close() !!}
-            @endif
+<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+    <h3>{{ $header }}</h3>
+    @foreach ($data as $person)
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div class="row card">
+            <div class="profile-img col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <img class="circle-img img-responsive" src="{{ asset('avatars/'.$person->profile_image) }}" alt="">
+            </div>
+            <div class="personal-details col-lg-7 col-md-7 col-sm-12 col-xs-12 hidden-sm hidden-xs">
+                <ul class="list-unstyled">
+                    <li><a href="/{{ $person->username }}"><h4 class="no-bottom-margin">{{ $person->name }}</h4></a></li>
+                    <li>{{ '@'.$person->username }}</li>
+                </ul>
+            </div>
+            <div class="personal-details col-lg-7 col-md-7 col-sm-12 col-xs-12 visible-sm visible-xs text-center">
+                <ul class="list-unstyled">
+                    <li><a href="/{{ $person->username }}"><h4 class="no-bottom-margin">{{ $person->name }}</h4></a></li>
+                    <li>{{ '@'.$person->username }}</li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
+                @if ($header == 'Following' and $user->username == Auth::user()->username)
+                {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$person->username]) !!}
+                {!! Form::hidden('following', $user->username) !!}
+                <button type="submit" class="btn btn-danger btn-rounded" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
+                {!! Form::close() !!}
+                @endif
+            </div>
         </div>
     </div>
+    @endforeach
+
 </div>
-@endforeach
 
 @endsection

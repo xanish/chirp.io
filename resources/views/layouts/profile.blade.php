@@ -83,7 +83,7 @@
         </div>
     </nav>
     <div class="container">
-        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-4">
                 <img class="img-responsive center-block" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
             </div>
@@ -117,12 +117,12 @@
             </div>
 
         </div>
-        <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">
+        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
             <div class="row" id="nav-links">
                 <a href="/{{ $user->username }}">
                     <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
                         <h3 class="font-size-14 no-margins">Tweets</h3>
-                        <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
+                        <span class="colored-text-nav-links font-size-14">{{ $tweet_count }}</span>
                     </div>
                 </a>
                 @if ($append)
@@ -153,10 +153,18 @@
                 </a>
                 @endif
             </div>
-            <div class="row padding-20">
-                @yield('content')
-            </div>
         </div>
+        @yield('content')
+    </div>
+    <div class="footer footer-fixed visible-xs">
+        {!! Form::open(['method' => 'POST', 'url' => 'tweet']) !!}
+            <div class="input-group">
+              <input type="text" class="form-control styled-input" placeholder="What's happening!" name="tweet_text" id="tweetbox">
+              <span class="input-group-btn">
+                <button class="btn btn-primary styled-input" type="button" onclick="getTweet()" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i></button>
+              </span>
+            </div>
+        {!! Form::close() !!}
     </div>
 </div>
 

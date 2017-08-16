@@ -12,7 +12,7 @@ class TweetController extends Controller
   {
         $tweet = new Tweet;
         $text = $request->tweet_text;
-        $tweet->createTweet($text);
+        $tweet->createTweet(Auth::user()->id, $text);
         return redirect('/'.Auth::user()->username);
   }
 }

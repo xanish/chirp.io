@@ -1,29 +1,19 @@
 @extends('layouts.profile')
 
 @section('content')
-<!-- <script>
-         function getTweet(){
-            $.ajax({
-               type:'POST',
-               url:'/tweet',
-               data:'tweet_text',
-               success:function(data){
-                  alert("Your tweet has been posted");
-               }
-            });
-         }
-</script> -->
+<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 
-@if ($user->username == Auth::user()->username)
-{!! Form::open(['method' => 'POST', 'url' => 'tweet']) !!}
-    <div class="form-group">
-        <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !"></textarea>
-    </div>
-    <div class="form-group">
-        <button onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
-    </div>
-{!! Form::close() !!}
-@endif
+    <h3>Your tweets</h3>
+    @if ($user->username == Auth::user()->username)
+    {!! Form::open(['method' => 'POST', 'url' => 'tweet']) !!}
+        <div class="form-group hidden-xs">
+            <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening!"></textarea>
+        </div>
+        <div class="form-group hidden-xs">
+            <button onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
+        </div>
+    {!! Form::close() !!}
+    @endif
     @foreach ($tweets as $tweet)
     <div class="row padding-20-top-bottom">
         <div class="col-lg-1 col-sm-1 col-xs-2">
@@ -45,4 +35,5 @@
     </div>
     @endforeach
 
+</div>
 @endsection

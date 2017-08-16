@@ -18,14 +18,15 @@ class HomeController extends Controller
   public function index()
   {
     $user = Auth::user();
-    $following = (new Follower)->getPeopleFollowedByUser($user->username);
-    $follower_count = (new Follower)->getFollowersCount($user->username);
+    $following = (new Follower)->getPeopleFollowedByUser($user->id);
+    $follower_count = (new Follower)->getFollowersCount($user->id);
     $following_count = count($following);
-    $a = [];
+    $ids = [];
     foreach ($following as $person) {
-        array_push($a, $person->following);
+        array_push($ids, $person->following);
     }
-    $tweets = (new Tweet)->getTweets($user->username);
-    return view('home', compact('user', 'follower_count', 'following_count', 'tweets'));
+    $feed = (new Tweet)->getTweetsForMultipleIds($ids);
+    $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);
+    return view('home', compact('user', 'follower_count', 'following_count', 'tweet_count', 'feed'));
   }
 }

@@ -3,8 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
-use Auth;
+use Carbon\Carbon;
 
 class Follower extends Model
 {
@@ -12,9 +11,9 @@ class Follower extends Model
         'user_id', 'following',
     ];
 
-    public function getPeopleFollowedByUser($username)
+    public function getPeopleFollowedByUser ($userid)
     {
-        $data = Follower::where('user_id', (new User)->getUserId($username))
+        $data = Follower::where('user_id', $userid)
             ->where(function ($query) {
                 $query->whereColumn('followers.updated_at', 'followers.created_at');
             })
@@ -23,9 +22,9 @@ class Follower extends Model
         return $data;
     }
 
-    public function getPeopleFollowingUser ($username)
+    public function getPeopleFollowingUser ($userid)
     {
-        $data = Follower::where('following', (new User)->getUserId($username))
+        $data = Follower::where('following', $userid)
             ->where(function ($query) {
                 $query->whereColumn('followers.updated_at', 'followers.created_at');
             })
@@ -34,12 +33,12 @@ class Follower extends Model
         return $data;
     }
 
-    public function authUserFollowsPerson($username)
+    public function userFollowsPerson ($userid, $personid)
     {
-        if ($username == Auth::user()->username) {
+        if ($userid == $personid) {
             return 'N/A';
         }
-        $data = Follower::where([['user_id', Auth::user()->id], ['following', (new User)->getUserId($username)]])
+        $data = Follower::where([['user_id', $userid], ['following', $personid]])
             ->where(function ($query) {
                 $query->whereColumn('followers.updated_at', 'followers.created_at');
             })
@@ -50,13 +49,19 @@ class Follower extends Model
         return 'false';
     }
 
-    public function getFollowersCount ($username)
+    public function updateStatusToUnfollow ($userid, $unfollowid)
     {
-        return count(Follower::getPeopleFollowingUser($username));
+        $entry = Follower::where([['user_id', $userid], ['following', $unfollowid]])
+            ->update(['updated_at' => Carbon::now()]);
     }
 
-    public function getFollowingsCount ($username)
+    public function getFollowersCount ($userid)
     {
-        return count(Follower::getPeopleFollowedByUser($username));
+        return count(Follower::getPeopleFollowingUser($userid));
+    }
+
+    public function getFollowingsCount ($userid)
+    {
+        return count(Follower::getPeopleFollowedByUser($userid));
     }
 }

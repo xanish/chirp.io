@@ -4,9 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use Auth;
-use DB;
-use App\User;
 
 class Tweet extends Model
 {
@@ -14,7 +11,7 @@ class Tweet extends Model
         'text', 'user_id',
     ];
 
-    public function createTweet($tweet)
+    public function createTweet($userid, $tweet)
     {
       $userid = Auth::user()->id;
       Tweet::create([
@@ -25,12 +22,26 @@ class Tweet extends Model
       ]);
     }
 
-    public function getTweets($username)
+    public function getTweets($userid)
     {
-      $userid = (new User)->getUserId($username);
       $tweets = Tweet::where('user_id', $userid)
         ->orderBy('created_at', 'desc')
         ->get();
       return $tweets;
+    }
+
+    public function getTweetCountForPerson($userid)
+    {
+        return Tweet::where('user_id', $userid)->count();
+    }
+
+    public function getTweetsForMultipleIds($ids)
+    {
+        $tweets = Tweet::whereIn('user_id', $ids)
+                    ->join('users', 'tweets.user_id', '=', 'users.id')
+                    ->latest()
+                    ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.created_at')
+                    ->get();
+        return $tweets;
     }
 }

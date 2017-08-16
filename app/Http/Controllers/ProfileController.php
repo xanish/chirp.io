@@ -14,19 +14,19 @@ class ProfileController extends Controller
 {
     public function index($username)
     {
-        $user = User::where('username', $username)->firstOrFail();
+        $user = (new User)->getUserByUsername($username);
         $append = true;
         $showFollows = '';
-        $follower_count = (new Follower)->getFollowersCount($username);
-        $following_count = (new Follower)->getFollowingsCount($username);
-        $tweets = Tweet::where('posted_by', $user->id);
+        $follower_count = (new Follower)->getFollowersCount($user->id);
+        $following_count = (new Follower)->getFollowingsCount($user->id);
         if (Auth::guest()) {
             $showFollows = '';
         }
         else {
-            $showFollows = (new Follower)->authUserFollowsPerson($username);
+            $showFollows = (new Follower)->userFollowsPerson(Auth::user()->id, $user->id);
         }
-        $tweets = (new Tweet)->getTweets($username);
-        return view('profile', compact('user', 'append', 'showFollows', 'follower_count', 'following_count', 'tweets'));
+        $tweets = (new Tweet)->getTweets($user->id);
+        $tweet_count = count($tweets);
+        return view('profile', compact('user', 'append', 'showFollows', 'tweet_count', 'follower_count', 'following_count', 'tweets'));
     }
 }
