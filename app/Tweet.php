@@ -10,6 +10,10 @@ use App\User;
 
 class Tweet extends Model
 {
+    protected $fillable = [
+        'text', 'user_id',
+    ];
+
     public function createTweet($tweet)
     {
       $userid = Auth::user()->id;

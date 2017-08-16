@@ -82,66 +82,71 @@
             </div>
         </div>
     </nav>
-    <div class="container container-wide">
+    <div class="container">
         <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-            <img class="img-responsive center-block" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
-            <div class="text-center">
-                <h3>{{ $user->name }}</h3>
-                <h4>{{ '@'.$user->username}}</h4>
-                @if ($user->city and $user->country)
-                <h5><span class="fa fa-map-marker"></span> {{ $user->city . ', ' . $user->country }}</h5>
-                @endif
-                @if ($user->birthdate)
-                <h5><span class="fa fa-birthday-cake"></span> {{ $user->birthdate }}</h5>
-                @endif
-                @if ($user->created_at)
-                <h5><span class="fa fa-calendar-o"></span> {{ $user->created_at->diffForHumans() }}</h5>
-                @endif
-                @if ($showFollows == 'true')
-                {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$user->username]) !!}
-                {!! Form::hidden('following', $user->username) !!}
-                <button type="submit" class="btn btn-danger btn-rounded" onclick="this.disabled=true;this.innerHTML='Unfollowing..'; this.form.submit();">Unfollow</button>
-                {!! Form::close() !!}
-                @elseif ($showFollows == 'false')
-                {!! Form::open(['method' => 'POST', 'url' => '/following']) !!}
-                {!! Form::hidden('following', $user->username) !!}
-                <button type="submit" class="btn btn-primary btn-rounded" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
-                {!! Form::close() !!}
-                @elseif ($showFollows == '')
-                <a href="/login" class="btn btn-primary btn-rounded">Login to follow</a>
-                @endif
+            <div class="col-lg-12 col-md-12 col-sm-3 col-xs-4">
+                <img class="img-responsive center-block" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-9 col-xs-8">
+                <div class="text-center">
+                    <h4>{{ $user->name }}</h4>
+                    <h5>{{ '@'.$user->username}}</h5>
+                    @if ($user->city and $user->country)
+                    <h6><span class="fa fa-map-marker"></span> {{ $user->city . ', ' . $user->country }}</h6>
+                    @endif
+                    @if ($user->birthdate)
+                    <h6><span class="fa fa-birthday-cake"></span> {{ $user->birthdate }}</h6>
+                    @endif
+                    @if ($user->created_at)
+                    <h6><span class="fa fa-calendar-o"></span> {{ $user->created_at->diffForHumans() }}</h6>
+                    @endif
+                    @if ($showFollows == 'true')
+                    {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$user->username]) !!}
+                    {!! Form::hidden('following', $user->username) !!}
+                    <button type="submit" class="btn btn-danger btn-rounded" onclick="this.disabled=true;this.innerHTML='Unfollowing..'; this.form.submit();">Unfollow</button>
+                    {!! Form::close() !!}
+                    @elseif ($showFollows == 'false')
+                    {!! Form::open(['method' => 'POST', 'url' => '/following']) !!}
+                    {!! Form::hidden('following', $user->username) !!}
+                    <button type="submit" class="btn btn-primary btn-rounded" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
+                    {!! Form::close() !!}
+                    @elseif ($showFollows == '')
+                    <a href="/login" class="btn btn-primary btn-rounded">Login to follow</a>
+                    @endif
+                </div>
+            </div>
+
         </div>
         <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">
             <div class="row" id="nav-links">
                 <a href="/{{ $user->username }}">
-                    <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                    <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
                         <h3 class="font-size-14 no-margins">Tweets</h3>
                         <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
                     </div>
                 </a>
                 @if ($append)
                 <a href="/followers/{{ $user->username }}">
-                    <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                    <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
                         <h3 class="font-size-14 no-margins">Followers</h3>
                         <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
                     </div>
                 </a>
                 <a href="/following/{{ $user->username }}">
-                    <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                    <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
                         <h3 class="font-size-14 no-margins">Following</h3>
                         <span class="colored-text-nav-links font-size-14">{{ $following_count }}</span>
                     </div>
                 </a>
                 @else
                 <a href="/followers">
-                    <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                    <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
                         <h3 class="font-size-14 no-margins">Followers</h3>
                         <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
                     </div>
                 </a>
                 <a href="/following">
-                    <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                    <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
                         <h3 class="font-size-14 no-margins">Following</h3>
                         <span class="colored-text-nav-links font-size-14">{{ $following_count }}</span>
                     </div>

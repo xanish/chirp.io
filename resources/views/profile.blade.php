@@ -24,19 +24,17 @@
     </div>
 {!! Form::close() !!}
 @endif
-
-<div class="container">
     @foreach ($tweets as $tweet)
     <div class="row padding-20-top-bottom">
-        <div class="col-lg-1">
+        <div class="col-lg-1 col-sm-1 col-xs-2">
             <img class="img-circle img-responsive" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
         </div>
-        <div class="col-lg-11">
+        <div class="col-lg-11 col-sm-11 col-xs-10">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-xs-8">
                     <b>{{ $user->name }}</b>&nbsp;{{ '@'. $user->username }}
                 </div>
-                <div class="col-lg-4 text-right grey-text">
+                <div class="col-lg-4 col-xs-4 text-right grey-text">
                     {{ $tweet->created_at->diffForHumans() }}
                 </div>
             </div>
@@ -46,6 +44,5 @@
         </div>
     </div>
     @endforeach
-</div>
 
 @endsection
