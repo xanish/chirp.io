@@ -22,9 +22,6 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->date('birthdate')->nullable();
-            $table->integer('tweet_count')->default(0);
-            $table->integer('follower_count')->default(0);
-            $table->integer('following_count')->default(0);
             $table->string('profile_image')->default('placeholder.jpg');
             $table->rememberToken();
             $table->timestamps();

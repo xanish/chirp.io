@@ -71,9 +71,6 @@ class RegisterController extends Controller
             'city' => null,
             'country' => null,
             'birthdate' => null,
-            'tweet_count' => 0,
-            'follower_count' => 0,
-            'following_count' => 0,
             'profile-image' => 'placeholder.jpg',
         ]);
     }

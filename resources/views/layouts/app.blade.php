@@ -88,6 +88,7 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 <script src="https://use.fontawesome.com/dfa2b313d5.js"></script>
 </body>
 </html>

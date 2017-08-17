@@ -33,7 +33,7 @@ class ProfileController extends Controller
     public function ajaxfeed()
     {
       $user = Auth::user();
-      $tweets = (new Tweet)->getTweets($user->username);
+      $tweets = (new Tweet)->getTweets($user->id);
       return view('ajaxfeed', compact('tweets','user'));
     }
 }

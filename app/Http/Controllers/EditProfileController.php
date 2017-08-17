@@ -6,6 +6,8 @@ use App\Http\Requests\UpdateProfileRequest;
 use Auth;
 use App\User;
 use Carbon\Carbon;
+use Image;
+use Illuminate\Support\Facades\Input;
 
 class EditProfileController extends Controller
 {
@@ -26,7 +28,7 @@ class EditProfileController extends Controller
         $image_name = $user->profile_image;
         if ($request->profile_image){
             $image_name = $user->id.'_'.time().'.'.$request->profile_image->getClientOriginalExtension();
-            $request->profile_image->move(public_path('avatars'), $image_name);
+            Image::make(Input::file('profile_image'))->fit(300)->save('avatars/'.$image_name);
         }
         $entry = User::where('id', Auth::user()->id)
             ->update([
