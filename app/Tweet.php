@@ -14,7 +14,7 @@ class Tweet extends Model
     public function createTweet($userid, $tweet)
     {
       $userid = Auth::user()->id;
-      Tweet::create([
+      Tweet::insert([
           'text' => $tweet,
           'user_id' => $userid,
           'created_at' => Carbon::now(),
