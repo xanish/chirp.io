@@ -13,7 +13,6 @@ class Tweet extends Model
 
     public function createTweet($userid, $tweet)
     {
-      $userid = Auth::user()->id;
       Tweet::create([
           'text' => $tweet,
           'user_id' => $userid,
