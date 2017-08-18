@@ -35,13 +35,16 @@ class Tweet extends Model
         return Tweet::where('user_id', $userid)->count();
     }
 
-    public function getTweetsForMultipleIds($ids)
+    public function getTweetsForMultipleIds($followingids, $unfollowedids)
     {
-        $tweets = Tweet::whereIn('user_id', $ids)
+        $query1 = Tweet::whereIn('user_id', $followingids)
                     ->join('users', 'tweets.user_id', '=', 'users.id')
-                    ->latest()
-                    ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.created_at')
-                    ->get();
+                    ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at');
+        $query2 = Tweet::whereIn('user_id', $unfollowedids)
+                    ->join('users', 'tweets.user_id', '=', 'users.id')
+                    ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+                    ->latest();
+        $tweets = $query1->union($query2)->latest()->get();
         return $tweets;
     }
 }

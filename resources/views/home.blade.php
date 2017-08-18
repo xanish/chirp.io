@@ -73,6 +73,32 @@
             </div>
 
             @foreach ($feed as $post)
+            @if ($post->tweet_image != null)
+            <div class="row padding-20-top-bottom">
+                <div class="col-lg-1 col-sm-1 col-xs-2">
+                    <img class="img-circle img-responsive" src="{{ asset('avatars/'.$post->profile_image) }}" alt="">
+                </div>
+                <div class="col-lg-11 col-sm-11 col-xs-10">
+                    <div class="row">
+                        <div class="col-lg-8 col-xs-8">
+                            <a href="/{{ $post->username }}"><b>{{ $post->name }}</b>&nbsp;{{ '@'. $post->username }}</a>
+                        </div>
+                        <div class="col-lg-4 col-xs-4 text-right grey-text">
+                            {{ $post->created_at->diffForHumans() }}
+                        </div>
+                    </div>
+                    <div class="">
+                      {{ $post->text }}
+                    </div>
+                    <div class="image padding-20 hidden-xs">
+                        <img class="img-responsive" src="{{ asset('tweet_images/'.$post->tweet_image) }}" alt="">
+                    </div>
+                </div>
+                <div class="image col-xs-12 visible-xs">
+                    <img class="img-responsive" src="{{ asset('tweet_images/'.$post->tweet_image) }}" alt="">
+                </div>
+            </div>
+            @else
             <div class="row padding-20-top-bottom">
                 <div class="col-lg-1 col-sm-1 col-xs-2">
                     <img class="img-circle img-responsive" src="{{ asset('avatars/'.$post->profile_image) }}" alt="">
@@ -91,6 +117,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             @endforeach
 
         </div>

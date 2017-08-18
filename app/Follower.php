@@ -11,6 +11,14 @@ class Follower extends Model
         'user_id', 'following',
     ];
 
+    public function addFollower($userid, $following)
+    {
+        $follower = new Follower;
+        $follower->user_id = $userid;
+        $follower->following = $following;
+        $follower->save();
+    }
+
     public function getPeopleFollowedByUser ($userid)
     {
         $data = Follower::where('user_id', $userid)
@@ -49,10 +57,27 @@ class Follower extends Model
         return 'false';
     }
 
+    public function getPeopleUnfollowedByUser ($userid)
+    {
+        $data = Follower::where('user_id', $userid)
+            ->where(function ($query) {
+                $query->whereColumn('followers.updated_at', '<>', 'followers.created_at');
+            })
+            ->join('users', 'followers.following', '=', 'users.id')
+            ->get();
+        return $data;
+    }
+
     public function updateStatusToUnfollow ($userid, $unfollowid)
     {
         $entry = Follower::where([['user_id', $userid], ['following', $unfollowid]])
             ->update(['updated_at' => Carbon::now()]);
+    }
+
+    public function updateStatusToFollow ($userid, $followid)
+    {
+        $entry = Follower::where([['user_id', $userid], ['following', $followid]])
+            ->update(['updated_at' => Carbon::now(), 'created_at' => Carbon::now()]);
     }
 
     public function getFollowersCount ($userid)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tweet;
+use App\Utils\Utils;
 use Auth;
 
 class TweetController extends Controller
@@ -15,12 +16,7 @@ class TweetController extends Controller
         $text = $request->tweet_text;
         $image_name = null;
         if ($request->tweet_image){
-            $image_name = $user->id.'_'.time().'.'.$request->tweet_image->getClientOriginalExtension();
-            $request->tweet_image->move(public_path('tweet_images'), $image_name);
-            //   if (in_array($request->tweet_image->getClientOriginalExtension(), array('.jpeg','.png','.jpg'))) {
-            //       $image_name = $user->id.'_'.time().'.'.$request->tweet_image->getClientOriginalExtension();
-            //       Image::make(Input::file('tweet_image'))->save('tweet_images/'.$image_name);
-            //   }
+            $image_name = (new Utils)->fitAndSaveImage($user->id, $request->tweet_image, 600, 600, 'tweet_images', 'scale-down');
         }
         $tweet->createTweet($user->id, $text, $image_name);
         return response()->json(200);

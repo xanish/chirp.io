@@ -6,6 +6,7 @@ $.ajaxSetup({
 
 $(function() {
     $('#form,#mobile-form').submit(function() {
+        $('#ERRORMSG').html('');
         var formData = new FormData($(this)[0]);
         $.ajax({
             url: '/tweet',
@@ -21,14 +22,16 @@ $(function() {
                 $("#feed-tweet").load(' #feed-tweet');
             },
             error: function(xhr) {
+                // window.alert("We ran into some error while processing your request, please verify the details and try again.");
+                if ($('#tweetbox').val() != '') {
+                    $('#ERRORMSG').html("Unsupported file format.");
+                }
+                else {
+                    $('#ERRORMSG').html("Can't submit an empty tweet");
+                }
                 console.log(xhr);
             }
         });
-        // .then(function(data) {
-        //     $("#tweetbox").val('');
-        //     $("#tweetbox").keyup();
-        //     $("#feed-tweet").load(' #feed-tweet');
-        // });
         return false;
     });
 });
@@ -37,6 +40,7 @@ var text_max = 150;
 $('#count_message').html(text_max);
 $(document).ready(function() {
     $('#tweetbox').keyup(function() {
+        $('#ERRORMSG').html('');
         var empty = false;
         if ($(this).val().length == 0) {
             empty = true;

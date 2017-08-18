@@ -32,10 +32,13 @@ class FollowingsController extends Controller
     public function store(Request $request)
     {
         $data = (new User)->getUserId($request->following);
-        $follower = new Follower;
-        $follower->user_id = Auth::user()->id;
-        $follower->following = $data;
-        $follower->save();
+        $exists = Follower::where([['user_id', Auth::user()->id], ['following', $data]])->get();
+        if (count($exists) == 1) {
+            (new Follower)->updateStatusToFollow(Auth::user()->id, $data);
+        }
+        else {
+            (new Follower)->addFollower(Auth::user()->id, $data);
+        }
         return redirect('following');
     }
 

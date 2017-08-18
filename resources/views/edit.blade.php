@@ -13,7 +13,7 @@
             </div>
             <div class="form-group">
               {!! Form::label('profile_image', 'Avatar') !!}
-              {!! Form::file('profile_image',['class' => 'form-control']) !!}
+              {!! Form::file('profile_image',['class' => 'form-control', 'accept' => '.jpeg,.png,.jpg,.gif']) !!}
             </div>
 
         </div>

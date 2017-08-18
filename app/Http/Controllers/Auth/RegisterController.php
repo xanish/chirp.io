@@ -47,12 +47,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users|regex:/(^[A-Za-z0-9_]+$)+/',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+        ];
+        $messages = [
+            'username.regex' => 'Username can contain alphanumeric and underscore characters only.'
+        ];
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
@@ -63,15 +67,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'city' => null,
-            'country' => null,
-            'birthdate' => null,
-            'profile-image' => 'placeholder.jpg',
-        ]);
+        return (new User)->createNewUser($data);
     }
 }

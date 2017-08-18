@@ -6,7 +6,7 @@
     <div id="tweetform" class="hidden-xs">
         <form id="form">
             <div class="form-group no-margins">
-                <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening!" maxlength="150" wrap="soft"></textarea>
+                <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening!" maxlength="150" wrap="soft" required></textarea>
             </div>
             <div class="form-group row row-no-neg-margin no-margins">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-no-pad">
@@ -26,6 +26,7 @@
             </div>
         </form>
     </div>
+    <div id="ERRORMSG" class="text-center text-danger"></div>
     @endif
 
     <h3>Your tweets</h3>
@@ -41,7 +42,7 @@
                 <div class="col-lg-11 col-sm-11 col-md-11 col-sm-11 col-xs-9">
                     <b>{{ $user->name }}</b>&nbsp;{{ '@'. $user->username }}&nbsp; - &nbsp;<span class="grey-text">{{ $tweet->created_at->diffForHumans() }}</span>
                     <div class="text">
-                      {!! nl2br($tweet->text) !!}
+                      {{ $tweet->text }}
                     </div>
                     <div class="image padding-20 hidden-xs">
                         <img class="img-responsive" src="{{ asset('tweet_images/'.$tweet->tweet_image) }}" alt="">
@@ -59,7 +60,7 @@
                 <div class="col-lg-11 col-sm-11 col-md-11 col-sm-11 col-xs-9">
                     <b>{{ $user->name }}</b>&nbsp;{{ '@'. $user->username }}&nbsp; - &nbsp;<span class="grey-text">{{ $tweet->created_at->diffForHumans() }}</span>
                     <div class="text">
-                      {!! nl2br($tweet->text) !!}
+                      {{ $tweet->text }}
                     </div>
                 </div>
             </div>

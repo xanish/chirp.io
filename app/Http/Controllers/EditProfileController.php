@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateProfileRequest;
 use Auth;
 use App\User;
-use Carbon\Carbon;
-use Image;
-use Illuminate\Support\Facades\Input;
+use App\Utils\Utils;
 
 class EditProfileController extends Controller
 {
@@ -26,19 +24,10 @@ class EditProfileController extends Controller
     {
         $user = Auth::user();
         $image_name = $user->profile_image;
-        if ($request->profile_image){
-            $image_name = $user->id.'_'.time().'.'.$request->profile_image->getClientOriginalExtension();
-            Image::make(Input::file('profile_image'))->fit(300)->save('avatars/'.$image_name);
+        if ($request->profile_image) {
+            $image_name = (new Utils)->fitAndSaveImage($user->id, $request->profile_image, 300, 300, 'avatars', 'fit');
         }
-        $entry = User::where('id', Auth::user()->id)
-            ->update([
-                'name' => $request->name,
-                'city' => $request->city,
-                'country' => $request->country,
-                'birthdate' => $request->birthdate,
-                'profile_image' => $image_name,
-                'updated_at' => Carbon::now(),
-            ]);
+        $entry = (new User)->updateUserDetails($user->id, $request, $image_name);
         return redirect('/edit-profile');
     }
 }

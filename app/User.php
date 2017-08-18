@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -16,6 +17,33 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function createNewUser($data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'city' => null,
+            'country' => null,
+            'birthdate' => null,
+            'profile-image' => 'placeholder.jpg',
+        ]);
+    }
+
+    public function updateUserDetails($userid, $data, $image_name)
+    {
+        return User::where('id', $userid)
+            ->update([
+                'name' => $data->name,
+                'city' => $data->city,
+                'country' => $data->country,
+                'birthdate' => $data->birthdate,
+                'profile_image' => $image_name,
+                'updated_at' => Carbon::now(),
+            ]);
+    }
 
     public function getUserId($username)
     {
