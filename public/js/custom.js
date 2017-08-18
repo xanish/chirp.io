@@ -6,7 +6,6 @@ $.ajaxSetup({
 
 function getTweet() {
   var text = document.getElementById("tweetbox").value;
-  var username =
   $.ajax({
     type: 'POST',
     url: '/chirp.io/public/tweet',
@@ -15,7 +14,10 @@ function getTweet() {
     success: function(data){
           $("#tweetbox").val('');
           $("#tweetbox").keyup();
-          $("#feed-tweet").load('ajaxfeed');
+          $("#count-bar").load(' #nav-links');
+          $("#feed-tweet").load(' #feed');
+          $('ul.pagination').hide();
+          scrolling();
       },
     error: function(xhr) {
         console.log(xhr);
@@ -23,7 +25,35 @@ function getTweet() {
     });
 }
 
+$('ul.pagination').hide();
+function scrolling(){
+    $('#feed').jscroll({
+    autoTrigger: true,
+    loadingHtml: '<img class"center-block" src="avatars/loading.svg" alt="Loading" />',
+    padding: 0,
+    nextSelector: '.pagination li.active + li a',
+    contentSelector: '#feed',
+    refresh: true,
+    callback: function() {
+        $('ul.pagination').remove();
+      }
+
+    });
+};
+
 var text_max = 150;
+$('#tweetbox').keypress(function ()
+{
+  $("#tweetbox").keyup();
+}
+);
+
+$('#tweetbox').keydown(function ()
+{
+  $("#tweetbox").keyup();
+}
+);
+
 $('#count_message').html(text_max);
 $(document).ready(function() {
     $('#tweetbox').keyup(function() {
@@ -41,4 +71,6 @@ $(document).ready(function() {
      var text_remaining = text_max - text_length;
      $('#count_message').html(text_remaining);
    });
+
+   scrolling();
 });
