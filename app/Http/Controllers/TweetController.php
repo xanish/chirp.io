@@ -9,9 +9,10 @@ class TweetController extends Controller
 {
   public function create(Request $request)
   {
-        $tweet = new Tweet;
-        $text = $request->input('tweet');
-        $tweet->createTweet($text);
-        return response()->json(200);
+      $user = Auth::user();
+      $tweet = new Tweet;
+      $text = $request->tweet_text;
+      $tweet->createTweet($user->id, $text);
+      return redirect('/'.$user->username);
   }
 }
