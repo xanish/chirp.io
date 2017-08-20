@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 
-@if ($user->username == Auth::user()->username)
+@if (Auth::user())
 <div id="tweetform">
     <div class="form-group">
         <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !" maxlength="150" wrap="soft"></textarea>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="">
-              {!! nl2br($tweet->text) !!}
+              {{ $tweet->text }}
             </div>
         </div>
     </div>

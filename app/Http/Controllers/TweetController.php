@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tweet;
+use Auth;
 
 class TweetController extends Controller
 {
@@ -11,8 +12,8 @@ class TweetController extends Controller
   {
       $user = Auth::user();
       $tweet = new Tweet;
-      $text = $request->tweet_text;
+      $text = $request->tweet;
       $tweet->createTweet($user->id, $text);
-      return redirect('/'.$user->username);
+      return response()->json(200);
   }
 }

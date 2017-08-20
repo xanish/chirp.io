@@ -8,16 +8,19 @@ function getTweet() {
   var text = document.getElementById("tweetbox").value;
   $.ajax({
     type: 'POST',
-    url: '/chirp.io/public/tweet',
+    url: 'tweet',
     data: { tweet: text },
     dataType: 'json',
     success: function(data){
           $("#tweetbox").val('');
           $("#tweetbox").keyup();
           $("#count-bar").load(' #nav-links');
-          $("#feed-tweet").load(' #feed');
-          $('ul.pagination').hide();
-          scrolling();
+          $("#feed-tweet").load(' #feed', function(){
+            $('#feed').data('jscroll', null);
+            $('ul.pagination').hide();
+            scrolling();
+          });
+
       },
     error: function(xhr) {
         console.log(xhr);
@@ -33,7 +36,7 @@ function scrolling(){
     padding: 0,
     nextSelector: '.pagination li.active + li a',
     contentSelector: '#feed',
-    refresh: true,
+    //refresh: true,
     callback: function() {
         $('ul.pagination').remove();
       }

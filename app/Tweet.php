@@ -12,9 +12,9 @@ class Tweet extends Model
         'text', 'user_id',
     ];
 
-    public function createTweet($tweet)
+    public function createTweet($userid, $tweet)
     {
-      Tweet::create([
+      Tweet::insert([
           'text' => $tweet,
           'user_id' => $userid,
           'created_at' => Carbon::now(),

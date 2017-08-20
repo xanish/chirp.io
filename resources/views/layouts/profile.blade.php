@@ -157,14 +157,14 @@
         @yield('content')
     </div>
     <div class="footer footer-fixed visible-xs">
-        {!! Form::open(['method' => 'POST', 'url' => 'tweet']) !!}
+
             <div class="input-group">
               <input type="text" class="form-control styled-input" placeholder="What's happening!" name="tweet_text" id="tweetbox">
               <span class="input-group-btn">
                 <button class="btn btn-primary styled-input" type="button" onclick="getTweet()" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i></button>
               </span>
             </div>
-        {!! Form::close() !!}
+      
     </div>
 </div>
 

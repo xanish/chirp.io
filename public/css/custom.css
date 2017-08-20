@@ -133,3 +133,6 @@ body, html {
 .padding-10 {
     padding: 10px;
 }
+.jscroll-loading {
+  text-align: center;
+}
