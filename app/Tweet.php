@@ -41,7 +41,14 @@ class Tweet extends Model
                     ->join('users', 'tweets.user_id', '=', 'users.id')
                     ->latest()
                     ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.created_at')
-                    ->get();
+                    ->paginate(20);
         return $tweets;
+    }
+    
+    public function getTweetCountForMultipleIds($ids)
+    {
+        return Tweet::whereIn('user_id', $ids)
+                    ->join('users', 'tweets.user_id', '=', 'users.id')
+                    ->count();
     }
 }

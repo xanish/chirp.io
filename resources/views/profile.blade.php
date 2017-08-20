@@ -1,12 +1,18 @@
 @extends('layouts.profile')
 
 @section('content')
+<script type="text/javascript">
+    var tweetcount = {{ json_encode($tweet_count) }};
+</script>
+
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 
-@if (Auth::user())
+@if (!Auth::guest())
+  @if(Auth::user()->username === $user->username)
 <div id="tweetform">
     <div class="form-group">
-        <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !" maxlength="150" wrap="soft"></textarea>
+        <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !" maxlength="150" wrap="soft">
+        </textarea>
     </div>
     <div class="form-group">
         <label onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="button" disabled="disabled" style="float: left;"><i class="icofont icofont-animal-woodpecker"></i> Chirp</label>
@@ -14,6 +20,7 @@
     </div>
     <br><br>
 </div>
+  @endif
 @endif
 
   <div id="feed-tweet">
