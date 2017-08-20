@@ -26,7 +26,7 @@ class HomeController extends Controller
         array_push($ids, $person->following);
     }
     $feed = (new Tweet)->getTweetsForMultipleIds($ids);
-    $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);
+    $tweet_count = (new Tweet)->getTweetCountForMultipleIds($ids);    
     return view('home', compact('user', 'follower_count', 'following_count', 'tweet_count', 'feed'));
   }
 }

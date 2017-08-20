@@ -14,6 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('/css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/icofont.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/emojione.picker.css') }}" rel="stylesheet">
     <link href="{{ asset('fonts/icofont.ttf') }}" rel="stylesheet">
 </head>
 <body>
@@ -164,7 +165,6 @@
                 <button class="btn btn-primary styled-input" type="button" onclick="getTweet()" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i></button>
               </span>
             </div>
-      
     </div>
 </div>
 
@@ -172,6 +172,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/jquery.jscroll.js') }}"></script>
+<script src="{{ asset('js/emojione.picker.js') }}"></script>
 <script src="https://use.fontawesome.com/dfa2b313d5.js"></script>
 </body>
 </html>

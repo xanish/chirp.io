@@ -30,6 +30,8 @@ function getTweet() {
 
 $('ul.pagination').hide();
 function scrolling(){
+  if(tweetcount > 20)
+  {
     $('#feed').jscroll({
     autoTrigger: true,
     loadingHtml: '<img class"center-block" src="avatars/loading.svg" alt="Loading" />',
@@ -42,6 +44,7 @@ function scrolling(){
       }
 
     });
+  }
 };
 
 var text_max = 150;
@@ -59,6 +62,12 @@ $('#tweetbox').keydown(function ()
 
 $('#count_message').html(text_max);
 $(document).ready(function() {
+    $('#tweetbox').emojionePicker({
+      pickerTop: 5,
+      pickerRight: 5,
+      type: "unicode"
+    });
+
     $('#tweetbox').keyup(function() {
      var empty = false;
      if ($(this).val().length == 0) {

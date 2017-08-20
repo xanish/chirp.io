@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript">
+    var tweetcount = {{ json_encode($tweet_count) }};
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 padding-20-top-bottom">
@@ -46,17 +50,19 @@
             </div>
         </div>
         <div class="col-lg-9 col-md-9 col-xs-12">
-            <div class="row padding-20 hidden-xs">
-                {!! Form::open(['method' => 'POST', 'url' => 'tweet']) !!}
-                    <div class="form-group">
-                        <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening!"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="submit"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
-                    </div>
-                {!! Form::close() !!}
+          <div id="tweetform" class="row padding-20 hidden-xs">
+            <div class="form-group">
+                <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening !" maxlength="150" wrap="soft"></textarea>
             </div>
+            <div class="form-group">
+                <label onclick="getTweet()" class="btn btn-primary" id="tweet-button" type="button" disabled="disabled" style="float: left;"><i class="icofont icofont-animal-woodpecker"></i> Chirp</label>
+                <h5 class="col-sm-1" id="count_message"></h5>
+            </div>
+            <br><br>
+        </div>
 
+        <div id="feed-tweet">
+          <div id="feed">
             @foreach ($feed as $post)
             <div class="row padding-20-top-bottom">
                 <div class="col-lg-1 col-sm-1 col-xs-2">
@@ -77,6 +83,11 @@
                 </div>
             </div>
             @endforeach
+
+            {{ $feed->links() }}
+
+          </div>
+        </div>
 
         </div>
     </div>
