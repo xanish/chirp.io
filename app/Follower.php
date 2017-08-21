@@ -19,7 +19,7 @@ class Follower extends Model
         $follower->save();
     }
 
-    public function getPeopleFollowedByUser ($userid)
+    public function getFollowings ($userid)
     {
         $data = Follower::where('user_id', $userid)
             ->where(function ($query) {
@@ -30,7 +30,7 @@ class Follower extends Model
         return $data;
     }
 
-    public function getPeopleFollowingUser ($userid)
+    public function getFollowers ($userid)
     {
         $data = Follower::where('following', $userid)
             ->where(function ($query) {
@@ -41,7 +41,7 @@ class Follower extends Model
         return $data;
     }
 
-    public function userFollowsPerson ($userid, $personid)
+    public function doesUserFollowsPerson ($userid, $personid)
     {
         if ($userid == $personid) {
             return 'N/A';
@@ -57,7 +57,7 @@ class Follower extends Model
         return 'false';
     }
 
-    public function getPeopleUnfollowedByUser ($userid)
+    public function getUnfollowed ($userid)
     {
         $data = Follower::where('user_id', $userid)
             ->where(function ($query) {
@@ -68,13 +68,13 @@ class Follower extends Model
         return $data;
     }
 
-    public function updateStatusToUnfollow ($userid, $unfollowid)
+    public function setToUnfollow ($userid, $unfollowid)
     {
         $entry = Follower::where([['user_id', $userid], ['following', $unfollowid]])
             ->update(['updated_at' => Carbon::now()]);
     }
 
-    public function updateStatusToFollow ($userid, $followid)
+    public function setToFollow ($userid, $followid)
     {
         $entry = Follower::where([['user_id', $userid], ['following', $followid]])
             ->update(['updated_at' => Carbon::now(), 'created_at' => Carbon::now()]);
@@ -82,11 +82,11 @@ class Follower extends Model
 
     public function getFollowersCount ($userid)
     {
-        return count(Follower::getPeopleFollowingUser($userid));
+        return count(Follower::getFollowers($userid));
     }
 
     public function getFollowingsCount ($userid)
     {
-        return count(Follower::getPeopleFollowedByUser($userid));
+        return count(Follower::getFollowings($userid));
     }
 }

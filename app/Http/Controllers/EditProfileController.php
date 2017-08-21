@@ -25,7 +25,7 @@ class EditProfileController extends Controller
         $user = Auth::user();
         $image_name = $user->profile_image;
         if ($request->profile_image) {
-            $image_name = (new Utils)->fitAndSaveImage($user->id, $request->profile_image, 300, 300, 'avatars', 'fit');
+            $image_name = (new Utils)->fitAndSaveImage($user->id, $request->profile_image, Config::get('constants.avatar_width'), Config::get('constants.avatar_height'), 'avatars', 'fit');
         }
         $entry = (new User)->updateUserDetails($user->id, $request, $image_name);
         return redirect('/edit-profile');

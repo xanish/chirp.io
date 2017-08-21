@@ -9,8 +9,8 @@ class FeedGenerator
 {
     public function generate($userid)
     {
-        $following = (new Follower)->getPeopleFollowedByUser($userid);
-        $unfollowed = (new Follower)->getPeopleUnfollowedByUser($userid);
+        $following = (new Follower)->getFollowings($userid);
+        $unfollowed = (new Follower)->getUnfollowed($userid);
         $followingids = [];
         $unfollowedids = [];
         foreach ($following as $person) {
@@ -19,7 +19,7 @@ class FeedGenerator
         foreach ($unfollowed as $person) {
             array_push($unfollowedids, $person->following);
         }
-        $feed = (new Tweet)->getTweetsForMultipleIds($followingids, $unfollowedids);
+        $feed = (new Tweet)->getTweetsFromPeople($followingids, $unfollowedids);
         return $feed;
     }
 }

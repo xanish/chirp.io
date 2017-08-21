@@ -1,7 +1,7 @@
     @foreach ($tweets as $tweet)
     <div class="row padding-20-top-bottom">
         <div class="col-lg-1">
-            <img class="img-circle img-responsive" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
+            <img class="img-circle img-responsive" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
         </div>
         <div class="col-lg-11">
             <div class="row">

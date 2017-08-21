@@ -22,8 +22,8 @@ class FollowingsController extends Controller
         $append = false;
         $user = Auth::user();
         $showFollows = 'Own Profile';
-        $data = (new Follower)->getPeopleFollowedByUser($user->id);
-        $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);
+        $data = (new Follower)->getFollowings($user->id);
+        $tweet_count = (new Tweet)->getTweetsCount($user->id);
         $following_count = count($data);
         $follower_count = (new Follower)->getFollowersCount($user->id);
         return view('follows', compact('header', 'append', 'user', 'data', 'showFollows', 'tweet_count', 'follower_count', 'following_count'));
@@ -34,7 +34,7 @@ class FollowingsController extends Controller
         $data = (new User)->getUserId($request->following);
         $exists = Follower::where([['user_id', Auth::user()->id], ['following', $data]])->get();
         if (count($exists) == 1) {
-            (new Follower)->updateStatusToFollow(Auth::user()->id, $data);
+            (new Follower)->setToFollow(Auth::user()->id, $data);
         }
         else {
             (new Follower)->addFollower(Auth::user()->id, $data);
@@ -45,7 +45,7 @@ class FollowingsController extends Controller
     public function update($follower)
     {
         $data = (new User)->getUserId($follower);
-        (new Follower)->updateStatusToUnfollow(Auth::user()->id, $data);
+        (new Follower)->setToUnfollow(Auth::user()->id, $data);
         return redirect('/following');
     }
 
@@ -54,9 +54,9 @@ class FollowingsController extends Controller
         $header = "Following";
         $append = true;
         $user = (new User)->getUserByUsername($username);
-        $showFollows = (new Follower)->userFollowsPerson(Auth::user()->id, $user->id);
-        $data = (new Follower)->getPeopleFollowedByUser($user->id);
-        $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);
+        $showFollows = (new Follower)->doesUserFollowsPerson(Auth::user()->id, $user->id);
+        $data = (new Follower)->getFollowings($user->id);
+        $tweet_count = (new Tweet)->getTweetsCount($user->id);
         $following_count = count($data);
         $follower_count = (new Follower)->getFollowersCount($user->id);
         return view('follows', compact('header', 'append', 'user', 'data', 'showFollows', 'tweet_count', 'follower_count', 'following_count'));
