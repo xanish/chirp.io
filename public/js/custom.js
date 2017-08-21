@@ -75,11 +75,8 @@ $('#tweetbox').keydown(function ()
 
 $('#count_message').html(text_max);
 $(document).ready(function() {
-    $('#tweetbox').emojionePicker({
-      pickerTop: 5,
-      pickerRight: 5,
-      type: "unicode"
-    });
+
+  //$('#tweetbox').emojionePicker({  type: "unicode"  });
 
     $('#tweetbox').keyup(function() {
         $('#ERRORMSG').html('');

@@ -45,7 +45,7 @@ class Tweet extends Model
                     ->join('users', 'tweets.user_id', '=', 'users.id')
                     ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
                     ->latest();
-        $tweets = $query1->union($query2)->latest()->paginate(20);
+        $tweets = $query1->union($query2)->latest()->get();
         return $tweets;
     }
 

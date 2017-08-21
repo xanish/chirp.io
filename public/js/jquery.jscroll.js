@@ -157,7 +157,7 @@
             data.waiting = true;
             $inner.append('<div class="jscroll-added" />')
                 .children('.jscroll-added').last()
-                .html('<div class="jscroll-loading">' + _options.loadingHtml + '</div> <br>');
+                .html('<div class="jscroll-loading" >' + _options.loadingHtml + '</div> <br>');
 
             return $e.animate({scrollTop: $inner.outerHeight()}, 0, function() {
                 $inner.find('div.jscroll-added').last().load(data.nextHref, function(r, status, xhr) {

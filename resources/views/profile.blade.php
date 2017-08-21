@@ -6,9 +6,8 @@
 </script>
 
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-=======
 @if (!Auth::guest())
-    @if ($user->username == Auth::user()->username)
+    @if ($user->username === Auth::user()->username)
     <div id="tweetform" class="hidden-xs">
         <form id="form">
             <div class="form-group no-margins">
