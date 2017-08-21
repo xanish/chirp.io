@@ -7,6 +7,7 @@ use App\User;
 use Auth;
 use App\Follower;
 use App\Tweet;
+use App\Utils\FeedGenerator;
 
 class HomeController extends Controller
 {
@@ -18,15 +19,11 @@ class HomeController extends Controller
   public function index()
   {
     $user = Auth::user();
-    $following = (new Follower)->getPeopleFollowedByUser($user->id);
+    $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);
+    //$tweet_count = (new Tweet)->getTweetCountForMultipleIds($ids);
     $follower_count = (new Follower)->getFollowersCount($user->id);
-    $following_count = count($following);
-    $ids = [];
-    foreach ($following as $person) {
-        array_push($ids, $person->following);
-    }
-    $feed = (new Tweet)->getTweetsForMultipleIds($ids);
-    $tweet_count = (new Tweet)->getTweetCountForMultipleIds($ids);    
+    $following_count = (new Follower)->getFollowingsCount($user->id);
+    $feed = (new FeedGenerator)->generate($user->id);
     return view('home', compact('user', 'follower_count', 'following_count', 'tweet_count', 'feed'));
   }
 }

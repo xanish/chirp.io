@@ -4,29 +4,42 @@ $.ajaxSetup({
     }
 });
 
-function getTweet() {
-  var text = document.getElementById("tweetbox").value;
-  $.ajax({
-    type: 'POST',
-    url: 'tweet',
-    data: { tweet: text },
-    dataType: 'json',
-    success: function(data){
-          $("#tweetbox").val('');
-          $("#tweetbox").keyup();
-          $("#count-bar").load(' #nav-links');
-          $("#feed-tweet").load(' #feed', function(){
-            $('#feed').data('jscroll', null);
-            $('ul.pagination').hide();
-            scrolling();
-          });
-
-      },
-    error: function(xhr) {
-        console.log(xhr);
-      }
+$(function() {
+    $('#form,#mobile-form').submit(function() {
+        $('#ERRORMSG').html('');
+        var formData = new FormData($(this)[0]);
+        $.ajax({
+            url: 'tweet',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $("#tweetbox").val('');
+                $("#tweettext").val('');
+                $("#tweetbox").keyup();
+                $("#count-bar").load(' #nav-links');
+                $("#feed-tweet").load(' #feed', function(){
+                  $('#feed').data('jscroll', null);
+                  $('ul.pagination').hide();
+                  scrolling();
+                });
+            },
+            error: function(xhr) {
+                // window.alert("We ran into some error while processing your request, please verify the details and try again.");
+                if ($('#tweetbox').val() != '') {
+                    $('#ERRORMSG').html("Unsupported file format.");
+                }
+                else {
+                    $('#ERRORMSG').html("Can't submit an empty tweet");
+                }
+                console.log(xhr);
+            }
+        });
+        return false;
     });
-}
+});
 
 $('ul.pagination').hide();
 function scrolling(){
@@ -69,15 +82,16 @@ $(document).ready(function() {
     });
 
     $('#tweetbox').keyup(function() {
-     var empty = false;
-     if ($(this).val().length == 0) {
-         empty = true;
-     }
-     if (empty) {
-         $('#tweet-button').attr('disabled', 'disabled');
-     } else {
-         $('#tweet-button').attr('disabled', false);
-     }
+        $('#ERRORMSG').html('');
+        var empty = false;
+        if ($(this).val().length == 0) {
+            empty = true;
+        }
+        if (empty) {
+            $('#tweet-button').attr('disabled', 'disabled');
+        } else {
+            $('#tweet-button').attr('disabled', false);
+        }
 
      var text_length = $('#tweetbox').val().length;
      var text_remaining = text_max - text_length;
