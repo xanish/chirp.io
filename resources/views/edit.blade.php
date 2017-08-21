@@ -6,7 +6,7 @@
     <div class="row">
         {!! Form::model($user, ['method' => 'PATCH', 'url' => 'edit-profile', 'files' => true]) !!}
         <div class="col-lg-3 col-sm-12">
-            <img class="img-responsive center-block" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
+            <img class="img-responsive center-block" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
             <div class="text-center">
                 <h3>{{ $user->name }}</h3>
                 <h4>{{ '@'.$user->username}}</h4>

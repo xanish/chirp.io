@@ -23,7 +23,7 @@ class ProfileController extends Controller
             $showFollows = '';
         }
         else {
-            $showFollows = (new Follower)->userFollowsPerson(Auth::user()->id, $user->id);
+            $showFollows = (new Follower)->doesUserFollowsPerson(Auth::user()->id, $user->id);
         }
         $tweets = (new Tweet)->getTweets($user->id);
         $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);

@@ -19,8 +19,7 @@ class HomeController extends Controller
   public function index()
   {
     $user = Auth::user();
-    $tweet_count = (new Tweet)->getTweetCountForPerson($user->id);
-    //$tweet_count = (new Tweet)->getTweetCountForMultipleIds($ids);
+    $tweet_count = (new Tweet)->getTweetsCount($user->id);
     $follower_count = (new Follower)->getFollowersCount($user->id);
     $following_count = (new Follower)->getFollowingsCount($user->id);
     $feed = (new FeedGenerator)->generate($user->id);

@@ -86,7 +86,7 @@
     <div class="container">
         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-3 col-xs-4">
-                <img class="img-responsive center-block" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
+                <img class="img-responsive center-block" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
             </div>
             <div class="col-lg-12 col-md-12 col-sm-9 col-xs-8">
                 <div class="text-center">
@@ -99,7 +99,7 @@
                     <h6><span class="fa fa-birthday-cake"></span> {{ $user->birthdate }}</h6>
                     @endif
                     @if ($user->created_at)
-                    <h6><span class="fa fa-calendar-o"></span> {{ $user->created_at->diffForHumans() }}</h6>
+                    <h6><span class="fa fa-calendar-check-o"></span> {{ $user->created_at->diffForHumans() }}</h6>
                     @endif
                     @if ($showFollows == 'true')
                     {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$user->username]) !!}

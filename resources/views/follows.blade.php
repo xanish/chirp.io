@@ -7,7 +7,7 @@
     <div class="col-lg-6 col-md-6 col-sm-4 col-xs-6">
         <div class="row card">
             <div class="profile-img col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                <img class="circle-img img-responsive" src="{{ asset('avatars/'.$person->profile_image) }}" alt="">
+                <img class="circle-img img-responsive" src="{{ asset(Config::get('constants.avatars').$person->profile_image) }}" alt="">
             </div>
             <div class="personal-details col-lg-7 col-md-7 col-sm-12 col-xs-12 hidden-sm hidden-xs">
                 <ul class="list-unstyled">

@@ -42,7 +42,8 @@
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <input id="password" type="password" placeholder="Password" class="form-control styled-input" name="password" required>
-
+                            <meter max="4" id="password-strength-meter"></meter>
+                            <p id="password-strength-text"></p>
                             @if ($errors->has('password'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('password') }}</strong>

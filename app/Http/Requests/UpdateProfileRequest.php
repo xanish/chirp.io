@@ -31,7 +31,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|exists:users',
-            'profile_image' => 'dimensions:min_width=220,min_height=220|image|mimes:jpeg,jpg,png,gif',
+            'profile_image' => 'dimensions:min_width=220,min_height=220|image',
         ];
     }
 }

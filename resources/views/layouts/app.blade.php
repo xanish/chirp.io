@@ -92,6 +92,7 @@
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/jquery.jscroll.js') }}"></script>
 <script src="{{ asset('js/emojione.picker.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 <script src="https://use.fontawesome.com/dfa2b313d5.js"></script>
 </body>
 </html>

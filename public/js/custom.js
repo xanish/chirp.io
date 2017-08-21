@@ -17,17 +17,16 @@ $(function() {
             processData: false,
             success: function(data) {
                 $("#tweetbox").val('');
+                $("#tweet_image_file").val('');
                 $("#tweettext").val('');
                 $("#tweetbox").keyup();
                 $("#count-bar").load(' #nav-links');
-                $("#feed-tweet").load(' #feed', function(){
-                  $('#feed').data('jscroll', null);
-                  $('ul.pagination').hide();
-                  scrolling();
-                });
+                $("#feed-tweet").prepend(data.element);
+                $("#success-msg").html('<span class="green">Posted successfully.</span>');
+                setTimeout(function() { $("#success-msg").html(''); }, 5000);
+
             },
             error: function(xhr) {
-                // window.alert("We ran into some error while processing your request, please verify the details and try again.");
                 if ($('#tweetbox').val() != '') {
                     $('#ERRORMSG').html("Unsupported file format.");
                 }
@@ -75,9 +74,7 @@ $('#tweetbox').keydown(function ()
 
 $('#count_message').html(text_max);
 $(document).ready(function() {
-
-  //$('#tweetbox').emojionePicker({  type: "unicode"  });
-
+    $('#password-strength-meter').hide();
     $('#tweetbox').keyup(function() {
         $('#ERRORMSG').html('');
         var empty = false;
@@ -96,4 +93,38 @@ $(document).ready(function() {
    });
 
    scrolling();
+});
+
+var strength = {
+  0: "<span class='red'>Worst</span>",
+  1: "<span class='orange'>Bad</span>",
+  2: "<span class='yellow'>Weak</span>",
+  3: "<span class='green'>Good</span>",
+  4: "<span class='dark-green'>Strong</span>"
+}
+
+var password = document.getElementById('password');
+var meter = document.getElementById('password-strength-meter');
+var text = document.getElementById('password-strength-text');
+
+password.addEventListener('input', function() {
+  if (!$('#password-strength-meter').is(':visible')) {
+    $('#password-strength-meter').show();
+  }
+
+  var val = password.value;
+  var result = zxcvbn(val);
+
+  // Update the password strength meter
+  meter.value = result.score;
+
+  // Update the text indicator
+  if (val !== "") {
+    text.innerHTML = "Strength: " + strength[result.score];
+    if (result.feedback.suggestions != "") {
+      text.innerHTML += " Hint: " + result.feedback.suggestions;
+    }
+  } else {
+    text.innerHTML = "";
+  }
 });
