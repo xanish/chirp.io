@@ -188,3 +188,20 @@ meter[value="1"]::-moz-meter-bar { background: red; }
 meter[value="2"]::-moz-meter-bar { background: yellow; }
 meter[value="3"]::-moz-meter-bar { background: orange; }
 meter[value="4"]::-moz-meter-bar { background: green; }
+
+#search-results-dropdown {
+  width: 350px;
+  position: absolute;
+  background: #fff;
+  margin-top: 7px;
+  border: 1px solid rgba(0,0,0,.3);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.item-row {
+  margin: 0;
+  padding: 10px;
+}
+.user {
+  border: 1px solid var(--grey);
+  margin: 1%;
+}

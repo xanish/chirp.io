@@ -14,6 +14,11 @@ Route::resource('/following', 'FollowingsController', [
     'create', 'destroy', 'edit',
   ],
 ]);
+Route::resource('/search', 'SearchController', [
+  'only' => [
+    'index', 'show',
+  ],
+]);
 
 Route::get('/home', 'HomeController@index');
 Route::post('/tweet', 'TweetController@create');
@@ -21,7 +26,6 @@ Route::post('/tweet', 'TweetController@create');
 Route::get('/edit-profile', 'EditProfileController@index');
 Route::patch('/edit-profile', 'EditProfileController@update');
 
-Route::get('/ajaxfeed', 'ProfileController@ajaxfeed');
-
 Route::post('/tweet', 'TweetController@create');
+
 Route::get('/{username}', 'ProfileController@index');

@@ -58,4 +58,13 @@ class User extends Authenticatable
                     ->get();
         return $data[0];
     }
+
+    public function getUsers($value)
+    {
+      $data = User::where('name', 'LIKE', '%'.$value.'%')
+                ->orWhere('username', 'LIKE', '%'.$value.'%')
+                ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image')
+                ->get();
+      return $data;
+    }
 }

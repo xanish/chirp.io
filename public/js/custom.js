@@ -1,7 +1,7 @@
 $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
 });
 
 $(function() {
@@ -39,26 +39,50 @@ $(function() {
     });
 });
 
+$('#search-bar').keyup(function() {
+  var searchData = $('#search-bar').val();
+  $('#search-page').attr('href','/search?q=' + searchData);
+  if (!$('#search-results-dropdown').is(':visible')) {
+    $('#search-results-dropdown').show();
+  }
+  if (searchData != '') {
+    $.ajax({
+      url: '/search/' + searchData,
+      success: function(data) {
+        $('.search-item').remove();
+        $("#search-result-list").prepend(data);
+      },
+      error: function(xhr) {
+        console.log(xhr);
+      }
+    });
+  }
+  else {
+    $('#search-results-dropdown').hide();
+  }
+})
+
 var text_max = 150;
 $('#count_message').html(text_max);
 $(document).ready(function() {
-    $('#password-strength-meter').hide();
-    $('#tweetbox').keyup(function() {
-        $('#ERRORMSG').html('');
-        var empty = false;
-        if ($(this).val().length == 0) {
-            empty = true;
-        }
-        if (empty) {
-            $('#tweet-button').attr('disabled', 'disabled');
-        } else {
-            $('#tweet-button').attr('disabled', false);
-        }
+  $('#search-results-dropdown').hide();
+  $('#password-strength-meter').hide();
+  $('#tweetbox').keyup(function() {
+    $('#ERRORMSG').html('');
+    var empty = false;
+    if ($(this).val().length == 0) {
+      empty = true;
+    }
+    if (empty) {
+      $('#tweet-button').attr('disabled', 'disabled');
+    } else {
+      $('#tweet-button').attr('disabled', false);
+    }
 
-        var text_length = $('#tweetbox').val().length;
-        var text_remaining = text_max - text_length;
-        $('#count_message').html(text_remaining);
-    });
+    var text_length = $('#tweetbox').val().length;
+    var text_remaining = text_max - text_length;
+    $('#count_message').html(text_remaining);
+  });
 });
 
 var strength = {

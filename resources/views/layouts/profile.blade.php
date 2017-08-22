@@ -79,6 +79,25 @@
                     </li>
                     @endif
                 </ul>
+                {!! Form::open(['url' => 'search', 'class' => 'navbar-form navbar-right']) !!}
+                <div class="input-group">
+                  {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'Search', 'id' => 'search-bar']) !!}
+                  <span class="input-group-btn">
+                  <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+                </span>
+                </div>
+                <div class="" id="search-results-dropdown" hidden="hidden">
+                  <div class="" id="serach-results">
+                    <ul class="list-unstyled" id="search-result-list">
+                      <li>
+                        <div class="row item-row">
+                          <a id="search-page" href="/search">Show all results</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </nav>
