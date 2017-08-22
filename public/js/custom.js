@@ -9,7 +9,7 @@ $(function() {
         $('#ERRORMSG').html('');
         var formData = new FormData($(this)[0]);
         $.ajax({
-            url: '/tweet',
+            url: 'tweet',
             type: 'POST',
             data: formData,
             cache: false,
@@ -20,9 +20,13 @@ $(function() {
                 $("#tweet_image_file").val('');
                 $("#tweettext").val('');
                 $("#tweetbox").keyup();
+                $("#count-bar").load(' #nav-links');
                 $("#feed-tweet").prepend(data.element);
-                $("#success-msg").html('<span class="green">Posted successfully.</span>');
-                setTimeout(function() { $("#success-msg").html(''); }, 5000);
+                $("#success-msg").html('<span class="green">Posted successfully.</span>').fadeOut(5000, function(){
+                  $(this).css('display', '');
+                  $(this).html('');
+                });
+                //setTimeout(function() { $("#success-msg").html(''); }, 5000);
 
             },
             error: function(xhr) {
@@ -38,6 +42,7 @@ $(function() {
         return false;
     });
 });
+
 
 $('#search-bar').keyup(function() {
   var searchData = $('#search-bar').val();
@@ -62,7 +67,38 @@ $('#search-bar').keyup(function() {
   }
 })
 
+$('ul.pagination').hide();
+function scrolling(){
+  if(tweetcount > 20)
+  {
+    $('#feed').jscroll({
+    autoTrigger: true,
+    loadingHtml: '<img class"center-block" src="avatars/loading.svg" alt="Loading" />',
+    padding: 0,
+    nextSelector: '.pagination li.active + li a',
+    contentSelector: '#feed',
+    //refresh: true,
+    callback: function() {
+        $('ul.pagination').remove();
+      }
+
+    });
+  }
+};
+
 var text_max = 150;
+$('#tweetbox').keypress(function ()
+{
+  $("#tweetbox").keyup();
+}
+);
+
+$('#tweetbox').keydown(function ()
+{
+  $("#tweetbox").keyup();
+}
+);
+
 $('#count_message').html(text_max);
 $(document).ready(function() {
   $('#search-results-dropdown').hide();
@@ -83,6 +119,8 @@ $(document).ready(function() {
     var text_remaining = text_max - text_length;
     $('#count_message').html(text_remaining);
   });
+
+   scrolling();
 });
 
 var strength = {

@@ -1,8 +1,13 @@
 @extends('layouts.profile')
 
 @section('content')
+<script type="text/javascript">
+    var tweetcount = {{ json_encode($tweet_count) }};
+</script>
+
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-    @if ($user->username == Auth::user()->username)
+@if (!Auth::guest())
+    @if ($user->username === Auth::user()->username)
     <div id="tweetform" class="hidden-xs">
         <form id="form">
             <div class="form-group no-margins">
@@ -24,17 +29,19 @@
                     Characters remaining: <span id="count_message"></span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-no-pad">
-                    <button onclick="" type="submit" class="btn btn-primary button-panel pull-right" id="tweet-button" type="button"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
+                    <button onclick="" type="submit" class="btn btn-primary button-panel pull-right" id="tweet-button" type="button" disabled="disabled"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
                 </div>
             </div>
         </form>
     </div>
     <div id="ERRORMSG" class="text-center text-danger"></div>
     @endif
+@endif
 
     <h3>Your tweets</h3>
 
   <div id="feed-tweet">
+    <div id="feed">
         @foreach ($tweets as $tweet)
           @if ($tweet->tweet_image != null)
           <div class="row padding-20-top-bottom">
@@ -68,6 +75,10 @@
           </div>
           @endif
         @endforeach
+
+        {{ $tweets->links() }}
+
+    </div>
   </div>
 </div>
 @endsection
