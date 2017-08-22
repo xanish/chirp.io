@@ -88,6 +88,7 @@ function scrolling(){
 var text_max = 150;
 $('#count_message').html(text_max);
 $(document).ready(function() {
+  scrolling();
   $('#search-results-dropdown').hide();
   $('#password-strength-meter').hide();
   $('#tweetbox').keyup(function() {
@@ -105,7 +106,6 @@ $(document).ready(function() {
     var text_length = $('#tweetbox').val().length;
     var text_remaining = text_max - text_length;
     $('#count_message').html(text_remaining);
-    scrolling();
 });
 
   var strength = {
