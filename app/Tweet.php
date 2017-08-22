@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Auth;
 
 class Tweet extends Model
 {
@@ -25,8 +26,8 @@ class Tweet extends Model
     public function getTweets($userid)
     {
       $tweets = Tweet::where('user_id', $userid)
-        ->orderBy('created_at', 'desc')
-        ->get();
+        ->orderBy('id', 'desc')
+        ->paginate(20);
       return $tweets;
     }
 

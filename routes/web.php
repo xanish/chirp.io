@@ -21,7 +21,5 @@ Route::post('/tweet', 'TweetController@create');
 Route::get('/edit-profile', 'EditProfileController@index');
 Route::patch('/edit-profile', 'EditProfileController@update');
 
-Route::get('/ajaxfeed', 'ProfileController@ajaxfeed');
-
 Route::post('/tweet', 'TweetController@create');
 Route::get('/{username}', 'ProfileController@index');

@@ -137,6 +137,9 @@ body, html {
 .padding-10 {
     padding: 10px;
 }
+.jscroll-loading {
+  text-align: center;
+}
 .button-panel {
     border-radius: 0;
     border: none;
@@ -166,6 +169,9 @@ body, html {
 }
 .red {
   color: var(--red)
+}
+.text {
+  overflow-wrap: break-word;
 }
 meter {
   margin: 0 auto 1em;
