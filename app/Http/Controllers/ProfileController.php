@@ -26,14 +26,7 @@ class ProfileController extends Controller
             $showFollows = (new Follower)->doesUserFollowsPerson(Auth::user()->id, $user->id);
         }
         $tweets = (new Tweet)->getTweets($user->id);
-        $tweet_count = count($tweets);
+        $tweet_count = (new Tweet)->getTweetsCount($user->id);
         return view('profile', compact('user', 'append', 'showFollows', 'tweet_count', 'follower_count', 'following_count', 'tweets'));
-    }
-
-    public function ajaxfeed()
-    {
-      $user = Auth::user();
-      $tweets = (new Tweet)->getTweets($user->id);
-      return view('ajaxfeed', compact('tweets','user'));
     }
 }
