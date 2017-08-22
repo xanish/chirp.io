@@ -22,8 +22,11 @@ $(function() {
                 $("#tweetbox").keyup();
                 $("#count-bar").load(' #nav-links');
                 $("#feed-tweet").prepend(data.element);
-                $("#success-msg").html('<span class="green">Posted successfully.</span>');
-                setTimeout(function() { $("#success-msg").html(''); }, 5000);
+                $("#success-msg").html('<span class="green">Posted successfully.</span>').fadeOut(5000, function(){
+                  $(this).css('display', '');
+                  $(this).html('');
+                });
+                //setTimeout(function() { $("#success-msg").html(''); }, 5000);
 
             },
             error: function(xhr) {

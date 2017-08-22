@@ -29,7 +29,7 @@
                     Characters remaining: <span id="count_message"></span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-no-pad">
-                    <button onclick="" type="submit" class="btn btn-primary button-panel pull-right" id="tweet-button" type="button"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
+                    <button onclick="" type="submit" class="btn btn-primary button-panel pull-right" id="tweet-button" type="button" disabled="disabled"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
                 </div>
             </div>
         </form>
@@ -41,46 +41,7 @@
     <h3>Your tweets</h3>
 
   <div id="feed-tweet">
-<<<<<<< HEAD
-      <div class="" id="feed">
-          @foreach ($tweets as $tweet)
-            @if ($tweet->tweet_image != null)
-            <div class="row padding-20-top-bottom">
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">
-                    <img class="img-circle img-responsive profile-pic" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
-                </div>
-                <div class="col-lg-11 col-sm-11 col-md-11 col-sm-11 col-xs-9">
-                    <b>{{ $user->name }}</b>&nbsp;{{ '@'. $user->username }}&nbsp; - &nbsp;<span class="grey-text">{{ $tweet->created_at->diffForHumans() }}</span>
-                    <div class="text">
-                      {{ $tweet->text }}
-                    </div>
-                    <div class="image padding-20 hidden-xs">
-                        <img class="img-responsive" src="{{ asset('tweet_images/'.$tweet->tweet_image) }}" alt="">
-                    </div>
-                </div>
-                <div class="image col-xs-12 visible-xs">
-                    <img class="img-responsive" src="{{ asset('tweet_images/'.$tweet->tweet_image) }}" alt="">
-                </div>
-            </div>
-            @else
-            <div class="row padding-20-top-bottom">
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">
-                    <img class="img-circle img-responsive profile-pic" src="{{ asset('avatars/'.$user->profile_image) }}" alt="">
-                </div>
-                <div class="col-lg-11 col-sm-11 col-md-11 col-sm-11 col-xs-9">
-                    <b>{{ $user->name }}</b>&nbsp;{{ '@'. $user->username }}&nbsp; - &nbsp;<span class="grey-text">{{ $tweet->created_at->diffForHumans() }}</span>
-                    <div class="text">
-                      {{ $tweet->text }}
-                    </div>
-                </div>
-            </div>
-            @endif
-          @endforeach
-
-          {{ $tweets->links() }}
-
-      </div>
-=======
+    <div id="feed">
         @foreach ($tweets as $tweet)
           @if ($tweet->tweet_image != null)
           <div class="row padding-20-top-bottom">
@@ -114,7 +75,10 @@
           </div>
           @endif
         @endforeach
->>>>>>> b0d44de2d74437140e4d08c8a88465f18c8d3534
+
+        {{ $tweets->links() }}
+
+    </div>
   </div>
 </div>
 @endsection

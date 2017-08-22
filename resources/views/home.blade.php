@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript">
+    var tweetcount = {{ json_encode($feed->total()) }};
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 padding-20-top-bottom">
@@ -127,7 +131,7 @@
             @endif
             @endforeach
 
-
+            {{ $feed->links() }}
 
           </div>
         </div>

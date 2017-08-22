@@ -170,6 +170,9 @@ body, html {
 .red {
   color: var(--red)
 }
+.text {
+  overflow-wrap: break-word;
+}
 meter {
   margin: 0 auto 1em;
   width: 100%;

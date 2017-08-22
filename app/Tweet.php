@@ -46,11 +46,4 @@ class Tweet extends Model
                     ->paginate(20);
         return $tweets;
     }
-
-    public function getTweetCountForMultipleIds($ids)
-    {
-        return Tweet::whereIn('user_id', $ids)
-                    ->join('users', 'tweets.user_id', '=', 'users.id')
-                    ->count();
-    }
 }
