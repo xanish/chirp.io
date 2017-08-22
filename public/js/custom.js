@@ -87,18 +87,6 @@ function scrolling(){
 };
 
 var text_max = 150;
-$('#tweetbox').keypress(function ()
-{
-  $("#tweetbox").keyup();
-}
-);
-
-$('#tweetbox').keydown(function ()
-{
-  $("#tweetbox").keyup();
-}
-);
-
 $('#count_message').html(text_max);
 $(document).ready(function() {
   $('#search-results-dropdown').hide();
@@ -118,9 +106,7 @@ $(document).ready(function() {
     var text_length = $('#tweetbox').val().length;
     var text_remaining = text_max - text_length;
     $('#count_message').html(text_remaining);
-  });
-
-   scrolling();
+    scrolling();
 });
 
 var strength = {
