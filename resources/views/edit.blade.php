@@ -32,12 +32,12 @@
 
             <div class="form-group">
               {!! Form::label('city', 'City') !!}
-              {!! Form::text('city', null, ['class' => 'form-control']) !!}
+              {!! Form::text('city', null, ['class' => 'form-control', 'autocomplete' => 'off']) !!}
             </div>
 
             <div class="form-group">
               {!! Form::label('country', 'Country') !!}
-              {!! Form::text('country', null, ['class' => 'form-control']) !!}
+              {!! Form::text('country', null, ['class' => 'form-control', 'autocomplete' => 'off']) !!}
             </div>
 
             <div class="form-group">

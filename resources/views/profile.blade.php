@@ -2,10 +2,10 @@
 
 @section('content')
 <script type="text/javascript">
-    var tweetcount = {{ json_encode($tweet_count) }};
+    var tweetcount = {{ json_encode($tweets->total()) }};
 </script>
 
-<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 padding-20-top-bottom">
 @if (!Auth::guest())
     @if ($user->username === Auth::user()->username)
     <div id="tweetform" class="hidden-xs">
@@ -35,10 +35,11 @@
         </form>
     </div>
     <div id="ERRORMSG" class="text-center text-danger"></div>
-    @endif
-@endif
 
     <h3>Your tweets</h3>
+
+    @endif
+@endif
 
   <div id="feed-tweet">
     <div id="feed">

@@ -77,7 +77,6 @@ function scrolling(){
     padding: 0,
     nextSelector: '.pagination li.active + li a',
     contentSelector: '#feed',
-    //refresh: true,
     callback: function() {
         $('ul.pagination').remove();
       }
