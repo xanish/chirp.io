@@ -53,7 +53,6 @@ function scrolling(){
     padding: 0,
     nextSelector: '.pagination li.active + li a',
     contentSelector: '#feed',
-    //refresh: true,
     callback: function() {
         $('ul.pagination').remove();
       }
@@ -94,7 +93,6 @@ $(document).ready(function() {
      var text_remaining = text_max - text_length;
      $('#count_message').html(text_remaining);
    });
-
    scrolling();
 });
 
