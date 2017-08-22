@@ -109,36 +109,37 @@ $(document).ready(function() {
     scrolling();
 });
 
-var strength = {
-  0: "<span class='red'>Worst</span>",
-  1: "<span class='orange'>Bad</span>",
-  2: "<span class='yellow'>Weak</span>",
-  3: "<span class='green'>Good</span>",
-  4: "<span class='dark-green'>Strong</span>"
-}
+  var strength = {
+   0: "<span class='red'>Worst</span>",
+   1: "<span class='orange'>Bad</span>",
+   2: "<span class='yellow'>Weak</span>",
+   3: "<span class='green'>Good</span>",
+   4: "<span class='dark-green'>Strong</span>"
+ }
 
-var password = document.getElementById('password');
-var meter = document.getElementById('password-strength-meter');
-var text = document.getElementById('password-strength-text');
+ var password = document.getElementById('password');
+ var meter = document.getElementById('password-strength-meter');
+ var text = document.getElementById('password-strength-text');
 
-password.addEventListener('input', function() {
-  if (!$('#password-strength-meter').is(':visible')) {
-    $('#password-strength-meter').show();
-  }
+ password.addEventListener('input', function() {
+   if (!$('#password-strength-meter').is(':visible')) {
+     $('#password-strength-meter').show();
+   }
 
-  var val = password.value;
-  var result = zxcvbn(val);
+   var val = password.value;
+   var result = zxcvbn(val);
 
-  // Update the password strength meter
-  meter.value = result.score;
+   // Update the password strength meter
+   meter.value = result.score;
 
-  // Update the text indicator
-  if (val !== "") {
-    text.innerHTML = "Strength: " + strength[result.score];
-    if (result.feedback.suggestions != "") {
-      text.innerHTML += " Hint: " + result.feedback.suggestions;
-    }
-  } else {
-    text.innerHTML = "";
-  }
-});
+   // Update the text indicator
+   if (val !== "") {
+     text.innerHTML = "Strength: " + strength[result.score];
+     if (result.feedback.suggestions != "") {
+       text.innerHTML += " Hint: " + result.feedback.suggestions;
+     }
+   } else {
+     text.innerHTML = "";
+   }
+ });
+ });
