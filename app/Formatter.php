@@ -28,7 +28,7 @@ class Formatter {
       </div><div class="col-lg-11 col-sm-11 col-md-11 col-sm-11 col-xs-9">
       <b>'.$user->name.'</b>&nbsp;@'.$user->username.'&nbsp; - &nbsp;<span class="grey-text">'.Carbon::now()->diffForHumans().'</span>
       <div class="text">'.$text.'</div><div class="image padding-20 hidden-xs">
-          <img class="img-responsive" src="'.Config::get('constants.tweet_images').''.$image_name.'" alt="">
+      <img class="img-responsive" src="'.Config::get('constants.tweet_images').''.$image_name.'" alt="">
       </div></div><div class="image col-xs-12 visible-xs">
       <img class="img-responsive" src="'.Config::get('constants.tweet_images').''.$image_name.'" alt=""></div></div>';
     }

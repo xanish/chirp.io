@@ -9,25 +9,25 @@ use App\Utils\Utils;
 
 class EditProfileController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
 
-    public function index()
-    {
-        $user = Auth::user();
-        return view('edit', compact('user'));
-    }
+  public function index()
+  {
+    $user = Auth::user();
+    return view('edit', compact('user'));
+  }
 
-    public function update(UpdateProfileRequest $request)
-    {
-        $user = Auth::user();
-        $image_name = $user->profile_image;
-        if ($request->profile_image) {
-            $image_name = (new Utils)->fitAndSaveImage($user->id, $request->profile_image, Config::get('constants.avatar_width'), Config::get('constants.avatar_height'), 'avatars', 'fit');
-        }
-        $entry = (new User)->updateUserDetails($user->id, $request, $image_name);
-        return redirect('/edit-profile');
+  public function update(UpdateProfileRequest $request)
+  {
+    $user = Auth::user();
+    $image_name = $user->profile_image;
+    if ($request->profile_image) {
+      $image_name = (new Utils)->fitAndSaveImage($user->id, $request->profile_image, Config::get('constants.avatar_width'), Config::get('constants.avatar_height'), 'avatars', 'fit');
     }
+    $entry = (new User)->updateUserDetails($user->id, $request, $image_name);
+    return redirect('/edit-profile');
+  }
 }
