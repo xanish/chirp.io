@@ -49,12 +49,12 @@ class RegisterController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users|regex:/(^[A-Za-z0-9_]+$)+/',
+            'username' => 'required|string|max:255|unique:users|regex:/(^[A-Za-z0-9_.]+$)+/',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ];
         $messages = [
-            'username.regex' => 'Username can contain alphanumeric and underscore characters only.'
+            'username.regex' => 'Username can contain alphanumeric, underscore and period characters only.'
         ];
         return Validator::make($data, $rules, $messages);
     }

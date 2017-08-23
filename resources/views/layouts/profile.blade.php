@@ -13,9 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('/css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/icofont.css') }}" rel="stylesheet">
     <link href="{{ asset('css/emojione.picker.css') }}" rel="stylesheet">
-    <link href="{{ asset('fonts/icofont.ttf') }}" rel="stylesheet">
+    <link href="{{ asset('fonts/icofont.ttf') }}" rel="application/x-font-ttf">
 </head>
 <body>
     <div id="app">
