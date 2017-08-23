@@ -89,6 +89,7 @@
 </div>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+<script src="{{ asset('js/cropbox.min.js') }}"></script>
 <script src="{{ asset('js/jquery.jscroll.js') }}"></script>
 <script src="{{ asset('js/emojione.picker.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCso5QRQXnxgph82Q8tV3oYj24SG56jnCc&libraries=places"></script>

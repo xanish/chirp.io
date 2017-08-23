@@ -15,7 +15,12 @@
             <li><a href="/{{ $result->username }}"><b>{{ $result->name }}</b></a></li>
             <li>{{ '@'.$result->username }}</li>
             <li>
-              @if (!Auth::guest())
+              @if (in_array($result->id, $ids))
+              {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$result->username]) !!}
+              {!! Form::hidden('following', $result->username) !!}
+              <button type="submit" class="btn btn-danger btn-rounded" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
+              {!! Form::close() !!}
+              @elseif (!(Auth::guest() or Auth::user()->username == $result->username))
               {!! Form::open(['method' => 'POST', 'url' => '/following']) !!}
               {!! Form::hidden('following', $result->username) !!}
               <button type="submit" class="btn btn-primary btn-rounded" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>

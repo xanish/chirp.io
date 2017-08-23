@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index');
 Route::post('/tweet', 'TweetController@create');
 
 Route::get('/edit-profile', 'EditProfileController@index');
-Route::patch('/edit-profile', 'EditProfileController@update');
+Route::post('/edit-profile', 'EditProfileController@create');
 
 Route::post('/tweet', 'TweetController@create');
 

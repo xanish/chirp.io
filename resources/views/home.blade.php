@@ -68,15 +68,15 @@ var tweetcount = {{ json_encode($feed->total()) }};
                 Characters remaining: <span id="count_message"></span>
               </div>
               <div class="col-lg-2 col-md-2 col-sm-2 col-no-pad">
-                <button onclick="" type="submit" class="btn btn-primary button-panel pull-right" id="tweet-button" type="button"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
+                <button onclick="" type="submit" class="btn btn-primary button-panel pull-right" disabled="disabled" id="tweet-button" type="button"><i class="icofont icofont-animal-woodpecker"></i> Chirp</button>
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
-    <div id="feed-tweet">
-      <div id="feed">
+    <div id="feed-container">
+      <div id="feed-posts">
         @foreach ($feed as $post)
         @if ($post->tweet_image != null)
         <div class="row padding-20-top-bottom">

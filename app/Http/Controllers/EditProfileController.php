@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateProfileRequest;
 use Auth;
 use App\User;
 use App\Utils\Utils;
+use \Config;
 
 class EditProfileController extends Controller
 {
@@ -20,7 +21,7 @@ class EditProfileController extends Controller
     return view('edit', compact('user'));
   }
 
-  public function update(UpdateProfileRequest $request)
+  public function create(Request $request)
   {
     $user = Auth::user();
     $image_name = $user->profile_image;
