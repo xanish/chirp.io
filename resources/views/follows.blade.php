@@ -22,13 +22,11 @@
                                 </div>
                             </div>
                         </div>
-                        @if($path == $user->username.'/following')
+                        @if($path == $user->username.'/following' and Auth::user()->username == $user->username)
                         <div class="card-action">
-                            <form method="POST" action="{{ '/unfollow/'.$person->username }}">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <button type="submit" id="unfollowbtn" class="btn btn-danger">Unfollow</button>
-                            </form>
+                            {!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$person->username]) !!}
+                            <button type="submit" class="btn btn-danger btn-block" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
+                            {!! Form::close() !!}
                         </div>
                         @endif
                     </div>

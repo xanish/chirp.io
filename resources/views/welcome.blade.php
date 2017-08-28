@@ -15,7 +15,7 @@
     </div>
     <div class="container">
         <div class="text-center">
-            <h1>WIP! Popular Stuff</h1>
+            <h1 class="pacifico grey-text">Coming Soon</h1>
         </div>
     </div>
 @endsection

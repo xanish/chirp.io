@@ -6,7 +6,9 @@ Route::get('/home', 'HomeController@index');
 Auth::routes();
 
 
-Route::resource('/search', 'SearchController');
+Route::get('/search', 'SearchController@search');
+Route::get('/search/{search}', 'SearchController@results');
+
 Route::post('/tweet', 'TweetController@create');
 
 Route::post('/like/{tweet_id}', 'LikesController@like');

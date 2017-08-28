@@ -56,6 +56,9 @@
                     </li>
                 @endif
             </ul>
+            @if(!in_array(Request::path(), ['/', '/login', '/register', '/password/reset']))
+                @include('partials.searchbar')
+            @endif
         </div>
     </div>
 </nav>

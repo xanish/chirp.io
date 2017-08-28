@@ -72,7 +72,7 @@
                         </li>
                     @endif
                     <li>
-                        <h6><i class="material-icons">date_range</i> Joined {{ $user->created_at->diffForHumans() }}</h6>
+                        <h6><i class="material-icons">date_range</i> Joined {{ $user->created_at->toFormattedDateString() }}</h6>
                     </li>
                     <li>
                         @if(Auth::guest())
@@ -80,16 +80,13 @@
                         @elseif(Auth::user()->username == $user->username)
                             {{--Display nothing--}}
                         @elseif(Auth::user()->follows($user->id) == true)
-                            <form method="POST" action="{{ '/unfollow/'.$user->username }}">
-                                {{ csrf_field() }}
-                                {{ method_field('PATCH') }}
-                                <button type="submit" class="btn btn-danger">Unfollow</button>
-                            </form>
+                            {!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$user->username]) !!}
+                            <button type="submit" class="btn btn-danger" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
+                            {!! Form::close() !!}
                         @elseif(Auth::user()->follows($user->id) == false)
-                            <form method="POST" action="{{ '/follow/'.$user->username }}">
-                                {{ csrf_field() }}
-                                <button type="submit" class="btn btn-default">Follow</button>
-                            </form>
+                            {!! Form::open(['method' => 'POST', 'url' => '/follow/'.$user->username]) !!}
+                            <button type="submit" class="btn btn-default" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
+                            {!! Form::close() !!}
                         @endif
                     </li>
                 </ul>

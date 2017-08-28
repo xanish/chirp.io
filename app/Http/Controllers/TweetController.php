@@ -3,11 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostTweetRequest;
-use App\Tweet;
-use App\Utils\Utils;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Carbon\Carbon;
 use App\ServiceObjects\TweetServiceObject;
 
 class TweetController extends Controller

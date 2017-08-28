@@ -18,7 +18,7 @@
                                 <ul class="list-unstyled list-inline">
                                     <li><h6>{{ $user->name }}</h6></li>
                                     <li>{{ '@'.$user->username }}</li>
-                                    <li>{{ $tweet->created_at->diffForHumans() }}</li>
+                                    <li>{{ $tweet->created_at->toDayDateTimeString() }}</li>
                                 </ul>
                                 <p>
                                     {{ $tweet->text }}
