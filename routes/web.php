@@ -1,31 +1,23 @@
 <?php
 
-Route::get('/', 'SiteHomepageController@index');
+Route::get('/', 'SiteHomePageController@index');
+Route::get('/home', 'HomeController@index');
 
 Auth::routes();
 
-Route::resource('/followers', 'FollowersController', [
-  'only' => [
-    'index', 'show',
-  ],
-]);
-Route::resource('/following', 'FollowingsController', [
-  'except' => [
-    'create', 'destroy', 'edit',
-  ],
-]);
-Route::resource('/search', 'SearchController', [
-  'only' => [
-    'index', 'show',
-  ],
-]);
 
-Route::get('/home', 'HomeController@index');
+Route::resource('/search', 'SearchController');
 Route::post('/tweet', 'TweetController@create');
+
+Route::post('/like/{tweet_id}', 'LikesController@like');
+Route::delete('/unlike/{tweet_id}', 'LikesController@unlike');
 
 Route::get('/edit-profile', 'EditProfileController@index');
-Route::post('/edit-profile', 'EditProfileController@create');
+Route::patch('/edit-profile', 'EditProfileController@update');
 
-Route::post('/tweet', 'TweetController@create');
+Route::post('/follow/{username}', 'FollowsController@follow');
+Route::delete('/unfollow/{username}', 'FollowsController@unfollow');
 
-Route::get('/{username}', 'ProfileController@index');
+Route::get('/{username}', 'ProfileController@profile');
+Route::get('/{username}/followers', 'ProfileController@followers');
+Route::get('/{username}/following', 'ProfileController@following');

@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
-class SiteHomepageController extends Controller
+class SiteHomePageController extends Controller
 {
-  public function index()
-  {
-    if (Auth::guest()) {
-      return view('welcome');
+    public function index()
+    {
+        if (Auth::guest()) {
+            return view('welcome');
+        }
+        return redirect(action('HomeController@index'));
     }
-    return redirect(action('HomeController@index'));
-  }
 }

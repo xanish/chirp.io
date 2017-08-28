@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\Welcome;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -47,16 +48,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users|regex:/(^[A-Za-z0-9_.]+$)+/',
-            'email' => 'required|string|email|max:255|unique:users',
+        return Validator::make($data, [
+            'name' => 'required|string|max:30',
+            'username' => 'required|string|max:20',
+            'email' => 'required|string|email|max:20|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ];
-        $messages = [
-            'username.regex' => 'Username can contain alphanumeric, underscore and period characters only.'
-        ];
-        return Validator::make($data, $rules, $messages);
+        ]);
     }
 
     /**
@@ -67,6 +64,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return (new User)->createNewUser($data);
+        $user = User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+
+        \Mail::to($user)->send(new Welcome($user));
+
+        return $user;
     }
 }

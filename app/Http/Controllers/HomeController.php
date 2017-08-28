@@ -2,27 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
-use Auth;
-use App\Follower;
 use App\Tweet;
-use App\Utils\FeedGenerator;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth');
-  }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-  public function index()
-  {
-    $user = Auth::user();
-    $tweet_count = (new Tweet)->getTweetsCount($user->id);
-    $follower_count = (new Follower)->getFollowersCount($user->id);
-    $following_count = (new Follower)->getFollowingsCount($user->id);
-    $feed = (new FeedGenerator)->generate($user->id);
-    return view('home', compact('user', 'follower_count', 'following_count', 'tweet_count', 'feed'));
-  }
+    public function index()
+    {
+        $id = Auth::id();
+        $followingids = [];
+        $user = User::find($id);
+        $tweet_count = $user->tweets()->count();
+        $follower_count = $user->followers()->count();
+        $following_count = $user->following()->count();
+        $following = $user->following()->get();
+        foreach ($following as $person) {
+            array_push($followingids, $person->id);
+        }
+        $feed = Tweet::whereIn('user_id', $followingids)
+        ->join('users', 'tweets.user_id', '=', 'users.id')
+        ->select('users.name', 'users.username', 'users.profile_image', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+        ->latest()->get();
+        return view('home', compact('user', 'tweet_count', 'following_count', 'follower_count', 'feed'));
+    }
 }

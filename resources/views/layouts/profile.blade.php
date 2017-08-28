@@ -103,17 +103,17 @@
           @if ($user->created_at)
           <h6><span class="fa fa-calendar-check-o"></span> {{ $user->created_at->diffForHumans() }}</h6>
           @endif
-          @if ($showFollows == 'true')
+          @if ($response['showFollows'] == 'true')
           {!! Form::open(['method' => 'PATCH', 'url' => '/following/'.$user->username]) !!}
           {!! Form::hidden('following', $user->username) !!}
           <button type="submit" class="btn btn-danger btn-rounded" onclick="this.disabled=true;this.innerHTML='Unfollowing..'; this.form.submit();">Unfollow</button>
           {!! Form::close() !!}
-          @elseif ($showFollows == 'false')
+          @elseif ($response['showFollows'] == 'false')
           {!! Form::open(['method' => 'POST', 'url' => '/following']) !!}
           {!! Form::hidden('following', $user->username) !!}
           <button type="submit" class="btn btn-primary btn-rounded" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
           {!! Form::close() !!}
-          @elseif ($showFollows == '')
+          @elseif ($response['showFollows'] == '')
           <a href="/login" class="btn btn-primary btn-rounded">Login to follow</a>
           @endif
         </div>
@@ -124,33 +124,33 @@
         <a href="/{{ $user->username }}">
           <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
             <h3 class="font-size-14 no-margins">Tweets</h3>
-            <span class="colored-text-nav-links font-size-14">{{ $tweet_count }}</span>
+            <span class="colored-text-nav-links font-size-14">{{ $response['tweet_count'] }}</span>
           </div>
         </a>
         @if ($append)
         <a href="/followers/{{ $user->username }}">
           <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
             <h3 class="font-size-14 no-margins">Followers</h3>
-            <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
+            <span class="colored-text-nav-links font-size-14">{{ $response['follower_count'] }}</span>
           </div>
         </a>
         <a href="/following/{{ $user->username }}">
           <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
             <h3 class="font-size-14 no-margins">Following</h3>
-            <span class="colored-text-nav-links font-size-14">{{ $following_count }}</span>
+            <span class="colored-text-nav-links font-size-14">{{ $response['following_count'] }}</span>
           </div>
         </a>
         @else
         <a href="/followers">
           <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
             <h3 class="font-size-14 no-margins">Followers</h3>
-            <span class="colored-text-nav-links font-size-14">{{ $follower_count }}</span>
+            <span class="colored-text-nav-links font-size-14">{{ $response['follower_count'] }}</span>
           </div>
         </a>
         <a href="/following">
           <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4">
             <h3 class="font-size-14 no-margins">Following</h3>
-            <span class="colored-text-nav-links font-size-14">{{ $following_count }}</span>
+            <span class="colored-text-nav-links font-size-14">{{ $response['following_count'] }}</span>
           </div>
         </a>
         @endif

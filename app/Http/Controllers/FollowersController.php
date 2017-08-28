@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Auth;
-use App\Follower;
 use App\User;
-use App\Tweet;
+use Illuminate\Http\Request;
+use App\ServiceObjects\FollowerServiceObject;
 
 class FollowersController extends Controller
 {
@@ -20,24 +19,29 @@ class FollowersController extends Controller
     $header = "Followers";
     $append = false;
     $user = Auth::user();
-    $showFollows = 'Own Profile';
-    $data = (new Follower)->getFollowers($user->id);
-    $tweet_count = (new Tweet)->getTweetsCount($user->id);
-    $follower_count = count($data);
-    $following_count = (new Follower)->getFollowingsCount($user->id);
-    return view('follows', compact('header', 'append', 'user', 'data', 'showFollows', 'tweet_count', 'follower_count', 'following_count'));
+    try {
+      $response = (new FollowerServiceObject)->getFollowersList($user);
+    } catch (Exception $e) {
+      return response()->json([
+        'ERR' => $e->getMessage()
+      ]);
+    }
+
+    return view('follows', compact('header', 'append', 'user', 'response'));
   }
 
   public function show($username)
   {
     $header = "Followers";
     $append = true;
-    $user = (new User)->getUserByUsername($username);
-    $showFollows = (new Follower)->doesUserFollowsPerson(Auth::user()->id, $user->id);
-    $data = (new Follower)->getFollowers($user->id);
-    $tweet_count = (new Tweet)->getTweetsCount($user->id);
-    $follower_count = count($data);
-    $following_count = (new Follower)->getFollowingsCount($user->id);
-    return view('follows', compact('header', 'append', 'user', 'data', 'showFollows', 'tweet_count', 'follower_count', 'following_count'));
+    try {
+      $user = (new User)->getUserByUsername($username);
+      $response = (new FollowerServiceObject)->getFollowersList($user);
+    } catch (Exception $e) {
+      return response()->json([
+        'ERR' => $e->getMessage()
+      ]);
+    }
+    return view('follows', compact('header', 'append', 'user', 'response'));
   }
 }

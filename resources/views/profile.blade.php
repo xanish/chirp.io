@@ -2,7 +2,7 @@
 
 @section('content')
 <script type="text/javascript">
-var tweetcount = {{ json_encode($tweets->total()) }};
+var tweetcount = {{ json_encode($response['tweets']->total()) }};
 </script>
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 padding-20-top-bottom">
   @if (!Auth::guest())
@@ -38,7 +38,7 @@ var tweetcount = {{ json_encode($tweets->total()) }};
   @endif
   <div id="feed-tweet">
     <div id="feed">
-      @foreach ($tweets as $tweet)
+      @foreach ($response['tweets'] as $tweet)
       @if ($tweet->tweet_image != null)
       <div class="row padding-20-top-bottom">
         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">
@@ -71,7 +71,7 @@ var tweetcount = {{ json_encode($tweets->total()) }};
       </div>
       @endif
       @endforeach
-      {{ $tweets->links() }}
+      {{ $response['tweets']->links() }}
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -18,7 +18,6 @@ class UpdateProfileRequest extends FormRequest
             return true;
         }
         return false;
-
     }
 
     /**
@@ -29,9 +28,10 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|exists:users',
-            'profile_image' => 'dimensions:min_width=220,min_height=220|image',
+            'name' => 'required|string|max:30',
+            'email' => 'required|string|email|max:20|exists:users',
+            'profile_image' => 'dimensions:min_width=500,min_height=500|image|size:5000',
+            'profile_banner' => 'image|size:5000',
         ];
     }
 }
