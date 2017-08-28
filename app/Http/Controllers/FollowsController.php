@@ -2,32 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Support\Facades\Auth;
+use App\ServiceObjects\FollowerServiceObject;
 
 class FollowsController extends Controller
 {
+    private $followerSO;
+
+    public function __construct(FollowerServiceObject $followerSO)
+    {
+        $this->middleware('auth');
+        $this->followerSO = $followerSO;
+    }
+
     public function follow($username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        $id = Auth::id();
-        $me = User::find($id);
-        $me->following()->attach($user->id);
+        $this->followerSO->follow($username);
         return redirect()->back();
-//        return response()->json([
-//            'response' => 200
-//        ]);
     }
 
     public function unfollow($username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        $id = Auth::id();
-        $me = User::find($id);
-        $me->following()->detach($user->id);
+        $this->followerSO->unfollow($username);
         return redirect()->back();
-//        return response()->json([
-//            'response' => 200
-//        ]);
     }
 }

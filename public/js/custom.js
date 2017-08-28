@@ -49,19 +49,19 @@ $('#tweetbox').keyup(function() {
         console.log(data);
         $("#tweetbox").val('');
         //$("#tweeteditor").html('');
-        //$("#tweeteditor").keyup();
+        $("#tweetbox").keyup();
         $("#tweet_image_file").val('');
 
         if (data.element.image != 'tweet_images/') {
           $response = $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
           "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li>" + data.element.username +
           "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p><img src='" + data.element.image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.element.image +
-          "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a href=''><i class='material-icons red-text'>favorite</i></a></h6></div></div>" + "<div class='margin-top-10'></div>";
+          "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a href=''><i class='material-icons red-text'>favorite</i> 0</a></h6></div></div>" + "<div class='margin-top-10'></div>";
         }
         else {
           $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
           "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li>" + data.element.username +
-          "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p></div></div></div><div class='card-action'><h6><a href=''><i class='material-icons red-text'>favorite</i></a></h6></div></div>" + "<div class='margin-top-10'></div>";
+          "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p></div></div></div><div class='card-action'><h6><a href=''><i class='material-icons red-text'>favorite</i> 0</a></h6></div></div>" + "<div class='margin-top-10'></div>";
         }
         $("#feed-tweet").prepend($response);
         //$("#tweettext").val('');

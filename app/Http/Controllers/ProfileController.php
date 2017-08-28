@@ -2,63 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\Tweet;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\ServiceObjects\UserProfileServiceObject;
 
 class ProfileController extends Controller
 {
-    public function __construct()
+    private $profileSO;
+
+    public function __construct(UserProfileServiceObject $profileSO)
     {
         $this->middleware('auth')->except([
             'profile'
         ]);
+        $this->profileSO = $profileSO;
     }
 
     public function profile(Request $request, $username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        $tweets = $user->tweets()->get();
-        $tweet_count = $user->tweets()->count();
-        $follower_count = $user->followers()->count();
-        $following_count = $user->following()->count();
+        $profileData = $this->profileSO->getProfile($username);
         $path = $request->path();
-        return view('tweets', compact('user', 'tweets', 'tweet_count', 'follower_count', 'following_count', 'path', 'accent'));
+        return view('tweets')->with([
+            'user' => $profileData['user'],
+            'posts' => $profileData['posts'],
+            'tweet_count' => $profileData['tweet_count'],
+            'follower_count' => $profileData['follower_count'],
+            'following_count' => $profileData['following_count'],
+            'path' => $path,
+        ]);
     }
 
     public function followers(Request $request, $username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        $followers_count = $user->followers()->count();
-        $following_count = $user->following()->count();
-        $tweet_count = $user->tweets()->count();
-        $people = $user->followers()->orderBy('username')->get();
+        $followersData = $this->profileSO->getFollowers($username);
         $path = $request->path();
-        return view('follows', [
-            'user' => $user,
-            'follower_count' => $followers_count,
-            'following_count' => $following_count,
-            'tweet_count' => $tweet_count,
-            'people' => $people,
+        return view('follows')->with([
+            'user' => $followersData['user'],
+            'people' => $followersData['people'],
+            'tweet_count' => $followersData['tweet_count'],
+            'follower_count' => $followersData['follower_count'],
+            'following_count' => $followersData['following_count'],
             'path' => $path,
         ]);
     }
 
     public function following(Request $request, $username)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        $followers_count = $user->followers()->count();
-        $following_count = $user->following()->count();
-        $tweet_count = $user->tweets()->count();
+        $followingData = $this->profileSO->getFollowing($username);
         $path = $request->path();
-        $people = $user->following()->orderBy('username')->get();
-        return view('follows', [
-            'user' => $user,
-            'follower_count' => $followers_count,
-            'following_count' => $following_count,
-            'tweet_count' => $tweet_count,
-            'people' => $people,
+        return view('follows')->with([
+            'user' => $followingData['user'],
+            'people' => $followingData['people'],
+            'tweet_count' => $followingData['tweet_count'],
+            'follower_count' => $followingData['follower_count'],
+            'following_count' => $followingData['following_count'],
             'path' => $path,
         ]);
     }

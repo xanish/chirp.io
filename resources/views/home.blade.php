@@ -64,7 +64,7 @@
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 @include('partials.tweet_form')
 
-                @foreach($feed as $post)
+                @foreach($posts as $post)
                     <div class="card margin-top-10">
                         <div class="card-content">
                             <div class="row">
@@ -92,19 +92,12 @@
                                 @endif
                             </div>
                         </div>
-                        @if($user->username == Auth::user()->username)
-                            <div class="card-action">
-                                <h6><a href=""><i class="material-icons red-text">favorite</i></a></h6>
-                            </div>
-                        @else
-                            <div class="card-action">
-                                <form method="POST" id="like_form" action="{{ '/unlike/'.$post->id }}">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <h6><a onclick="document.getElementById('like_form').submit();"><i class="material-icons red-text">favorite_border</i></a></h6>
-                                </form>
-                            </div>
-                        @endif
+                        <div class="card-action">
+                            <form method="POST" id="like_form_{{$post->id}}" action="{{ '/like/'.$post->id }}">
+                                {{ csrf_field() }}
+                                <h6><a class="red-text" onclick="document.getElementById('like_form_{{ $post->id }}').submit();"><i class="material-icons red-text">favorite_border</i> <span>{{$post->likes}}</span></a></h6>
+                            </form>
+                        </div>
                     </div>
                 @endforeach
             </div>
