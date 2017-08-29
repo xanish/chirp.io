@@ -6,7 +6,7 @@
             @include('partials.tweet_form')
         @endif
         <div id="feed-tweet">
-            @foreach($posts as $tweet)
+            <!--@foreach($posts as $tweet)
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
@@ -42,14 +42,21 @@
                         <div class="card-action">
                             <form method="POST" id="like_form_{{ $tweet->id }}" action="{{ '/like/'.$tweet->id }}">
                                 {{ csrf_field() }}
-                                <!-- {{ method_field('DELETE') }} -->
+                                 {{ method_field('DELETE') }}
                                 <h6><a class="red-text" onclick="document.getElementById('like_form_{{ $tweet->id }}').submit();"><i class="material-icons">favorite_border</i> <span>{{ $tweet->likes }}</span></a></h6>
                             </form>
                         </div>
                     @endif
                 </div>
                 <div class="margin-top-10"></div>
-            @endforeach
+            @endforeach-->
+        </div>
+        <div class="spinner" id="loading">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
         </div>
     </div>
 @endsection

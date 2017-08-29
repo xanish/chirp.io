@@ -18,6 +18,7 @@ $.ajaxSetup({
 });
 
 var text_max = 150;
+$('#count_message').html(text_max);
 $('#tweetbox').keyup(function() {
     $('#ERRORMSG').html('');
     var empty = false;
@@ -32,6 +33,10 @@ $('#tweetbox').keyup(function() {
     var text_length = $('#tweetbox').val().length;
     var text_remaining = text_max - text_length;
     $('#count_message').html(text_remaining);
+});
+
+$('#tweetbox').keydown(function() {
+  $('#tweetbox').keyup();
 });
 
 // ajax tweet post
@@ -164,3 +169,63 @@ $('#navbar-search').keyup(function () {
         $('#search-results-dropdown').hide();
     }
 })
+
+  var __lastid;
+  function loadTweet(_lastid) {
+    $.ajax({
+        url: 'gettweets',
+        type: 'GET',
+        data: {
+          username : _username,
+          lastid : _lastid
+        },
+        success: function(data) {
+            //console.log(data);
+            var $finaldata = " ";
+            for( i=0; i<data.posts.length; i++ ) {
+            if (data.posts[i].tweet_image != 'tweet_images/') {
+                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
+                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li>" + data.user.username +
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p>" + data.posts[i].text + "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
+                "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a href=''><i class='material-icons red-text'>favorite</i> " + data.posts[i].likes + "</a></h6></div></div>" + "<div class='margin-top-10'></div>";
+            }
+            else {
+                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
+                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li>" + data.user.username +
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p>" + data.posts[i].text + "</p></div></div></div><div class='card-action'><h6><a href=''><i class='material-icons red-text'>favorite</i> " + data.posts[i].likes + "</a></h6></div></div>" + "<div class='margin-top-10'></div>";
+            }
+            __lastid = data.posts[i].id;
+            $finaldata =$finaldata + $response;
+            //finaldata.append($response);
+            //console.log($finaldata);
+            //$("#feed-tweet").append($response);
+          }
+          $("#feed-tweet").append($finaldata);
+        },
+        error: function(xhr) {
+            console.log(xhr);
+        },
+        complete: function() {
+            //$("#loading").hide();
+        }
+    });
+    return false;
+};
+
+$(document).ready(function() {
+  //$("#loading").show();
+  loadTweet(null);
+});
+
+  $(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() >= $(document).height()){ //scrolled to bottom of the page
+          //console.log(__lastid);
+          if(__lastid != 1) {
+            //$("#loading").show();
+            loadTweet(__lastid);
+          }
+          else{
+            $("#loading").hide();
+          }
+    }
+  });

@@ -11,6 +11,8 @@ Route::get('/search/{search}', 'SearchController@results');
 
 Route::post('/tweet', 'TweetController@create');
 
+Route::get('/gettweets', 'ProfileController@fetchTweets');
+
 Route::post('/like/{tweet_id}', 'LikesController@like');
 Route::delete('/unlike/{tweet_id}', 'LikesController@unlike');
 

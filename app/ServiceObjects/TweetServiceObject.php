@@ -33,8 +33,8 @@ class TweetServiceObject
     {
         $user = Auth::user();
         try {
-            $image_name = TweetServiceObject::createImage($request->tweet_image);
-            TweetServiceObject::saveTweet($user->id, $request->tweet_text, $image_name);
+            $image_name = $this->createImage($request->tweet_image);
+            $this->saveTweet($user->id, $request->tweet_text, $image_name);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

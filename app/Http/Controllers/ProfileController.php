@@ -18,6 +18,11 @@ class ProfileController extends Controller
         $this->profileSO = $profileSO;
     }
 
+    public function fetchTweets(Request $request) {
+      $tweets = $this->profileSO->getTweets($request->username, $request->lastid);
+      return response($tweets);
+    }
+
     public function profile(Request $request, $username)
     {
         $profileData = $this->profileSO->getProfile($username);
