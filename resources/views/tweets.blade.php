@@ -21,7 +21,13 @@
                                     <li>{{ $tweet->created_at->toDayDateTimeString() }}</li>
                                 </ul>
                                 <p>
-                                    {{ $tweet->text }}
+                                    @foreach($tweet->text as $word)
+                                        @if(in_array($word, $tweet->tags))
+                                            <a href="/tag/{{ ltrim($word, '#') }}">{{ $word }}</a>
+                                        @else
+                                            {{ $word }}
+                                        @endif
+                                    @endforeach
                                 </p>
                                 @if($tweet->tweet_image != null)
                                     <img src="{{ asset(Config::get('constants.tweet_images').$tweet->tweet_image) }}" class="img-responsive hidden-xs" alt="">

@@ -36,10 +36,11 @@ class UserProfileServiceObject
         foreach ($tweets as $tweet) {
             $post = array(
                 'id' => $tweet->id,
-                'text' => $tweet->text,
+                'text' => explode(' ', $tweet->text),
                 'tweet_image' => $tweet->tweet_image,
                 'created_at' => $tweet->created_at,
                 'likes' => $tweet->likes()->count(),
+                'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
             );
             array_push($posts, (object)$post);
         }

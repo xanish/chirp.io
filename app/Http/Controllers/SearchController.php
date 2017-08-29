@@ -27,4 +27,15 @@ class SearchController extends Controller
             'ids' => $response['ids'],
         ]);
     }
+
+    public function tags($tag)
+    {
+        $data = $this->searchSO->getTweetsByTag($tag);
+        // return response()->json([is_object($data)]);
+        return view('tags')->with([
+            'posts' => $data['posts'],
+            'liked' => $data['liked'],
+            'tag' => '#'.$tag,
+        ]);
+    }
 }
