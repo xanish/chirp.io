@@ -34,18 +34,21 @@
                             @endif
                         </div>
                     </div>
-                    @if($user->username == Auth::user()->username)
-                        <div class="card-action">
-                            <h6><a class="red-text" href=""><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
-                        </div>
-                    @else
+                    @if(!in_array($tweet->id, $liked))
                         <div class="card-action">
                             <form method="POST" id="like_form_{{ $tweet->id }}" action="{{ '/like/'.$tweet->id }}">
                                 {{ csrf_field() }}
-                                <!-- {{ method_field('DELETE') }} -->
                                 <h6><a class="red-text" onclick="document.getElementById('like_form_{{ $tweet->id }}').submit();"><i class="material-icons">favorite_border</i> <span>{{ $tweet->likes }}</span></a></h6>
                             </form>
                         </div>
+                    @else
+                    <div class="card-action">
+                        <form method="POST" id="unlike_form_{{ $tweet->id }}" action="{{ '/unlike/'.$tweet->id }}">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <h6><a class="red-text" onclick="document.getElementById('unlike_form_{{ $tweet->id }}').submit();"><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
+                        </form>
+                    </div>
                     @endif
                 </div>
                 <div class="margin-top-10"></div>

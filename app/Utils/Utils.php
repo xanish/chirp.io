@@ -22,4 +22,14 @@ class Utils
         }
         return $image_name;
     }
+
+    public function parseTweet($tweet, $tags)
+    {
+        $words = explode(' ', $tweet);
+        foreach ($words as $word) {
+            if (in_array($word, $tags)) {
+                
+            }
+        }
+    }
 }

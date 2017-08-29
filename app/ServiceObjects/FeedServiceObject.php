@@ -5,18 +5,28 @@ use Auth;
 use App\User;
 use App\Tweet;
 
-class FeedServiceObject {
+class FeedServiceObject
+{
+    private $user;
+    private $tweet;
+
+    public function __construct(User $user, Tweet $tweet)
+    {
+        $this->user = $user;
+        $this->tweet = $tweet;
+    }
 
     public function getFeed()
     {
         $id = Auth::id();
-        $user = User::find($id);
+        $user = $this->user->find($id);
         $tweet_count = $user->tweets()->count();
         $follower_count = $user->followers()->count();
         $following_count = $user->following()->count();
         $followingids = $user->following()->pluck('follows');
+        $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
 
-        $feed = Tweet::whereIn('user_id', $followingids)
+        $feed = $this->tweet->whereIn('user_id', $followingids)
         ->join('users', 'tweets.user_id', '=', 'users.id')
         ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
         ->latest()->get();
@@ -29,6 +39,7 @@ class FeedServiceObject {
             'tweet_count' => $tweet_count,
             'follower_count' => $follower_count,
             'following_count' => $following_count,
+            'liked' => $liked,
         );
     }
 

@@ -28,6 +28,7 @@ class ProfileController extends Controller
             'tweet_count' => $profileData['tweet_count'],
             'follower_count' => $profileData['follower_count'],
             'following_count' => $profileData['following_count'],
+            'liked' => $profileData['liked'],
             'path' => $path,
         ]);
     }

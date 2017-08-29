@@ -7,10 +7,17 @@ use App\Follower;
 
 class SearchServiceObject
 {
+    private $user;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     public function getSearchResults($criteria)
     {
         try {
-            $data = User::where('name', 'LIKE', '%'.$criteria.'%')
+            $data = $this->user->where('name', 'LIKE', '%'.$criteria.'%')
                 ->orWhere('username', 'LIKE', '%'.$criteria.'%')
                 ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
                 ->orderBy('name')

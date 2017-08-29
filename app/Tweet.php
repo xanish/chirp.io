@@ -15,6 +15,11 @@ class Tweet extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function hashtags()
+    {
+        return $this->hasMany(Hashtag::class);
+    }
+
     public function likes()
     {
         return $this->hasMany(Like::class);

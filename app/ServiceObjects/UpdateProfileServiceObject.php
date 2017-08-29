@@ -12,15 +12,16 @@ class UpdateProfileServiceObject
     private $utils;
     private $user;
 
-    public function __construct(Utils $utils)
+    public function __construct(Utils $utils, User $user)
     {
         $this->utils = $utils;
+        $this->user = $user;
     }
 
     public function saveProfile($id, $request, $profile_image, $profile_banner)
     {
         try {
-            $entry = User::where('id', $id)->update([
+            $entry = $this->user->where('id', $id)->update([
                 'name' => $request->name,
                 'city' => $request->city,
                 'country' => $request->country,
