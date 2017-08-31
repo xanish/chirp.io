@@ -32,6 +32,14 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        // $user = new User([
+        //     'name' => 'Danish',
+        //     'username' => 'danish',
+        //     'email' => 'danish.f@media.net',
+        //     'password' => bcrypt('pass@123'),
+        // ]);
+        //
+        // \Mail::to($user)->send(new Error($user));
         parent::report($exception);
     }
 
@@ -44,6 +52,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Database\QueryException or $exception instanceof PDOException) {
+            return response()->view('errors.500');
+        }
         return parent::render($request, $exception);
     }
 

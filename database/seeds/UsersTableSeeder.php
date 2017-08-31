@@ -28,24 +28,12 @@ class UsersTableSeeder extends Seeder
             'email' => 'akshay.v@media.net',
             'password' => bcrypt('pass@123')
         ));
-        User::create(array(
-            'name' => 'Test',
-            'username' => 'test',
-            'email' => 'test@test.com',
-            'password' => bcrypt('pass@123')
-        ));
-
-        User::create(array(
-            'name' => 'Test 2',
-            'username' => 'test2',
-            'email' => 'test2@test.com',
-            'password' => bcrypt('pass@123')
-        ));
-        User::create(array(
-            'name' => 'Test 3',
-            'username' => 'test3',
-            'email' => 'test3@test.com',
-            'password' => bcrypt('pass@123')
-        ));
+        factory(App\User::class, 50)->create()->each(function ($u) {
+            $u->following()->attach(1);
+            $u->following()->attach(2);
+            for ($i=0; $i < 100; $i++) {
+                $u->tweets()->save(factory(App\Tweet::class)->make());
+            }
+        });
     }
 }

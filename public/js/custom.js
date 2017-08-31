@@ -102,70 +102,131 @@ $('#form').submit(function() {
     return false;
 });
 
-// ajax follow
-$('#followbtn').submit(function() {
-    $.ajax({
-        url: '/follow/'+uname,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            $('#followbtn').html('Unfollow');
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        }
-    });
-    return false;
-});
-
-// ajax unfollow
-$('#unfollowbtn').submit(function() {
-    $.ajax({
-        url: '/unfollow/'+uname,
-        type: 'DELETE',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            $(this).html('Follow');
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        }
-    });
-    return false;
-});
-
-$('#navbar-search').keyup(function () {
-    if ($(this).val() != '') {
-        $('#search-page').attr('href','/search/' + $(this).val());
-        $('#search-results-dropdown').show();
+$(document).ready(function() {
+    $messageFail = '<div id="fail" class="alert alert-danger float-success"><h6>Try Again Later</h6></div>';
+    $(document).on('click', '.likes', function() {
+        $id = $(this).attr('id');
         $.ajax({
-            url: '/search',
-            type: 'GET',
-            data: {
-                'q': $(this).val()
-            },
+            url: '/like/' + $(this).attr('id'),
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function (data) {
-                $('.search-item').remove();
                 console.log(data);
-                for (var i = 0; i < data.length; i++) {
-                    $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
-                    "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                    "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
-                    $('#search-results-dropdown').prepend($element);
-                }
+                $('#' + $id).removeClass('likes').addClass('unlikes');
+                $('#' + $id + ' i.material-icons').text('favorite');
+                $current = $('#' + $id + ' span').text();
+                $('#' + $id + ' span').text(parseInt($current) + 1);
             },
             error: function (xhr) {
-                console.log(xhr);
+                $(body).append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
             }
         });
         return false;
-    }
-    else {
-        $('.search-item').remove();
-        $('#search-results-dropdown').hide();
-    }
+    });
+    $(document).on('click', '.unlikes', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/unlike/' + $(this).attr('id'),
+            type: 'DELETE',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#' + $id).removeClass('unlikes').addClass('likes');
+                $('#' + $id + ' i.material-icons').text('favorite_border');
+                $current = $('#' + $id + ' span').text();
+                $('#' + $id + ' span').text(parseInt($current) - 1);
+            },
+            error: function (xhr) {
+                $('#app').append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+
+    $(document).on('click', '.follow', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/follow/' + $(this).attr('id'),
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#' + $id).removeClass('follow').addClass('unfollow');
+                $('#' + $id).removeClass('btn-default').addClass('btn-danger');
+                $('#' + $id).text('Unfollow');
+            },
+            error: function (xhr) {
+                $('#app').append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+    $(document).on('click', '.unfollow', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/unfollow/' + $(this).attr('id'),
+            type: 'DELETE',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#' + $id).removeClass('unfollow').addClass('follow');
+                $('#' + $id).removeClass('btn-danger').addClass('btn-default');
+                $('#' + $id).text('Follow');
+            },
+            error: function (xhr) {
+                $('#app').append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+
+    $('#navbar-search').keyup(function () {
+        if ($(this).val() != '') {
+            $('#search-page').attr('href','/search/' + $(this).val());
+            $('#navsearch').attr('action', '/search/' + $(this).val());
+            $('#search-results-dropdown').show();
+            $.ajax({
+                url: '/search',
+                type: 'GET',
+                data: {
+                    'q': $(this).val()
+                },
+                success: function (data) {
+                    $('.search-item').remove();
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
+                        "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
+                        "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                        $('#search-results-dropdown').prepend($element);
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+            return false;
+        }
+        else {
+            $('.search-item').remove();
+            $('#search-results-dropdown').hide();
+        }
+    });
 });

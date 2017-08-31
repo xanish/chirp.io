@@ -17,8 +17,19 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
+        'username' => $faker->userName,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
+        'birthdate' => $faker->dateTimeThisCentury->format('Y-m-d'),
+        'profile_image' => 'placeholder.jpg',
+        'profile_banner' => 'banner.jpg',
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Tweet::class, function (Faker\Generator $faker) {
+    static $password;
+    return [
+        'text' => $faker->text($maxNbChars = 150),
     ];
 });

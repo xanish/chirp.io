@@ -42,18 +42,11 @@
                     </div>
                     @if(!in_array($tweet->id, $liked))
                         <div class="card-action">
-                            <form method="POST" id="like_form_{{ $tweet->id }}" action="{{ '/like/'.$tweet->id }}">
-                                {{ csrf_field() }}
-                                <h6><a class="red-text" onclick="document.getElementById('like_form_{{ $tweet->id }}').submit();"><i class="material-icons">favorite_border</i> <span>{{ $tweet->likes }}</span></a></h6>
-                            </form>
+                            <h6><a class="red-text likes" id="{{ $tweet->id }}"><i class="material-icons">favorite_border</i> <span>{{ $tweet->likes }}</span></a></h6>
                         </div>
                     @else
                     <div class="card-action">
-                        <form method="POST" id="unlike_form_{{ $tweet->id }}" action="{{ '/unlike/'.$tweet->id }}">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <h6><a class="red-text" onclick="document.getElementById('unlike_form_{{ $tweet->id }}').submit();"><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
-                        </form>
+                        <h6><a class="red-text unlikes" id="{{ $tweet->id }}"><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
                     </div>
                     @endif
                 </div>

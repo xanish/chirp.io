@@ -98,21 +98,14 @@
                                 @endif
                             </div>
                         </div>
-                        @if(!in_array($post->id, $liked))
+                        @if(in_array($post->id, $liked))
                             <div class="card-action">
-                                <form method="POST" id="like_form_{{ $post->id }}" action="{{ '/like/'.$post->id }}">
-                                    {{ csrf_field() }}
-                                    <h6><a class="red-text" onclick="document.getElementById('like_form_{{ $post->id }}').submit();"><i class="material-icons">favorite_border</i> <span>{{ $post->likes }}</span></a></h6>
-                                </form>
+                                <h6><a class="red-text unlikes" id="{{ $post->id }}"><i class="material-icons">favorite</i> <span>{{ $post->likes }}</span></a></h6>
                             </div>
                         @else
-                        <div class="card-action">
-                            <form method="POST" id="unlike_form_{{ $post->id }}" action="{{ '/unlike/'.$post->id }}">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <h6><a class="red-text" onclick="document.getElementById('unlike_form_{{ $post->id }}').submit();"><i class="material-icons">favorite</i> <span>{{ $post->likes }}</span></a></h6>
-                            </form>
-                        </div>
+                            <div class="card-action">
+                                <h6><a class="red-text likes" id="{{ $post->id }}"><i class="material-icons">favorite_border</i> <span>{{ $post->likes }}</span></a></h6>
+                            </div>
                         @endif
                     </div>
                 @endforeach

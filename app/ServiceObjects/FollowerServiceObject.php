@@ -12,19 +12,21 @@ class FollowerServiceObject {
         $this->user = $user;
     }
 
-    public function follow ($username)
+    public function follow ($uid)
     {
-        $follow = $this->user->where('username', $username)->firstOrFail();
+        $follow = $this->user->find($uid);
         $id = Auth::id();
         $user = $this->user->find($id);
         $user->following()->attach($follow->id);
+        return response()->json(200);
     }
 
-    public function unfollow ($username)
+    public function unfollow ($uid)
     {
-        $unfollow = $this->user->where('username', $username)->firstOrFail();
+        $unfollow = $this->user->find($uid);
         $id = Auth::id();
         $user = $this->user->find($id);
         $user->following()->detach($unfollow->id);
+        return response()->json(200);
     }
 }

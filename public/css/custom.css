@@ -162,3 +162,9 @@ textarea:focus {
 .search-item {
     margin: 0 0 10px 0;
 }
+.float-success {
+    width: 200px;
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+}

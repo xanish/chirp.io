@@ -17,13 +17,11 @@ class LikesController extends Controller
 
     public function like($tweet_id)
     {
-        $this->likeSO->like($tweet_id);
-        return redirect()->back();
+        return $this->likeSO->like($tweet_id);
     }
 
     public function unlike($tweet_id)
     {
-        $this->likeSO->unlike($tweet_id);
-        return redirect()->back();
+        return $this->likeSO->unlike($tweet_id);
     }
 }

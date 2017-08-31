@@ -15,15 +15,13 @@ class FollowsController extends Controller
         $this->followerSO = $followerSO;
     }
 
-    public function follow($username)
+    public function follow($id)
     {
-        $this->followerSO->follow($username);
-        return redirect()->back();
+        return $this->followerSO->follow($id);
     }
 
-    public function unfollow($username)
+    public function unfollow($id)
     {
-        $this->followerSO->unfollow($username);
-        return redirect()->back();
+        return $this->followerSO->unfollow($id);
     }
 }
