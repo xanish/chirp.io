@@ -36,13 +36,9 @@
                     </div>
                     <div class="card-action">
                         @if (in_array($result->id, $ids))
-                        {!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$result->username]) !!}
-                        <button type="submit" class="btn btn-danger btn-block" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
-                        {!! Form::close() !!}
+                        <button type="button" id="{{ $result->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
                         @else
-                        {!! Form::open(['method' => 'POST', 'url' => '/follow/'.$result->username]) !!}
-                        <button type="submit" class="btn btn-default btn-block" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
-                        {!! Form::close() !!}
+                        <button type="button" id="{{ $result->id }}" class="btn btn-default btn-block follow">Follow</button>
                         @endif
                     </div>
                 </div>

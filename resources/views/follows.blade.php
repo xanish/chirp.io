@@ -24,9 +24,10 @@
                         </div>
                         @if($path == $user->username.'/following' and Auth::user()->username == $user->username)
                         <div class="card-action">
-                            {!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$person->username]) !!}
-                            <button type="submit" class="btn btn-danger btn-block" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
-                            {!! Form::close() !!}
+                            {{--{!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$person->username]) !!}--}}
+                            <!-- onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();" -->
+                            <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
+                            {{--{!! Form::close() !!}--}}
                         </div>
                         @endif
                     </div>
@@ -35,6 +36,5 @@
 
             @endforeach
         </div>
-
     </div>
 @endsection

@@ -107,181 +107,16 @@ $('#form').submit(function() {
     return false;
 });
 
-// ajax follow
-$('#followbtn').submit(function() {
-    $.ajax({
-        url: '/follow/'+uname,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            $('#followbtn').html('Unfollow');
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        }
-    });
-    return false;
-});
-
-// ajax unfollow
-$('#unfollowbtn').submit(function() {
-    $.ajax({
-        url: '/unfollow/'+uname,
-        type: 'DELETE',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            $(this).html('Follow');
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        }
-    });
-    return false;
-});
-
-$('#navbar-search').keyup(function () {
-    if ($(this).val() != '') {
-        $('#search-page').attr('href','/search/' + $(this).val());
-        $('#search-results-dropdown').show();
-        $.ajax({
-            url: '/search',
-            type: 'GET',
-            data: {
-                'q': $(this).val()
-            },
-            success: function (data) {
-                $('.search-item').remove();
-                console.log(data);
-                for (var i = 0; i < data.length; i++) {
-                    $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
-                    "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                    "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
-                    $('#search-results-dropdown').prepend($element);
-                }
-            },
-            error: function (xhr) {
-                console.log(xhr);
-            }
-        });
-        return false;
-    }
-    else {
-        $('.search-item').remove();
-        $('#search-results-dropdown').hide();
-    }
-})
-
-  var __lastid;
-  function loadTweet(_lastid) {
-    try {
-    $.ajax({
-        url: 'gettweets',
-        type: 'GET',
-        data: {
-          username : _username,
-          lastid : _lastid
-        },
-        success: function(data) {
-            console.log(data);
-            var $finaldata = " ";
-            for( i=0; i<data.posts.length; i++ ) {
-            if (data.posts[i].tweet_image != 'tweet_images/') {
-                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
-                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
-                "</li><li>" + data.posts[i].created_at + "</li></ul><p>" + data.posts[i].text + "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
-                "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite</i> " + data.posts[i].likes + "</a></h6></div></div>" + "<div class='margin-top-10'></div>";
-            }
-            else {
-                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
-                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
-                "</li><li>" + data.posts[i].created_at + "</li></ul><p>" + data.posts[i].text + "</p></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite</i> " + data.posts[i].likes + "</a></h6></div></div>" + "<div class='margin-top-10'></div>";
-            }
-            __lastid = data.posts[i].id;
-            $finaldata = $finaldata + $response;
-            //finaldata.append($response);
-            //console.log($finaldata);
-            //$("#feed-tweet").append($response);
-          }
-          //console.log(data);
-          if(data.posts.length == 0) {
-            __lastid = null;
-          }
-          $("#feed-tweet").append($finaldata);
-        },
-        error: function(xhr) {
-            console.log(xhr);
-        },
-        complete: function() {
-          $("#loading").hide();
-          bindscroll();
-            if(__lastid == null) {
-              //$("#loading").hide();
-              $(".stream-end").show();
-            }
-        }
-    });
-  }catch(e) {}
-    return false;
-};
-
-var __feedlastid;
-function loadFeed(_feedlastid) {
-  $.ajax({
-      url: 'getfeed',
-      type: 'GET',
-      data: {
-        lastid : _feedlastid
-      },
-      success: function(data) {
-          console.log(data);
-          var $finaldata = " ";
-          for( i=0; i<data.posts.length; i++ ) {
-          if (data.posts[i].tweet_image != 'tweet_images/') {
-              $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
-              "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
-              "</li><li>" + data.posts[i].created_at + "</li></ul><p>" + data.posts[i].text + "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
-              "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite</i> " + data.posts[i].likes + "</a></h6></div></div>" + "<div class='margin-top-10'></div>";
-          }
-          else {
-              $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
-              "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
-              "</li><li>" + data.posts[i].created_at + "</li></ul><p>" + data.posts[i].text + "</p></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite</i> " + data.posts[i].likes + "</a></h6></div></div>" + "<div class='margin-top-10'></div>";
-          }
-          __feedlastid = data.posts[i].id;
-          $finaldata = $finaldata + $response;
-          //console.log($finaldata);
-        }
-        if(data.posts.length == 0) {
-          __feedlastid = null;
-        }
-        $("#feed").append($finaldata);
-      },
-      error: function(xhr) {
-          console.log(xhr);
-      },
-      complete: function() {
-        $("#loading").hide();
-        bindscroll();
-          if(__feedlastid == null) {
-            //$("#loading").hide();
-            $(".stream-end").css("display", "block");
-          }
-      }
-  });
-  return false;
-};
-
 $(document).ready(function() {
+
   if ( $('#feed-tweet').length ) {
     unbindscroll();
+    $("#loading").show();
     loadTweet(null);
   }
   if ( $('#feed').length ) {
     unbindscroll();
+    $("#loading").show();
     loadFeed(null);
   }
 
@@ -411,45 +246,319 @@ $(document).ready(function() {
   // enable autocomplete after initializing function to prevent ERR: autocomplete is not a function
   $('input#city').autoComplete();
   $('input#country').autoComplete();
+
+    $messageFail = '<div id="fail" class="alert alert-danger float-success"><h6>Try Again Later</h6></div>';
+    $(document).on('click', '.likes', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/like/' + $(this).attr('id'),
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data);
+                $('#' + $id).removeClass('likes').addClass('unlikes');
+                $('#' + $id + ' i.material-icons').text('favorite');
+                $current = $('#' + $id + ' span').text();
+                $('#' + $id + ' span').text(parseInt($current) + 1);
+            },
+            error: function (xhr) {
+                $(body).append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+    $(document).on('click', '.unlikes', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/unlike/' + $(this).attr('id'),
+            type: 'DELETE',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#' + $id).removeClass('unlikes').addClass('likes');
+                $('#' + $id + ' i.material-icons').text('favorite_border');
+                $current = $('#' + $id + ' span').text();
+                $('#' + $id + ' span').text(parseInt($current) - 1);
+            },
+            error: function (xhr) {
+                $('#app').append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+
+    $(document).on('click', '.follow', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/follow/' + $(this).attr('id'),
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#' + $id).removeClass('follow').addClass('unfollow');
+                $('#' + $id).removeClass('btn-default').addClass('btn-danger');
+                $('#' + $id).text('Unfollow');
+            },
+            error: function (xhr) {
+                $('#app').append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+    $(document).on('click', '.unfollow', function() {
+        $id = $(this).attr('id');
+        $.ajax({
+            url: '/unfollow/' + $(this).attr('id'),
+            type: 'DELETE',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#' + $id).removeClass('unfollow').addClass('follow');
+                $('#' + $id).removeClass('btn-danger').addClass('btn-default');
+                $('#' + $id).text('Follow');
+            },
+            error: function (xhr) {
+                $('#app').append($messageFail);
+                $('#fail').fadeOut(5000, function () {
+                    $(this).remove();
+                });
+            }
+        });
+        return false;
+    });
+
   });
 
-function backtotop() {
-    $('html, body').animate({scrollTop : 0},600);
+  var __lastid;
+  function loadTweet(_lastid) {
+    try {
+    $.ajax({
+        url: 'gettweets',
+        type: 'GET',
+        data: {
+          username : _username,
+          lastid : _lastid
+        },
+        success: function(data) {
+            console.log(data);
+            var $finaldata = " ";
+            for( i=0; i<data.posts.length; i++ ) {
+            if (data.posts[i].tweet_image != 'tweet_images/') {
+                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
+                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
+                 addHashTags(data);
+                 $response += "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
+                 "' class='img-responsive' alt=''></div></div></div>";
+                 addLikes(data);
+                 $response += "</div>" + "<div class='margin-top-10'></div>";
+            }
+            else {
+                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
+                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
+                addHashTags(data);
+                $response += "</p></div></div></div>";
+                addLikes(data);
+                $response += "</div>" + "<div class='margin-top-10'></div>";
+            }
+            __lastid = data.posts[i].id;
+            $finaldata = $finaldata + $response;
+          }
+          //console.log(data);
+          if(data.posts.length == 0) {
+            __lastid = null;
+          }
+          $("#feed-tweet").append($finaldata);
+        },
+        error: function(xhr) {
+            console.log(xhr);
+        },
+        complete: function() {
+          $("#loading").hide();
+          bindscroll();
+            if(__lastid == null) {
+              //$("#loading").hide();
+              $(".stream-end").show();
+            }
+        }
+    });
+  }catch(e) {}
     return false;
-}
+  };
+
+  var __feedlastid;
+  function loadFeed(_feedlastid) {
+    $.ajax({
+        url: 'getfeed',
+        type: 'GET',
+        data: {
+          lastid : _feedlastid
+        },
+        success: function(data) {
+            console.log(data);
+            var $finaldata = " ";
+            for( i=0; i<data.posts.length; i++ ) {
+            if (data.posts[i].tweet_image != 'tweet_images/') {
+                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
+                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
+                addHashTags(data);
+                $response += "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
+                "' class='img-responsive' alt=''></div></div></div>";
+                addLikes(data);
+                $response += "</div>" + "<div class='margin-top-10'></div>";
+              }
+            else {
+                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
+                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
+                addHashTags(data);
+                $response += "</p></div></div></div>";
+                addLikes(data);
+                $response += "</div>" + "<div class='margin-top-10'></div>";
+            }
+            __feedlastid = data.posts[i].id;
+            $finaldata = $finaldata + $response;
+          }
+          if(data.posts.length == 0) {
+            __feedlastid = null;
+          }
+          $("#feed").append($finaldata);
+        },
+        error: function(xhr) {
+            console.log(xhr);
+        },
+        complete: function() {
+          $("#loading").hide();
+          bindscroll();
+            if(__feedlastid == null) {
+              //$("#loading").hide();
+              $(".stream-end").show();
+              //$(".stream-end").css("display", "block");
+            }
+        }
+    });
+    return false;
+  };
+
+  function backtotop() {
+      $('html, body').animate({scrollTop : 0},600);
+      return false;
+  }
 
   function bindscroll() {
     $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() + 2 >= $(document).height()){ //scrolled to bottom of the page
-          if(__lastid != null) {
-            unbindscroll();
-            $("#loading").show();
-            loadTweet(__lastid);
-          }
+      if($(window).scrollTop() + $(window).height() + 2 >= $(document).height()){ //scrolled to bottom of the page
+            if(__lastid != null) {
+              unbindscroll();
+              $("#loading").show();
+              loadTweet(__lastid);
+            }
 
-          if(__feedlastid != null) {
-            unbindscroll();
-            $("#loading").show();
-            loadFeed(__feedlastid);
-          }
-    }
-  });
+            if(__feedlastid != null) {
+              unbindscroll();
+              $("#loading").show();
+              loadFeed(__feedlastid);
+            }
+      }
+    });
   }
 
   function unbindscroll() {
     $(window).off('scroll');
   }
 
-// update the dropdown city and country values
-function updatePredictionsDropDownDisplay(dropDown, input) {
-  try {
-    dropDown.css({
-      'width': input.outerWidth(),
-      'left': input.offset().left,
-      'top': input.offset().top + input.outerHeight()
+  function ltrim(str, chr) {
+  var rgxtrim = (!chr) ? new RegExp('^\\s+') : new RegExp('^'+chr+'+');
+  return str.replace(rgxtrim, '');
+  }
+
+  function addHashTags(data) {
+    for( j=0; j<data.posts[i].text.length; j++) {
+      var chirptext = data.posts[i].text[j];
+      if(jQuery.inArray(chirptext, data.posts[i].tags) != -1) {
+        var taggedtext = ltrim(chirptext, '#');
+        $response += "<a href='/tag/" + taggedtext + "'>" + chirptext + "</a>" + " ";
+      }
+      else {
+        $response += chirptext + " ";
+      }
+    }
+  }
+
+  function addLikes(data) {
+    if(data.liked != -1) {
+        var tweet_id = data.posts[i].id;
+        if(jQuery.inArray(tweet_id, data.liked) != -1) {
+          $response += "<div class='card-action'>" + "<h6><a class='red-text unlikes' id='" + tweet_id + "'><i class='material-icons'>favorite</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+        }
+        else {
+          $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + tweet_id + "'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+        }
+    }
+    else {
+      $response += "<div class='card-action'>" + "<h6><a class='red-text'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+    }
+  }
+
+  // update the dropdown city and country values
+  function updatePredictionsDropDownDisplay(dropDown, input) {
+    try {
+      dropDown.css({
+        'width': input.outerWidth(),
+        'left': input.offset().left,
+        'top': input.offset().top + input.outerHeight()
+      });
+    }
+    catch (e) {
+      // console.log("Can't set css property for dropdown as it is not available on this page.");
+    }
+  }
+
+  $('#navbar-search').keyup(function () {
+        if ($(this).val() != '') {
+            $('#search-page').attr('href','/search/' + $(this).val());
+            $('#navsearch').attr('action', '/search/' + $(this).val());
+            $('#search-results-dropdown').show();
+            $.ajax({
+                url: '/search',
+                type: 'GET',
+                data: {
+                    'q': $(this).val()
+                },
+                success: function (data) {
+                    $('.search-item').remove();
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
+                        "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
+                        "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                        $('#search-results-dropdown').prepend($element);
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+            return false;
+        }
+        else {
+            $('.search-item').remove();
+            $('#search-results-dropdown').hide();
+        }
     });
-  }
-  catch (e) {
-    // console.log("Can't set css property for dropdown as it is not available on this page.");
-  }
-}

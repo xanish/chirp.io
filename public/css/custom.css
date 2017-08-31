@@ -251,3 +251,9 @@ textarea:focus {
 .autocomplete > div:hover {
     background: #c3cacf;
 }
+.float-success {
+    width: 200px;
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+}

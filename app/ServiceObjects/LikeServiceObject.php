@@ -15,24 +15,28 @@ class LikeServiceObject
 
     public function like($tweet_id)
     {
-        $id = Auth::id();
+        $id = Auth::user()->id;
         $check = $this->like->where(['user_id' => $id, 'tweet_id' => $tweet_id])->count();
-        if ($check != 0) {
-            return;
+        if ($check == 0) {
+            $like = $this->like->create([
+                'user_id' => $id,
+                'tweet_id' => $tweet_id,
+            ]);
         }
-        $like = $this->like->create([
-            'user_id' => $id,
-            'tweet_id' => $tweet_id,
-        ]);
+        return response()->json(200);
     }
 
     public function unlike($tweet_id)
     {
-        $id = Auth::id();
-        $like = $this->like->where([
-            'user_id' => $id,
-            'tweet_id' => $tweet_id,
-        ]);
-        $like->delete();
+        $id = Auth::user()->id;
+        $check = $this->like->where(['user_id' => $id, 'tweet_id' => $tweet_id])->count();
+        if ($check > 0) {
+            $like = $this->like->where([
+                'user_id' => $id,
+                'tweet_id' => $tweet_id,
+            ]);
+            $like->delete();
+        }
+        return response()->json(200);
     }
 }

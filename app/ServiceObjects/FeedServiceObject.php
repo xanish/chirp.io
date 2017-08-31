@@ -26,6 +26,7 @@ class FeedServiceObject
         $follower_count = $user->followers()->count();
         $following_count = $user->following()->count();
         $followingids = $user->following()->pluck('follows');
+        $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
 
         if($lastid != '') {
         $feed = $this->tweet->whereIn('user_id', $followingids)
@@ -46,7 +47,8 @@ class FeedServiceObject
         $posts = $this->parseFeed($feed);
 
         return array(
-            'posts' => $posts
+            'posts' => $posts,
+            'liked' => $liked
         );
     }
 
@@ -57,14 +59,12 @@ class FeedServiceObject
         $tweet_count = $user->tweets()->count();
         $follower_count = $user->followers()->count();
         $following_count = $user->following()->count();
-        $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
 
         return array(
             'user' => $user,
             'tweet_count' => $tweet_count,
             'follower_count' => $follower_count,
             'following_count' => $following_count,
-            'liked' => $liked,
         );
     }
 
@@ -74,7 +74,7 @@ class FeedServiceObject
           foreach ($feed as $tweet) {
           $post = array(
               'id' => $tweet->id,
-              'text' => nl2br(e($tweet->text)),
+              'text' => explode(' ', nl2br(e($tweet->text))),
               'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),
               'likes' => $tweet->likes()->count(),

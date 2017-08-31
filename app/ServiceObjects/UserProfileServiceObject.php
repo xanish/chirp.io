@@ -32,6 +32,12 @@ class UserProfileServiceObject
 
         public function getTweets($username, $lastid)
         {
+            if(Auth::user()) {
+              $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
+            }
+            else {
+              $liked = -1;
+            }
             if($lastid != '') {
               $baseData = $this->getBaseDetails($username);
               $tweets = $baseData['user']->tweets()
@@ -48,7 +54,7 @@ class UserProfileServiceObject
             foreach ($tweets as $tweet) {
               $post = array(
               'id' => $tweet->id,
-              'text' => nl2br(e($tweet->text)),
+              'text' => explode(' ', nl2br(e($tweet->text))),
               'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),
               'likes' => $tweet->likes()->count(),
@@ -59,6 +65,7 @@ class UserProfileServiceObject
 
             return array(
               'posts' => $posts,
+              'liked' => $liked,
               'user' => [
                 'name' => $baseData['user']->name,
                 'username' => $baseData['user']->username,
@@ -71,18 +78,11 @@ class UserProfileServiceObject
     public function getProfile($username)
     {
         $baseData = $this->getBaseDetails($username);
-        if(Auth::user()) {
-          $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
-        }
-        else {
-          $liked = '';
-        }
         return array(
             'user' => $baseData['user'],
             'tweet_count' => $baseData['tweet_count'],
             'follower_count' => $baseData['follower_count'],
             'following_count' => $baseData['following_count'],
-            'liked' => $liked,
         );
     }
 

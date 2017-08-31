@@ -24,7 +24,6 @@ class HomeController extends Controller
             'tweet_count' => $response['tweet_count'],
             'follower_count' => $response['follower_count'],
             'following_count' => $response['following_count'],
-            'liked' => $response['liked'],
         ]);
     }
 

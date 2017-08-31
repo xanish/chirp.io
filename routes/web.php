@@ -20,8 +20,8 @@ Route::delete('/unlike/{tweet_id}', 'LikesController@unlike');
 Route::get('/edit-profile', 'EditProfileController@index');
 Route::patch('/edit-profile', 'EditProfileController@update');
 
-Route::post('/follow/{username}', 'FollowsController@follow');
-Route::delete('/unfollow/{username}', 'FollowsController@unfollow');
+Route::post('/follow/{id}', 'FollowsController@follow');
+Route::delete('/unfollow/{id}', 'FollowsController@unfollow');
 
 Route::get('/{username}', 'ProfileController@profile');
 Route::get('/{username}/followers', 'ProfileController@followers');

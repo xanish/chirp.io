@@ -65,7 +65,7 @@
                 @include('partials.tweet_form')
 
                 <div id="feed">
-                  
+
                 </div>
 
         <div class="spinner" id="loading">

@@ -43,6 +43,7 @@
         @yield('message')
         <div class="links">
             <b><a href="{{ url('/') }}">Go Back Home</a></b>
+            <b>Chirp.io</b>
         </div>
     </div>
 </div>
