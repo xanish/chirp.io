@@ -13,23 +13,15 @@ class Utils
             Image::make($image)->fit($width, $height, function ($constraint) {
                 $constraint->upsize();
             })->save($location.'/'.$image_name);
+            Image::make($image)->save($location.'/original_'.$image_name);
         }
         else {
             Image::make($image)->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })->save($location.'/'.$image_name);
+            Image::make($image)->save($location.'/original_'.$image_name);
         }
         return $image_name;
-    }
-
-    public function parseTweet($tweet, $tags)
-    {
-        $words = explode(' ', $tweet);
-        foreach ($words as $word) {
-            if (in_array($word, $tags)) {
-                
-            }
-        }
     }
 }

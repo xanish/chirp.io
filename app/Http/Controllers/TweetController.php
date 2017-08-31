@@ -30,6 +30,7 @@ class TweetController extends Controller
                 'id' => $response['tweet_id'],
                 'text' => $response['text'],
                 'image' => $response['image'],
+                'original' => $response['original'],
                 'date' => $response['date'],
                 'name' => $response['name'],
                 'username' => $response['username'],

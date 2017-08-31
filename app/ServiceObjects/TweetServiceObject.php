@@ -25,6 +25,7 @@ class TweetServiceObject
                 'user_id' => $id,
                 'text' => $text,
                 'tweet_image' => $image,
+                'original_image' => 'original_'.$image,
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed To Save Tweet");
@@ -45,6 +46,7 @@ class TweetServiceObject
             'tweet_id' => $tweet_id,
             'text' => $request->tweet_text,
             'image' => Config::get("constants.tweet_images").$image_name,
+            'original' => Config::get("constants.tweet_images").'original_'.$image_name,
             'date' => Carbon::now()->diffForHumans(),
             'name' => $user->name,
             'username' => $user->username,

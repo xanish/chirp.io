@@ -76,6 +76,7 @@ class FeedServiceObject
               'id' => $tweet->id,
               'text' => explode(' ', nl2br(e($tweet->text))),
               'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+              'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),
               'likes' => $tweet->likes()->count(),
               'name' => $tweet->name,

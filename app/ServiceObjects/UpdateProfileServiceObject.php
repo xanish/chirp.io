@@ -6,16 +6,19 @@ use \Config;
 use App\User;
 use Carbon\Carbon;
 use App\Utils\Utils;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateProfileServiceObject
 {
     private $utils;
     private $user;
+    private $file;
 
-    public function __construct(Utils $utils, User $user)
+    public function __construct(Utils $utils, User $user, Storage $storage)
     {
         $this->utils = $utils;
         $this->user = $user;
+        $this->storage = $storage;
     }
 
     public function saveProfile($id, $request, $profile_image, $profile_banner)
@@ -70,6 +73,10 @@ class UpdateProfileServiceObject
         if ($new_image) {
             try {
                 $image_name = $this->utils->fitAndSaveImage(Auth::id(), $new_image, $width, $height, $location, $option);
+                if ($profile_image != 'placeholder.jpg' and $profile_image != 'banner.jpg') {
+                    \File::delete($location.'/'.$profile_image);
+                    \File::delete($location.'/original_'.$profile_image);
+                }
             } catch (Exception $e) {
                 throw new Exception("Unable To Update Profile Image");
             }

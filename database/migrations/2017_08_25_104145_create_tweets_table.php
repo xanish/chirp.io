@@ -17,6 +17,7 @@ class CreateTweetsTable extends Migration
             $table->increments('id');
             $table->string('text', 150);
             $table->string('tweet_image')->nullable()->default(NULL);
+            $table->string('original_image')->nullable()->default(NULL);
             $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

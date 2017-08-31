@@ -16,18 +16,6 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->delete();
-        User::create(array(
-            'name' => 'Danish Ali Furniturewala',
-            'username' => 'danish',
-            'email' => 'danish.f@media.net',
-            'password' => bcrypt('pass@123')
-        ));
-        User::create(array(
-            'name' => 'Akshay Varma',
-            'username' => 'akshay',
-            'email' => 'akshay.v@media.net',
-            'password' => bcrypt('pass@123')
-        ));
         factory(App\User::class, 50)->create()->each(function ($u) {
             $u->following()->attach(1);
             $u->following()->attach(2);

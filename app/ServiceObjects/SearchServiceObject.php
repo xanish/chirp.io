@@ -50,7 +50,7 @@ class SearchServiceObject
         $tweets = Hashtag::where('tag', '#'.$tag)
             ->join('tweets', 'tweets.id', '=', 'hashtags.tweet_id')
             ->join('users', 'users.id', '=', 'tweets.user_id')
-            ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
             ->get();
         $posts = [];
         foreach($tweets as $tweet) {
@@ -61,6 +61,7 @@ class SearchServiceObject
                 'id' => $tweet->id,
                 'text' => explode(' ', $tweet->text),
                 'tweet_image' => $tweet->tweet_image,
+                'original_image' => $tweet->original_image,
                 'likes' => Tweet::find($tweet->id)->likes()->count(),
                 'tags' => Tweet::find($tweet->id)->hashtags()->pluck('tag')->toArray(),
                 'created_at' => $tweet->created_at,

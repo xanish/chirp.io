@@ -3,6 +3,7 @@
 /public/storage
 /public/avatars
 /public/banners
+/public/images
 /public/tweet_images
 /storage/*.key
 /vendor

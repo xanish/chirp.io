@@ -5,6 +5,10 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Mail;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use App\Mail\Error;
 
 class Handler extends ExceptionHandler
 {
@@ -32,14 +36,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        // $user = new User([
-        //     'name' => 'Danish',
-        //     'username' => 'danish',
-        //     'email' => 'danish.f@media.net',
-        //     'password' => bcrypt('pass@123'),
-        // ]);
-        //
-        // \Mail::to($user)->send(new Error($user));
+        if ($exception instanceof \Illuminate\Database\QueryException) {
+            $this->sendEmail($exception);
+        }
         parent::report($exception);
     }
 
@@ -52,7 +51,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Illuminate\Database\QueryException or $exception instanceof PDOException) {
+        if ($exception instanceof \Illuminate\Database\QueryException) {
             return response()->view('errors.500');
         }
         return parent::render($request, $exception);
@@ -72,5 +71,17 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest(route('login'));
+    }
+
+    public function sendEmail(Exception $exception)
+    {
+        try {
+            $e = FlattenException::create($exception);
+            $handler = new SymfonyExceptionHandler();
+            $html = $handler->getHtml($e);
+            Mail::to('')->send(new Error($html));
+        } catch (Exception $ex) {
+            dd($ex);
+        }
     }
 }

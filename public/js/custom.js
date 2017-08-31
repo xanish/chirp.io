@@ -362,8 +362,8 @@ $(document).ready(function() {
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
                 "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
                  addHashTags(data);
-                 $response += "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
-                 "' class='img-responsive' alt=''></div></div></div>";
+                 $response += "</p><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "'><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
+                 "<div class='col-xs-12 visible-xs'><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "-mini'><img src='" + data.posts[i].tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
                  addLikes(data);
                  $response += "</div>" + "<div class='margin-top-10'></div>";
             }
@@ -418,8 +418,8 @@ $(document).ready(function() {
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
                 "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
                 addHashTags(data);
-                $response += "</p><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.posts[i].tweet_image +
-                "' class='img-responsive' alt=''></div></div></div>";
+                $response += "</p><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "'><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
+                "<div class='col-xs-12 visible-xs'><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "-mini'><img src='" + data.posts[i].tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
                 addLikes(data);
                 $response += "</div>" + "<div class='margin-top-10'></div>";
               }
@@ -512,7 +512,7 @@ $(document).ready(function() {
         }
     }
     else {
-      $response += "<div class='card-action'>" + "<h6><a class='red-text'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+      $response += "<div class='card-action'>" + "<h6><a class='red-text'  href='/login'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
     }
   }
 
@@ -544,11 +544,17 @@ $(document).ready(function() {
                 success: function (data) {
                     $('.search-item').remove();
                     console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
-                        "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                        "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                    if (data.length == 0) {
+                        $element = "<li class='row search-item'><a class='col-xs-12'>No Results Found</a></li>"
                         $('#search-results-dropdown').prepend($element);
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
+                            "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
+                            "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                            $('#search-results-dropdown').prepend($element);
+                        }
                     }
                 },
                 error: function (xhr) {

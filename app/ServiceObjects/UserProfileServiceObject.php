@@ -56,6 +56,7 @@ class UserProfileServiceObject
               'id' => $tweet->id,
               'text' => explode(' ', nl2br(e($tweet->text))),
               'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+              'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),
               'likes' => $tweet->likes()->count(),
               'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
@@ -89,7 +90,7 @@ class UserProfileServiceObject
     public function getFollowers($username)
     {
         $baseData = $this->getBaseDetails($username);
-        $followers = $baseData['user']->followers()->get();
+        $followers = $baseData['user']->followers()->orderBy('name')->get();
         return array(
             'user' => $baseData['user'],
             'people' => $followers,
@@ -102,7 +103,7 @@ class UserProfileServiceObject
     public function getFollowing($username)
     {
         $baseData = $this->getBaseDetails($username);
-        $followers = $baseData['user']->following()->get();
+        $followers = $baseData['user']->following()->orderBy('name')->get();
         return array(
             'user' => $baseData['user'],
             'people' => $followers,

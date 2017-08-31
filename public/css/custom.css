@@ -257,3 +257,10 @@ textarea:focus {
     bottom: 0;
     right: 20px;
 }
+.lightboxed {
+    cursor: zoom-in;
+    transition: opacity .4s;
+}
+.lightboxed:hover {
+    opacity: .9;
+}
