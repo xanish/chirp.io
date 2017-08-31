@@ -64,43 +64,23 @@
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 @include('partials.tweet_form')
 
-                @foreach($posts as $post)
-                    <div class="card margin-top-10">
-                        <div class="card-content">
-                            <div class="row">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                                    <img class="img-responsive img-circle"
-                                         src="{{ asset(Config::get('constants.avatars').$post->profile_image) }}" alt="">
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                                    <ul class="list-unstyled list-inline">
-                                        <li><h6><a href="/{{ $post->username }}">{{ $post->name }}</a></h6></li>
-                                        <li><a href="/{{ $post->username }}">{{ '@'.$post->username }}</a></li>
-                                        <li>{{ $post->created_at->toDayDateTimeString() }}</li>
-                                    </ul>
-                                    <p>
-                                        {{ $post->text }}
-                                    </p>
-                                    @if($post->tweet_image != null)
-                                        <img src="{{ asset(Config::get('constants.tweet_images').$post->tweet_image) }}" class="img-responsive hidden-xs" alt="">
-                                    @endif
-                                </div>
-                                @if($post->tweet_image != null)
-                                    <div class="col-xs-12 visible-xs">
-                                        <img src="{{ asset(Config::get('constants.tweet_images').$post->tweet_image) }}" class="img-responsive" alt="">
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="card-action">
-                            <form method="POST" id="like_form_{{$post->id}}" action="{{ '/like/'.$post->id }}">
-                                {{ csrf_field() }}
-                                <h6><a class="red-text" onclick="document.getElementById('like_form_{{ $post->id }}').submit();"><i class="material-icons red-text">favorite_border</i> <span>{{$post->likes}}</span></a></h6>
-                            </form>
-                        </div>
-                    </div>
-                @endforeach
+                <div id="feed">
+                  
+                </div>
+
+        <div class="spinner" id="loading">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div class="stream-end">
+            <i class="icofont icofont-animal-woodpecker"></i>
+            <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>
             </div>
         </div>
     </div>
+  </div>
+</div>
 @endsection

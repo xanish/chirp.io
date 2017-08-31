@@ -19,8 +19,7 @@
                     <span id="count_message"></span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2">
-                    <button onclick="" type="submit" class="btn btn-default pull-right no-margin"
-                            id="tweet-button">Chirp
+                    <button onclick="" type="submit" class="btn btn-default pull-right no-margin" disabled="disabled" id="tweet-button">Chirp
                     </button>
                 </div>
             </div>

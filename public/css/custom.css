@@ -172,7 +172,7 @@ textarea:focus {
 }
 
 .spinner > div {
-  background-color: #333;
+  background-color: #2BBBAD;
   height: 100%;
   width: 6px;
   display: inline-block;
@@ -214,4 +214,40 @@ textarea:focus {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
+}
+
+.stream-end {
+  display: none;
+  text-align: center;
+}
+
+#loading {
+  display: none;
+}
+
+/*city and country dropdown*/
+.autocomplete {
+    position: absolute;
+    z-index: 10000;
+    background: #fff;
+    border: 1px solid #c3cacf;
+    display: none;
+    font-family: Arial, sans-serif;
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+}
+.autocomplete > div {
+    font-size: 13px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.autocomplete > div:hover {
+    background: #c3cacf;
 }

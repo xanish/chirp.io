@@ -10,16 +10,18 @@ use Carbon\Carbon;
 class TweetServiceObject
 {
     private $utils;
+    private $tweet;
 
-    public function __construct(Utils $utils)
+    public function __construct(Utils $utils, Tweet $tweet)
     {
         $this->utils = $utils;
+        $this->tweet = $tweet;
     }
 
     public function saveTweet($id, $text, $image)
     {
         try {
-            $tweet = Tweet::create([
+            $tweet = $this->tweet->create([
                 'user_id' => $id,
                 'text' => $text,
                 'tweet_image' => $image,
@@ -27,6 +29,7 @@ class TweetServiceObject
         } catch (Exception $e) {
             throw new Exception("Failed To Save Tweet");
         }
+        return $tweet->id;
     }
 
     public function postTweet($request)
@@ -34,11 +37,12 @@ class TweetServiceObject
         $user = Auth::user();
         try {
             $image_name = $this->createImage($request->tweet_image);
-            $this->saveTweet($user->id, $request->tweet_text, $image_name);
+            $tweet_id = $this->saveTweet($user->id, $request->tweet_text, $image_name);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
         return [
+            'tweet_id' => $tweet_id,
             'text' => $request->tweet_text,
             'image' => Config::get("constants.tweet_images").$image_name,
             'date' => Carbon::now()->diffForHumans(),
@@ -54,9 +58,14 @@ class TweetServiceObject
         $image_name = null;
         if ($image){
             try {
-                $image_name = (new Utils)
-                ->fitAndSaveImage($user->id, $image, Config::get('constants.tweet_image_width'),
-                Config::get('constants.tweet_image_height'), 'tweet_images', 'scale-down');
+                $image_name = $this->utils->fitAndSaveImage(
+                    $user->id,
+                    $image,
+                    Config::get('constants.tweet_image_width'),
+                    Config::get('constants.tweet_image_height'),
+                    'tweet_images',
+                    'scale-down'
+                );
             } catch (Exception $e) {
                 throw new Exception("Error Saving Image");
             }
