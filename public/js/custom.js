@@ -211,11 +211,17 @@ $(document).ready(function() {
                 success: function (data) {
                     $('.search-item').remove();
                     console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
-                        "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                        "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                    if (data.length == 0) {
+                        $element = "<li class='row search-item'><a class='col-xs-12'>No Results Found</a></li>"
                         $('#search-results-dropdown').prepend($element);
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
+                            "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
+                            "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                            $('#search-results-dropdown').prepend($element);
+                        }
                     }
                 },
                 error: function (xhr) {

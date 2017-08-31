@@ -88,13 +88,17 @@
                                         @endforeach
                                     </p>
                                     @if($post->tweet_image != null)
-                                        <img src="{{ asset(Config::get('constants.tweet_images').$post->tweet_image) }}" class="img-responsive hidden-xs" alt="">
+                                        <a href="{{ asset(Config::get('constants.tweet_images').$post->original_image) }}" data-lightbox="box-{{ $post->id }}">
+                                            <img src="{{ asset(Config::get('constants.tweet_images').$post->tweet_image) }}" class="img-responsive hidden-xs lightboxed" alt="">
+                                        </a>
                                     @endif
                                 </div>
                                 @if($post->tweet_image != null)
-                                    <div class="col-xs-12 visible-xs">
-                                        <img src="{{ asset(Config::get('constants.tweet_images').$post->tweet_image) }}" class="img-responsive" alt="">
-                                    </div>
+                                <div class="col-xs-12 visible-xs">
+                                    <a href="{{ asset(Config::get('constants.tweet_images').$post->original_image) }}" data-lightbox="box-{{ $post->id }}-mini">
+                                        <img src="{{ asset(Config::get('constants.tweet_images').$post->tweet_image) }}" class="img-responsive lightboxed" alt="">
+                                    </a>
+                                </div>
                                 @endif
                             </div>
                         </div>

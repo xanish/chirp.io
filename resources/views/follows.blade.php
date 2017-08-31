@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <img class="img-responsive img-circle"
-                                         src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
+                                         src="{{ asset(Config::get('constants.avatars').$person->profile_image) }}" alt="">
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                     <a href="/{{ $person->username }}">
@@ -24,10 +24,11 @@
                         </div>
                         @if($path == $user->username.'/following' and Auth::user()->username == $user->username)
                         <div class="card-action">
-                            {{--{!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$person->username]) !!}--}}
-                            <!-- onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();" -->
                             <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
-                            {{--{!! Form::close() !!}--}}
+                        </div>
+                        @else
+                        <div class="card-action">
+                            <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
                         </div>
                         @endif
                     </div>

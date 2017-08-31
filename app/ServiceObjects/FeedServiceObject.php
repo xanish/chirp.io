@@ -28,7 +28,7 @@ class FeedServiceObject
 
         $feed = $this->tweet->whereIn('user_id', $followingids)
         ->join('users', 'tweets.user_id', '=', 'users.id')
-        ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+        ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
         ->orderBy('id', 'DESC')
         ->get();
 
@@ -52,6 +52,7 @@ class FeedServiceObject
               'id' => $tweet->id,
               'text' => explode(' ', $tweet->text),
               'tweet_image' => $tweet->tweet_image,
+              'original_image' => $tweet->original_image,
               'created_at' => $tweet->created_at,
               'likes' => $tweet->likes()->count(),
               'name' => $tweet->name,

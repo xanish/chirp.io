@@ -13,6 +13,7 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('font/icofont.ttf') }}" rel="application/x-font-ttf">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
 </head>
 <body>
 <div id="app">
@@ -27,6 +28,6 @@
 <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/mdb.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
-<script src="https://use.fontawesome.com/dfa2b313d5.js"></script>
+<script src="{{ asset('js/lightbox.js') }}" type="text/javascript"></script>
 </body>
 </html>

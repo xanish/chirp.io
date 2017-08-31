@@ -32,12 +32,18 @@ class UserProfileServiceObject
         $baseData = $this->getBaseDetails($username);
         $tweets = $baseData['user']->tweets()->get();
         $posts = [];
-        $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
+        if (Auth::user()) {
+            $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
+        }
+        else {
+            $liked = [];
+        }
         foreach ($tweets as $tweet) {
             $post = array(
                 'id' => $tweet->id,
                 'text' => explode(' ', $tweet->text),
                 'tweet_image' => $tweet->tweet_image,
+                'original_image' => $tweet->original_image,
                 'created_at' => $tweet->created_at,
                 'likes' => $tweet->likes()->count(),
                 'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
@@ -58,7 +64,7 @@ class UserProfileServiceObject
     public function getFollowers($username)
     {
         $baseData = $this->getBaseDetails($username);
-        $followers = $baseData['user']->followers()->get();
+        $followers = $baseData['user']->followers()->orderBy('name')->get();
         return array(
             'user' => $baseData['user'],
             'people' => $followers,
@@ -71,7 +77,7 @@ class UserProfileServiceObject
     public function getFollowing($username)
     {
         $baseData = $this->getBaseDetails($username);
-        $followers = $baseData['user']->following()->get();
+        $followers = $baseData['user']->following()->orderBy('name')->get();
         return array(
             'user' => $baseData['user'],
             'people' => $followers,
