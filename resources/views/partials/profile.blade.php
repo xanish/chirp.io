@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+var _username = {!! json_encode($user->username) !!}
+</script>
     <div class="parallax" style="background-image: url('{{ asset(Config::get('constants.banners').$user->profile_banner) }}')"></div>
     <nav class="navbar default-color">
         <div class="container">

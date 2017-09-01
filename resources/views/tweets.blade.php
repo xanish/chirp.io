@@ -1,69 +1,25 @@
 @extends('partials.profile')
 
 @section('data')
-<div class="col-lg-8 col-md-9 col-sm-9 col-xs-12" >
-    @if(!Auth::guest())
-        @if(Auth::user()->username == $user->username)
+    <div class="col-lg-8 col-md-9 col-sm-9 col-xs-12" >
+        @if(!Auth::guest())
+          @if(Auth::user()->username == $user->username)
             @include('partials.tweet_form')
-        @endif
-    @endif
-    <div id="feed-tweet">
-        @foreach($posts as $tweet)
-        <div class="card">
-            <div class="card-content">
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
-                        <img class="img-responsive img-circle"
-                             src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
-                        <ul class="list-unstyled list-inline">
-                            <li><h6>{{ $user->name }}</h6></li>
-                            <li>{{ '@'.$user->username }}</li>
-                            <li>{{ $tweet->created_at->toDayDateTimeString() }}</li>
-                        </ul>
-                        <p>
-                            @foreach($tweet->text as $word)
-                                @if(in_array($word, $tweet->tags))
-                                    <a href="/tag/{{ ltrim($word, '#') }}">{{ $word }}</a>
-                                @else
-                                    {{ $word }}
-                                @endif
-                            @endforeach
-                        </p>
-                        @if($tweet->tweet_image != null)
-                            <a href="{{ asset(Config::get('constants.tweet_images').$tweet->original_image) }}" data-lightbox="box-{{ $tweet->id }}">
-                                <img src="{{ asset(Config::get('constants.tweet_images').$tweet->tweet_image) }}" class="img-responsive hidden-xs lightboxed" alt="">
-                            </a>
-                        @endif
-                    </div>
-                    @if($tweet->tweet_image != null)
-                        <div class="col-xs-12 visible-xs">
-                            <a href="{{ asset(Config::get('constants.tweet_images').$tweet->original_image) }}" data-lightbox="box-{{ $tweet->id }}-mini">
-                                <img src="{{ asset(Config::get('constants.tweet_images').$tweet->tweet_image) }}" class="img-responsive visible-xs lightboxed" alt="">
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            </div>
-            @if (Auth::guest())
-                <div class="card-action">
-                    <h6><a class="red-text" href="/login"><i class="material-icons">favorite_border</i> <span>{{ $tweet->likes }}</span></a></h6>
-                </div>
-            @else
-                @if(in_array($tweet->id, $liked))
-                    <div class="card-action">
-                        <h6><a class="red-text unlikes" id="{{ $tweet->id }}"><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
-                    </div>
-                @else
-                    <div class="card-action">
-                        <h6><a class="red-text likes" id="{{ $tweet->id }}"><i class="material-icons">favorite_border</i> <span>{{ $tweet->likes }}</span></a></h6>
-                    </div>
-                @endif
             @endif
+        @endif
+        <div id="feed-tweet">
+
         </div>
-        <div class="margin-top-10"></div>
-        @endforeach
+        <div class="spinner" id="loading">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div class="stream-end">
+            <i class="icofont icofont-animal-woodpecker"></i>
+            <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>
+        </div>
     </div>
-</div>
 @endsection
