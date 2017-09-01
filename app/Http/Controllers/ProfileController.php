@@ -13,9 +13,15 @@ class ProfileController extends Controller
     public function __construct(UserProfileServiceObject $profileSO)
     {
         $this->middleware('auth')->except([
-            'profile'
+            'profile',
+            'fetchTweets'
         ]);
         $this->profileSO = $profileSO;
+    }
+
+    public function fetchTweets(Request $request) {
+      $tweets = $this->profileSO->getTweets($request->username, $request->lastid);
+      return response($tweets);
     }
 
     public function profile(Request $request, $username)
@@ -24,11 +30,9 @@ class ProfileController extends Controller
         $path = $request->path();
         return view('tweets')->with([
             'user' => $profileData['user'],
-            'posts' => $profileData['posts'],
             'tweet_count' => $profileData['tweet_count'],
             'follower_count' => $profileData['follower_count'],
             'following_count' => $profileData['following_count'],
-            'liked' => $profileData['liked'],
             'path' => $path,
         ]);
     }
