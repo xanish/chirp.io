@@ -17,8 +17,6 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->delete();
         factory(App\User::class, 50)->create()->each(function ($u) {
-            $u->following()->attach(1);
-            $u->following()->attach(2);
             for ($i=0; $i < 100; $i++) {
                 $u->tweets()->save(factory(App\Tweet::class)->make());
             }

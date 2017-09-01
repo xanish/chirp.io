@@ -235,4 +235,44 @@ $(document).ready(function() {
             $('#search-results-dropdown').hide();
         }
     });
+
+    $('#search').keyup(function () {
+        if ($(this).val() != '') {
+            $('#main-results-dropdown').show();
+            $.ajax({
+                url: '/search',
+                type: 'GET',
+                data: {
+                    'q': $(this).val()
+                },
+                success: function (data) {
+                    $('.search-item').remove();
+                    $('.grey-text').remove();
+                    console.log(data);
+                    if (data.length == 0) {
+                        $element = "<li class='row search-item'><a class='col-xs-12'>No Results Found</a></li>"
+                        $('#main-results-dropdown').prepend($element);
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $element = "<div class='row search-item'><div class='col-lg-1 col-md-3 col-sm-2 col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
+                            "' alt=''></div><div class='col-lg-11 col-md-9 col-sm-10 col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled text-left'><li><h6>" + data[i].name +
+                            "</h6></li><li>" + data[i].username + "</li></ul></a></div></div>";
+                            $('#main-results-dropdown').prepend($element);
+                        }
+                        $('#main-results-dropdown').prepend('<h5 class="grey-text">Users</h5>');
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+            return false;
+        }
+        else {
+            $('.search-item').remove();
+            $('.grey-text').remove();
+            $('#main-results-dropdown').hide();
+        }
+    });
 });
