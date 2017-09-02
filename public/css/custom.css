@@ -264,3 +264,6 @@ textarea:focus {
 .lightboxed:hover {
     opacity: .9;
 }
+.text {
+  overflow-wrap: break-word;
+}

@@ -1,5 +1,4 @@
 var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
-
 $('#search-results-dropdown').hide();
 try {
     document.getElementById('tweet_image_file').onchange = function () {
@@ -62,24 +61,24 @@ $('#form').submit(function() {
             //$("#tweeteditor").html('');
             $("#tweetbox").keyup();
             $("#tweet_image_file").val('');
-
             if (data.element.image != 'tweet_images/') {
                 $response = $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li> @" + data.element.username +
-                "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p><img src='" + data.element.image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.element.image +
-                "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite_border</i> 0</a></h6></div></div>" + "<div class='margin-top-10'></div>";
+                "</li><li>" + data.element.date + "</li></ul><p class='text'>";
+                addHashTags(data.element.tags, data.element.text);
+                $response += "</p><a href='" + data.element.original + "' data-lightbox='box-" + data.element.id + "'><img src='" + data.element.image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
+                "<div class='col-xs-12 visible-xs'><a href='" + data.element.original + "' data-lightbox='box-" + data.element.id + "-mini'><img src='" + data.element.image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
+                $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + data.element.id + "'><i class='material-icons'>favorite_border</i> <span>0</span></a></h6></div></div>" + "<div class='margin-top-10'></div>";
             }
             else {
                 $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li> @" + data.element.username +
-                "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite_border</i> 0</a></h6></div></div>" + "<div class='margin-top-10'></div>";
+                "</li><li>" + data.element.date + "</li></ul><p class='text'>";
+                addHashTags(data.element.tags, data.element.text);
+                $response += "</p></div></div></div><div class='card-action'>" + "<h6><a class='red-text likes' id='" + data.element.id + "'><i class='material-icons'>favorite_border</i> <span>0</span></a></h6></div></div>" + "<div class='margin-top-10'></div>";
             }
             $("#feed-tweet").prepend($response);
-            //$("#tweettext").val('');
-            //$("#tweetbox").keyup();
             //$("#count-bar").load(' #nav-links');
-            //$("#feed").prepend(data.element);
-            //parseEmoji();
 
             $('#attach').remove();
             $successmsg = '<div class="alert alert-success" id="postsuccess"><ul><li>Posted Successfully</li></ul></div>';
@@ -360,8 +359,8 @@ $(document).ready(function() {
             if (data.posts[i].tweet_image != 'tweet_images/') {
                 $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
-                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                 addHashTags(data);
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p class='text'>";
+                 addHashTags(data.posts[i].tags, data.posts[i].text);
                  $response += "</p><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "'><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
                  "<div class='col-xs-12 visible-xs'><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "-mini'><img src='" + data.posts[i].tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
                  addLikes(data);
@@ -370,8 +369,8 @@ $(document).ready(function() {
             else {
                 $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
-                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                addHashTags(data);
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p class='text'>";
+                addHashTags(data.posts[i].tags, data.posts[i].text);
                 $response += "</p></div></div></div>";
                 addLikes(data);
                 $response += "</div>" + "<div class='margin-top-10'></div>";
@@ -393,7 +392,7 @@ $(document).ready(function() {
           bindscroll();
             if(__lastid == null) {
               //$("#loading").hide();
-              $(".stream-end").show();
+              showBackToTop();
             }
         }
     });
@@ -416,8 +415,8 @@ $(document).ready(function() {
             if (data.posts[i].tweet_image != 'tweet_images/') {
                 $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
-                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                addHashTags(data);
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p class='text'>";
+                addHashTags(data.posts[i].tags, data.posts[i].text);
                 $response += "</p><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "'><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
                 "<div class='col-xs-12 visible-xs'><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "-mini'><img src='" + data.posts[i].tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
                 addLikes(data);
@@ -426,8 +425,8 @@ $(document).ready(function() {
             else {
                 $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
-                "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                addHashTags(data);
+                "</li><li>" + data.posts[i].created_at + "</li></ul><p class='text'>";
+                addHashTags(data.posts[i].tags, data.posts[i].text);
                 $response += "</p></div></div></div>";
                 addLikes(data);
                 $response += "</div>" + "<div class='margin-top-10'></div>";
@@ -448,7 +447,7 @@ $(document).ready(function() {
           bindscroll();
             if(__feedlastid == null) {
               //$("#loading").hide();
-              $(".stream-end").show();
+              showBackToTop();
               //$(".stream-end").css("display", "block");
             }
         }
@@ -488,10 +487,10 @@ $(document).ready(function() {
   return str.replace(rgxtrim, '');
   }
 
-  function addHashTags(data) {
-    for( j=0; j<data.posts[i].text.length; j++) {
-      var chirptext = data.posts[i].text[j];
-      if(jQuery.inArray(chirptext, data.posts[i].tags) != -1) {
+  function addHashTags(tagArr, textArr) {
+    for( j=0; j<textArr.length; j++) {
+      var chirptext = $.trim(textArr[j]);
+      if(jQuery.inArray(chirptext, tagArr) != -1) {
         var taggedtext = ltrim(chirptext, '#');
         $response += "<a href='/tag/" + taggedtext + "'>" + chirptext + "</a>" + " ";
       }
@@ -513,6 +512,12 @@ $(document).ready(function() {
     }
     else {
       $response += "<div class='card-action'>" + "<h6><a class='red-text'  href='/login'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+    }
+  }
+
+  function showBackToTop() {
+    if ($('#feed-tweet').outerHeight(true) > $(window).height()) {
+      $('.stream-end').show();
     }
   }
 
