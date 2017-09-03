@@ -277,3 +277,28 @@ textarea:focus {
   border-style: solid;
   border-color: #2BBBAD;
 }
+#main-results-dropdown {
+    position: absolute;
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    overflow: scroll;
+}
+#search-results-dropdown {
+    height: 500px;
+    overflow: scroll;
+}
+#notweetmessage {
+  display: none;
+  padding-top: 10em;
+  color: grey;
+  padding-bottom: 10em;
+  text-align: center;
+}
+#notweetmessageprofile {
+  display: none;
+  padding-top: 5em;
+  color: grey;
+  text-align: center;
+}

@@ -34,4 +34,17 @@ class UpdateProfileRequest extends FormRequest
             'profile_banner' => 'dimensions:min_width=900,min_height=400|image|max:5000',
         ];
     }
+
+    /**
+     * Get the validation messages for the specified rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+         return [
+              'profile_image.dimensions' => 'The avatar must be atleast 500x500 pixels',
+              'profile_banner.dimensions' => 'The banner must be atleast 900x400 pixels',
+         ];
+    }
 }

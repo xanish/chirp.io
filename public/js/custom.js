@@ -1,5 +1,6 @@
 var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
 var $newtweetbuffer = " ";
+var tweetcounter = 0;
 $('#search-results-dropdown').hide();
 try {
     document.getElementById('tweet_image_file').onchange = function () {
@@ -56,6 +57,7 @@ $('#form').submit(function() {
         contentType: false,
         processData: false,
         success: function(data) {
+            $("#notweetmessageprofile").hide();
             $response = '';
             console.log(data);
             $("#tweetbox").val('');
@@ -98,6 +100,11 @@ $('#form').submit(function() {
                 });
                 console.log(xhr);
             }
+        },
+        complete: function() {
+          if(__lastid == null) {
+            showBackToTop();
+          }
         }
     });
     return false;
@@ -352,6 +359,10 @@ $(document).ready(function() {
         success: function(data) {
             console.log(data);
             var $finaldata = " ";
+            if(data.posts.length != 0) {
+              //$("#notweetmessageprofile").hide();
+              tweetcounter += data.posts.length;
+            }
             for( i=0; i<data.posts.length; i++ ) {
               $finaldata += tweetBuilder(data.posts[i].id,
                                          data.user.profile_image,
@@ -379,6 +390,9 @@ $(document).ready(function() {
         complete: function() {
           $("#loading").hide();
           bindscroll();
+          if(tweetcounter == 0) {
+            $("#notweetmessageprofile").show();
+          }
             if(__lastid == null) {
               //$("#loading").hide();
               showBackToTop();
@@ -406,6 +420,8 @@ $(document).ready(function() {
               if(data.posts[0].id > __feedcurrentid) {
                 __feedcurrentid = data.posts[0].id;
               }
+              $("#notweetmessage").hide();
+              tweetcounter += parseFloat(data.posts.length);
             }
             for( i=0; i<data.posts.length; i++ ) {
             $finaldata += tweetBuilder(data.posts[i].id,
@@ -447,6 +463,9 @@ $(document).ready(function() {
         complete: function() {
           $("#loading").hide();
           bindscroll();
+          if(tweetcounter == 0) {
+            $("#notweetmessage").show();
+          }
             if(__feedlastid == null) {
               //$("#loading").hide();
               showBackToTop();
@@ -523,7 +542,7 @@ $(document).ready(function() {
 
   function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
     if (tweet_image != 'tweet_images/') {
-        $response =   "<div class='card'>" +
+        $response =   "<div class='card hoverable'>" +
                         "<div class='card-content'>" +
                           "<div class='row'>" +
                             "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
@@ -555,7 +574,7 @@ $(document).ready(function() {
                       "</div>";
       }
     else {
-        $response =   "<div class='card'>" +
+        $response =   "<div class='card hoverable'>" +
                         "<div class='card-content'>" +
                           "<div class='row'>" +
                             "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
@@ -631,7 +650,7 @@ $(document).ready(function() {
                         for (var i = 0; i < data.length; i++) {
                             $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
                             "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                            "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                            "</h6></li><li>@" + data[i].username + "</li></ul></a></div></li>";
                             $('#search-results-dropdown').prepend($element);
                         }
                     }
