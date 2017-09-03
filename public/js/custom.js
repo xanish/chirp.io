@@ -631,7 +631,7 @@ $(document).ready(function() {
                         for (var i = 0; i < data.length; i++) {
                             $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
                             "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                            "</h6></li><li>" + data[i].username + "</li></ul></a></div></li>";
+                            "</h6></li><li>@" + data[i].username + "</li></ul></a></div></li>";
                             $('#search-results-dropdown').prepend($element);
                         }
                     }

@@ -23,7 +23,22 @@ class SearchServiceObject
                 ->orWhere('username', 'LIKE', '%'.$criteria.'%')
                 ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
                 ->orderBy('name')
+                ->limit(10)
                 ->get();
+        } catch (Exception $e) {
+            throw new Exception("Unable To Get Search Results From DB");
+        }
+        return $data;
+    }
+
+    public function getSearchResultsPaginated($criteria)
+    {
+        try {
+            $data = $this->user->where('name', 'LIKE', '%'.$criteria.'%')
+                ->orWhere('username', 'LIKE', '%'.$criteria.'%')
+                ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
+                ->orderBy('name')
+                ->paginate(20);
         } catch (Exception $e) {
             throw new Exception("Unable To Get Search Results From DB");
         }
@@ -34,7 +49,7 @@ class SearchServiceObject
     {
         $ids = [];
         try {
-            $data = $this->getSearchResults($criteria);
+            $data = $this->getSearchResultsPaginated($criteria);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
