@@ -83,13 +83,13 @@ var _username = {!! json_encode($user->username) !!}
                         @elseif(Auth::user()->username == $user->username)
                             {{--Display nothing--}}
                         @elseif(Auth::user()->follows($user->id) == true)
-                            {!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$user->username]) !!}
-                            <button type="submit" class="btn btn-danger" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
-                            {!! Form::close() !!}
+                            <div class="card-action">
+                                <button type="button" id="{{ $user->id }}" class="btn btn-danger unfollow">Unfollow</button>
+                            </div>
                         @elseif(Auth::user()->follows($user->id) == false)
-                            {!! Form::open(['method' => 'POST', 'url' => '/follow/'.$user->username]) !!}
-                            <button type="submit" class="btn btn-default" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
-                            {!! Form::close() !!}
+                            <div class="card-action">
+                                <button type="button" id="{{ $user->id }}" class="btn btn-default follow">Follow</button>
+                            </div>
                         @endif
                     </li>
                 </ul>

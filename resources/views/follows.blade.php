@@ -22,14 +22,16 @@
                                 </div>
                             </div>
                         </div>
-                        @if($path == $user->username.'/following' and Auth::user()->username == $user->username)
-                        <div class="card-action">
-                            <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
-                        </div>
-                        @else
-                        <div class="card-action">
-                            <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
-                        </div>
+                        @if($user->username == Auth::user()->username)
+                            @if($path == $user->username.'/following' and Auth::user()->username == $user->username)
+                            <div class="card-action">
+                                <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
+                            </div>
+                            @else
+                            <div class="card-action">
+                                <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
+                            </div>
+                            @endif
                         @endif
                     </div>
                     <div class="margin-top-10"></div>
