@@ -11,8 +11,8 @@ var _username = {!! json_encode($user->username) !!}
                 <img class="img-responsive img-circle profile-img"
                      src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
             </div>
-            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-                <ul class="nav navbar-nav">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12" id="count-bar">
+                <ul id="navcount" class="nav navbar-nav">
                     @if($path === $user->username)
                         <li class="active">
                     @else
@@ -78,18 +78,18 @@ var _username = {!! json_encode($user->username) !!}
                         <h6><i class="material-icons">date_range</i> Joined {{ $user->created_at->toFormattedDateString() }}</h6>
                     </li>
                     <li>
-                        @if(Auth::guest())
+                      @if(Auth::guest())
                             <a class="btn btn-default" href="login">Login To Follow</a>
                         @elseif(Auth::user()->username == $user->username)
                             {{--Display nothing--}}
                         @elseif(Auth::user()->follows($user->id) == true)
-                            {!! Form::open(['method' => 'DELETE', 'url' => '/unfollow/'.$user->username]) !!}
-                            <button type="submit" class="btn btn-danger" onclick="this.disabled=true;this.innerHTML='Unfollowing'; this.form.submit();">Unfollow</button>
-                            {!! Form::close() !!}
+                            <div class="card-action">
+                                <button type="button" id="{{ $user->id }}" class="btn btn-danger unfollow">Unfollow</button>
+                            </div>
                         @elseif(Auth::user()->follows($user->id) == false)
-                            {!! Form::open(['method' => 'POST', 'url' => '/follow/'.$user->username]) !!}
-                            <button type="submit" class="btn btn-default" onclick="this.disabled=true;this.innerHTML='Following..'; this.form.submit();">Follow</button>
-                            {!! Form::close() !!}
+                            <div class="card-action">
+                                <button type="button" id="{{ $user->id }}" class="btn btn-default follow">Follow</button>
+                            </div>
                         @endif
                     </li>
                 </ul>

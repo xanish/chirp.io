@@ -264,3 +264,11 @@ textarea:focus {
 .lightboxed:hover {
     opacity: .9;
 }
+.text {
+  overflow-wrap: break-word;
+}
+.tweet-alert {
+  display: none;
+  cursor: pointer;
+  text-align: center;
+}

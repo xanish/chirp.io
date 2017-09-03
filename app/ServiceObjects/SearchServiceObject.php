@@ -51,15 +51,17 @@ class SearchServiceObject
             ->join('tweets', 'tweets.id', '=', 'hashtags.tweet_id')
             ->join('users', 'users.id', '=', 'tweets.user_id')
             ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
-            ->get();
+            ->orderBy('tweets.id', 'DESC')->get();
         $posts = [];
         foreach($tweets as $tweet) {
+            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+            $tweet->text = str_replace("\n", " ", $tweet->text);
             $post = array(
                 'username' => $tweet->username,
                 'name' => $tweet->name,
                 'profile_image' => $tweet->profile_image,
                 'id' => $tweet->id,
-                'text' => explode(' ', $tweet->text),
+                'text' => explode(" ", $tweet->text),
                 'tweet_image' => $tweet->tweet_image,
                 'original_image' => $tweet->original_image,
                 'likes' => Tweet::find($tweet->id)->likes()->count(),

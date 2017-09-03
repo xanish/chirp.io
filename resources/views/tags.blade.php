@@ -20,9 +20,9 @@
                         <p>
                             @foreach($post->text as $word)
                                 @if(in_array($word, $post->tags))
-                                    <a href="/tag/{{ ltrim($word, '#') }}">{{ $word }}</a>
+                                    <a href="/tag/{{ ltrim($word, '#') }}">{!! $word !!}</a>
                                 @else
-                                    {{ $word }}
+                                    {!! $word !!}
                                 @endif
                             @endforeach
                         </p>
