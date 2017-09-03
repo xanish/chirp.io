@@ -128,10 +128,9 @@
 .main-page-search-field {
     background-color: #fff !important;
     color: #636b6f;
-    padding: 5px 0 5px 0 !important;
+    padding: 5px 10px 5px 10px !important;
     border-bottom: none !important;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12) !important;
-    text-align: center;
 }
 .main-page-search-field:hover, .main-page-search-field:focus {
     background-color: #fff !important;
@@ -265,13 +264,6 @@ textarea:focus {
 .lightboxed:hover {
     opacity: .9;
 }
-#main-results-dropdown {
-    position: absolute;
-    height: 500px;
-    background-color: #fff;
-    border: 1px solid rgba(0,0,0,0.2);
-    box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
-    overflow: scroll;
 .text {
   overflow-wrap: break-word;
 }
@@ -279,4 +271,12 @@ textarea:focus {
   display: none;
   cursor: pointer;
   text-align: center;
+}
+#main-results-dropdown {
+    position: absolute;
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+    overflow: scroll;
 }

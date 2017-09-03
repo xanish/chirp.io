@@ -47,7 +47,7 @@ class SearchServiceObject
 
     public function getTweetsByTag($tag)
     {
-        $tweets = Hashtag::where('tag', '#'.$tag)
+        $tweets = Hashtag::where('tag', $tag)
             ->join('tweets', 'tweets.id', '=', 'hashtags.tweet_id')
             ->join('users', 'users.id', '=', 'tweets.user_id')
             ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
@@ -56,6 +56,11 @@ class SearchServiceObject
         foreach($tweets as $tweet) {
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
             $tweet->text = str_replace("\n", " ", $tweet->text);
+            $temptags = Tweet::find($tweet->id)->hashtags()->pluck('tag')->toArray();
+            $tags = [];
+            foreach ($temptags as $tag) {
+                array_push($tags, '#'.$tag);
+            }
             $post = array(
                 'username' => $tweet->username,
                 'name' => $tweet->name,
@@ -65,7 +70,7 @@ class SearchServiceObject
                 'tweet_image' => $tweet->tweet_image,
                 'original_image' => $tweet->original_image,
                 'likes' => Tweet::find($tweet->id)->likes()->count(),
-                'tags' => Tweet::find($tweet->id)->hashtags()->pluck('tag')->toArray(),
+                'tags' => $tags,
                 'created_at' => $tweet->created_at,
             );
             array_push($posts, (object)$post);
