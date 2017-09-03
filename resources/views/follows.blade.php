@@ -22,6 +22,7 @@
                                 </div>
                             </div>
                         </div>
+
                         @if($user->username == Auth::user()->username)
                             @if($path == $user->username.'/following' and Auth::user()->username == $user->username)
                             <div class="card-action">

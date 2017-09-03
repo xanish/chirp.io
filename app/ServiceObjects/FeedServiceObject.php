@@ -18,7 +18,7 @@ class FeedServiceObject
         $this->tweet = $tweet;
     }
 
-    public function getFeed($lastid)
+    public function getFeed($lastid, $currentid)
     {
         $id = Auth::id();
         $user = $this->user->find($id);
@@ -27,6 +27,7 @@ class FeedServiceObject
         $following_count = $user->following()->count();
         $followingids = $user->following()->pluck('follows');
         $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
+        $currentdata = 0;
 
         if($lastid != '') {
         $feed = $this->tweet->whereIn('user_id', $followingids)
@@ -35,6 +36,15 @@ class FeedServiceObject
         ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
         ->orderBy('tweets.id', 'DESC')
         ->take(20)->get();
+        }
+        elseif ($currentid != '') {
+          $currentdata = 1;
+          $feed = $this->tweet->whereIn('user_id', $followingids)
+          ->where('tweets.id', '>', $currentid)
+          ->join('users', 'tweets.user_id', '=', 'users.id')
+          ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+          ->orderBy('tweets.id', 'DESC')
+          ->get();
         }
         else {
           $feed = Tweet::whereIn('user_id', $followingids)
@@ -48,7 +58,8 @@ class FeedServiceObject
 
         return array(
             'posts' => $posts,
-            'liked' => $liked
+            'liked' => $liked,
+            'currentdata' => $currentdata,
         );
     }
 
@@ -72,9 +83,11 @@ class FeedServiceObject
     {
         $posts = [];
           foreach ($feed as $tweet) {
+          $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+          $tweet->text = str_replace("\n", " ", $tweet->text);
           $post = array(
               'id' => $tweet->id,
-              'text' => explode(' ', nl2br(e($tweet->text))),
+              'text' => explode(" ", $tweet->text),
               'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
               'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),

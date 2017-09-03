@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof \Illuminate\Database\QueryException) {
-            return response()->view('errors.500');
+            //return response()->view('errors.500');
         }
         return parent::render($request, $exception);
     }
@@ -79,7 +79,7 @@ class Handler extends ExceptionHandler
             $e = FlattenException::create($exception);
             $handler = new SymfonyExceptionHandler();
             $html = $handler->getHtml($e);
-            Mail::to('')->send(new Error($html));
+            Mail::to('developer@example.com')->send(new Error($html));
         } catch (Exception $ex) {
             dd($ex);
         }

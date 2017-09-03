@@ -39,15 +39,17 @@ class TweetServiceObject
         try {
             $image_name = $this->createImage($request->tweet_image);
             $tweet_id = $this->saveTweet($user->id, $request->tweet_text, $image_name);
+            $request->tweet_text = str_replace("<br />", "  <br/> ", nl2br(e($request->tweet_text)));
+            $request->tweet_text = str_replace("\n", " ", $request->tweet_text);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
         return [
             'tweet_id' => $tweet_id,
-            'text' => $request->tweet_text,
+            'text' => explode(' ', $request->tweet_text),
             'image' => Config::get("constants.tweet_images").$image_name,
             'original' => Config::get("constants.tweet_images").'original_'.$image_name,
-            'date' => Carbon::now()->diffForHumans(),
+            'date' => Carbon::now()->toDayDateTimeString(),
             'name' => $user->name,
             'username' => $user->username,
             'avatar' => Config::get("constants.avatars").$user->profile_image,

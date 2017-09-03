@@ -11,8 +11,8 @@ var _username = {!! json_encode($user->username) !!}
                 <img class="img-responsive img-circle profile-img"
                      src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
             </div>
-            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-                <ul class="nav navbar-nav">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12" id="count-bar">
+                <ul id="navcount" class="nav navbar-nav">
                     @if($path === $user->username)
                         <li class="active">
                     @else
@@ -78,7 +78,7 @@ var _username = {!! json_encode($user->username) !!}
                         <h6><i class="material-icons">date_range</i> Joined {{ $user->created_at->toFormattedDateString() }}</h6>
                     </li>
                     <li>
-                        @if(Auth::guest())
+                      @if(Auth::guest())
                             <a class="btn btn-default" href="login">Login To Follow</a>
                         @elseif(Auth::user()->username == $user->username)
                             {{--Display nothing--}}

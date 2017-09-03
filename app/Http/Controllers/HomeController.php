@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function getfeed(Request $request)
     {
-        $response = $this->feedSO->getFeed($request->lastid);
+        $response = $this->feedSO->getFeed($request->lastid, $request->currentid);
         return response($response);
     }
 }

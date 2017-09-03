@@ -52,9 +52,11 @@ class UserProfileServiceObject
 
             $posts = [];
             foreach ($tweets as $tweet) {
+              $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+              $tweet->text = str_replace("\n", " ", $tweet->text);
               $post = array(
               'id' => $tweet->id,
-              'text' => explode(' ', nl2br(e($tweet->text))),
+              'text' => explode(" ", $tweet->text),
               'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
               'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),

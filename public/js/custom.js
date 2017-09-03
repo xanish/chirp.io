@@ -1,5 +1,5 @@
 var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
-
+var $newtweetbuffer = " ";
 $('#search-results-dropdown').hide();
 try {
     document.getElementById('tweet_image_file').onchange = function () {
@@ -62,24 +62,24 @@ $('#form').submit(function() {
             //$("#tweeteditor").html('');
             $("#tweetbox").keyup();
             $("#tweet_image_file").val('');
-
             if (data.element.image != 'tweet_images/') {
                 $response = $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li> @" + data.element.username +
-                "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p><img src='" + data.element.image + "' class='img-responsive hidden-xs' alt=''></div><div class='col-xs-12 visible-xs'><img src='" + data.element.image +
-                "' class='img-responsive' alt=''></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite_border</i> 0</a></h6></div></div>" + "<div class='margin-top-10'></div>";
+                "</li><li>" + data.element.date + "</li></ul><p class='text'>";
+                addHashTags(data.element.tags, data.element.text);
+                $response += "</p><a href='" + data.element.original + "' data-lightbox='box-" + data.element.id + "'><img src='" + data.element.image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
+                "<div class='col-xs-12 visible-xs'><a href='" + data.element.original + "' data-lightbox='box-" + data.element.id + "-mini'><img src='" + data.element.image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
+                $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + data.element.id + "'><i class='material-icons'>favorite_border</i> <span>0</span></a></h6></div></div>" + "<div class='margin-top-10'></div>";
             }
             else {
                 $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
                 "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li> @" + data.element.username +
-                "</li><li>" + data.element.date + "</li></ul><p>" + data.element.text + "</p></div></div></div><div class='card-action'><h6><a class='red-text' href=''><i class='material-icons'>favorite_border</i> 0</a></h6></div></div>" + "<div class='margin-top-10'></div>";
+                "</li><li>" + data.element.date + "</li></ul><p class='text'>";
+                addHashTags(data.element.tags, data.element.text);
+                $response += "</p></div></div></div><div class='card-action'>" + "<h6><a class='red-text likes' id='" + data.element.id + "'><i class='material-icons'>favorite_border</i> <span>0</span></a></h6></div></div>" + "<div class='margin-top-10'></div>";
             }
             $("#feed-tweet").prepend($response);
-            //$("#tweettext").val('');
-            //$("#tweetbox").keyup();
-            //$("#count-bar").load(' #nav-links');
-            //$("#feed").prepend(data.element);
-            //parseEmoji();
+            $("#count-bar").load(' #navcount');
 
             $('#attach').remove();
             $successmsg = '<div class="alert alert-success" id="postsuccess"><ul><li>Posted Successfully</li></ul></div>';
@@ -109,10 +109,23 @@ $('#form').submit(function() {
 
 $(document).ready(function() {
 
-    if ( $('#feed-tweet').length ) {
-        unbindscroll();
-        $("#loading").show();
-        loadTweet(null);
+  if ( $('#feed-tweet').length ) {
+    unbindscroll();
+    $("#loading").show();
+    loadTweet(null);
+  }
+  if ( $('#feed').length ) {
+    unbindscroll();
+    $("#loading").show();
+    loadFeed(null, null);
+  }
+
+  // autocomplete for cities and countries
+  $.fn.autoComplete = function(options) {
+    try {
+      var autocompleteService = new google.maps.places.AutocompleteService();
+    } catch (e) {
+      // console.log("Google maps script not available.");
     }
     if ( $('#feed').length ) {
         unbindscroll();
@@ -346,99 +359,112 @@ $(document).ready(function() {
 var __lastid;
 function loadTweet(_lastid) {
     try {
-        $.ajax({
-            url: 'gettweets',
-            type: 'GET',
-            data: {
-                username : _username,
-                lastid : _lastid
-            },
-            success: function(data) {
-                console.log(data);
-                var $finaldata = " ";
-                for( i=0; i<data.posts.length; i++ ) {
-                    if (data.posts[i].tweet_image != 'tweet_images/') {
-                        $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
-                        "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
-                        "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                        addHashTags(data);
-                        $response += "</p><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "'><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
-                        "<div class='col-xs-12 visible-xs'><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "-mini'><img src='" + data.posts[i].tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
-                        addLikes(data);
-                        $response += "</div>" + "<div class='margin-top-10'></div>";
-                    }
-                    else {
-                        $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.user.profile_image +
-                        "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.user.name + "</h6></li><li> @" + data.user.username +
-                        "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                        addHashTags(data);
-                        $response += "</p></div></div></div>";
-                        addLikes(data);
-                        $response += "</div>" + "<div class='margin-top-10'></div>";
-                    }
-                    __lastid = data.posts[i].id;
-                    $finaldata = $finaldata + $response;
-                }
-                //console.log(data);
-                if(data.posts.length == 0) {
-                    __lastid = null;
-                }
-                $("#feed-tweet").append($finaldata);
-            },
-            error: function(xhr) {
-                console.log(xhr);
-            },
-            complete: function() {
-                $("#loading").hide();
-                bindscroll();
-                if(__lastid == null) {
-                    //$("#loading").hide();
-                    $(".stream-end").show();
-                }
+    $.ajax({
+        url: 'gettweets',
+        type: 'GET',
+        data: {
+          username : _username,
+          lastid : _lastid
+        },
+        success: function(data) {
+            console.log(data);
+            var $finaldata = " ";
+            for( i=0; i<data.posts.length; i++ ) {
+              $finaldata += tweetBuilder(data.posts[i].id,
+                                         data.user.profile_image,
+                                         data.user.name,
+                                         data.user.username,
+                                         data.posts[i].created_at,
+                                         data.posts[i].text,
+                                         data.posts[i].tags,
+                                         data.posts[i].tweet_image,
+                                         data.posts[i].original_image,
+                                         data.liked,
+                                         data.posts[i].likes
+                                       );
+            __lastid = data.posts[i].id;
+            //$finaldata = $finaldata + $response;
+          }
+          if(data.posts.length == 0) {
+            __lastid = null;
+          }
+          $("#feed-tweet").append($finaldata);
+        },
+        error: function(xhr) {
+            console.log(xhr);
+        },
+        complete: function() {
+          $("#loading").hide();
+          bindscroll();
+            if(__lastid == null) {
+              //$("#loading").hide();
+              showBackToTop();
             }
         });
     }catch(e) {}
     return false;
 };
 
+<<<<<<< HEAD
 var __feedlastid;
 function loadFeed(_feedlastid) {
+=======
+  var __feedlastid;
+  var __feedcurrentid = null;
+  function loadFeed(_feedlastid, _feedcurrentid) {
+>>>>>>> 969e9d56392da9dad00f7a0648aed332f9bb3855
     $.ajax({
         url: 'getfeed',
         type: 'GET',
         data: {
+<<<<<<< HEAD
             lastid : _feedlastid
+=======
+          lastid : _feedlastid,
+          currentid : _feedcurrentid
+>>>>>>> 969e9d56392da9dad00f7a0648aed332f9bb3855
         },
         success: function(data) {
             console.log(data);
             var $finaldata = " ";
+            if(data.posts.length !=0) {
+              if(data.posts[0].id > __feedcurrentid) {
+                __feedcurrentid = data.posts[0].id;
+              }
+            }
             for( i=0; i<data.posts.length; i++ ) {
-                if (data.posts[i].tweet_image != 'tweet_images/') {
-                    $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
-                    "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
-                    "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                    addHashTags(data);
-                    $response += "</p><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "'><img src='" + data.posts[i].tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
-                    "<div class='col-xs-12 visible-xs'><a href='" + data.posts[i].original_image + "' data-lightbox='box-" + data.posts[i].id + "-mini'><img src='" + data.posts[i].tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
-                    addLikes(data);
-                    $response += "</div>" + "<div class='margin-top-10'></div>";
-                }
-                else {
-                    $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.posts[i].profile_image +
-                    "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.posts[i].name + "</h6></li><li> @" + data.posts[i].username +
-                    "</li><li>" + data.posts[i].created_at + "</li></ul><p>";
-                    addHashTags(data);
-                    $response += "</p></div></div></div>";
-                    addLikes(data);
-                    $response += "</div>" + "<div class='margin-top-10'></div>";
-                }
-                __feedlastid = data.posts[i].id;
-                $finaldata = $finaldata + $response;
+            $finaldata += tweetBuilder(data.posts[i].id,
+                                       data.posts[i].profile_image,
+                                       data.posts[i].name,
+                                       data.posts[i].username,
+                                       data.posts[i].created_at,
+                                       data.posts[i].text,
+                                       data.posts[i].tags,
+                                       data.posts[i].tweet_image,
+                                       data.posts[i].original_image,
+                                       data.liked,
+                                       data.posts[i].likes
+                                     );
+            if(data.currentdata == 0) {
+            __feedlastid = data.posts[i].id;
             }
-            if(data.posts.length == 0) {
-                __feedlastid = null;
+            //$finaldata = $finaldata + $response;
+          }
+          if(data.posts.length == 0 && data.currentdata == 0) {
+            __feedlastid = null;
+          }
+          if(data.currentdata == 1) {
+            var count = parseFloat($("#newcount").text());
+            count += parseFloat(data.posts.length);
+            $("#newcount").text(count);
+            if(count > 0) {
+              $(".tweet-alert").show();
             }
+            $newtweetbuffer = $finaldata + $newtweetbuffer;
+          }
+          else {
             $("#feed").append($finaldata);
+          }
         },
         error: function(xhr) {
             console.log(xhr);
@@ -447,9 +473,8 @@ function loadFeed(_feedlastid) {
             $("#loading").hide();
             bindscroll();
             if(__feedlastid == null) {
-                //$("#loading").hide();
-                $(".stream-end").show();
-                //$(".stream-end").css("display", "block");
+              //$("#loading").hide();
+              showBackToTop();
             }
         }
     });
@@ -471,9 +496,9 @@ function bindscroll() {
             }
 
             if(__feedlastid != null) {
-                unbindscroll();
-                $("#loading").show();
-                loadFeed(__feedlastid);
+              unbindscroll();
+              $("#loading").show();
+              loadFeed(__feedlastid, null);
             }
         }
     });
@@ -483,41 +508,120 @@ function unbindscroll() {
     $(window).off('scroll');
 }
 
-function ltrim(str, chr) {
+  function ltrim(str, chr) {
     var rgxtrim = (!chr) ? new RegExp('^\\s+') : new RegExp('^'+chr+'+');
     return str.replace(rgxtrim, '');
-}
+  }
 
-function addHashTags(data) {
-    for( j=0; j<data.posts[i].text.length; j++) {
-        var chirptext = data.posts[i].text[j];
-        if(jQuery.inArray(chirptext, data.posts[i].tags) != -1) {
-            var taggedtext = ltrim(chirptext, '#');
-            $response += "<a href='/tag/" + taggedtext + "'>" + chirptext + "</a>" + " ";
-        }
-        else {
-            $response += chirptext + " ";
-        }
+  function addHashTags(tagArr, textArr) {
+    for( j=0; j<textArr.length; j++) {
+      var chirptext = textArr[j];
+      if(jQuery.inArray(chirptext, tagArr) != -1) {
+        var taggedtext = ltrim(chirptext, '#');
+        $response += "<a href='/tag/" + taggedtext + "'>" + chirptext + "</a>" + " ";
+      }
+      else {
+        $response += chirptext + " ";
+      }
     }
 }
 
-function addLikes(data) {
-    if(data.liked != -1) {
-        var tweet_id = data.posts[i].id;
-        if(jQuery.inArray(tweet_id, data.liked) != -1) {
-            $response += "<div class='card-action'>" + "<h6><a class='red-text unlikes' id='" + tweet_id + "'><i class='material-icons'>favorite</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+  function addLikes(likedArr, likescount, id) {
+    if(likedArr != -1) {
+        if(jQuery.inArray(id, likedArr) != -1) {
+          $response += "<div class='card-action'>" + "<h6><a class='red-text unlikes' id='" + id + "'><i class='material-icons'>favorite</i> <span>" + likescount + "</span></a></h6></div>";
         }
         else {
-            $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + tweet_id + "'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+          $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + id + "'><i class='material-icons'>favorite_border</i> <span>" + likescount + "</span></a></h6></div>";
         }
     }
     else {
-        $response += "<div class='card-action'>" + "<h6><a class='red-text'  href='/login'><i class='material-icons'>favorite_border</i> <span>" + data.posts[i].likes + "</span></a></h6></div>";
+      $response += "<div class='card-action'>" + "<h6><a class='red-text'  href='/login'><i class='material-icons'>favorite_border</i> <span>" + likescount + "</span></a></h6></div>";
     }
 }
 
-// update the dropdown city and country values
-function updatePredictionsDropDownDisplay(dropDown, input) {
+  function showBackToTop() {
+    if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) > $(window).height()) {
+      $('.stream-end').show();
+    }
+  }
+
+  function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
+    if (tweet_image != 'tweet_images/') {
+        $response =   "<div class='card'>" +
+                        "<div class='card-content'>" +
+                          "<div class='row'>" +
+                            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
+                              "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
+                            "</div>" +
+                            "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
+                              "<ul class='list-unstyled list-inline'>" +
+                              "<li><h6>" + name + "</h6></li>" +
+                              "<li><a href='" + username + "'> @" + username + "</a></li>" +
+                              "<li>" + created_at + "</li>" +
+                              "</ul>" +
+                              "<p class='text'>";
+                              addHashTags(tagArr, textArr);
+        $response +=          "</p>" +
+                              "<a href='" + original_image + "' data-lightbox='box-" + id + "'>" +
+                              "<img src='" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
+                              "</a>" +
+                            "</div>" +
+                            "<div class='col-xs-12 visible-xs'>" +
+                            "<a href='" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
+                            "<img src='" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+                            "</a>" +
+                            "</div>" +
+                          "</div>" +
+                        "</div>";
+                        addLikes(likedArr, likescount, id);
+        $response +=  "</div>" +
+                      "<div class='margin-top-10'>" +
+                      "</div>";
+      }
+    else {
+        $response =   "<div class='card'>" +
+                        "<div class='card-content'>" +
+                          "<div class='row'>" +
+                            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
+                              "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
+                            "</div>" +
+                            "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
+                              "<ul class='list-unstyled list-inline'>" +
+                              "<li><h6>" + name + "</h6></li>" +
+                              "<li><a href='" + username + "'> @" + username + "</a></li>" +
+                              "<li>" + created_at + "</li>" +
+                              "</ul>" +
+                              "<p class='text'>";
+                              addHashTags(tagArr, textArr);
+        $response +=          "</p>" +
+                            "</div>" +
+                          "</div>" +
+                        "</div>";
+                        addLikes(likedArr, likescount, id);
+        $response +=  "</div>" +
+                      "<div class='margin-top-10'>" +
+                      "</div>";
+    }
+    return $response;
+  }
+
+  window.setInterval(function() {
+    if(__feedcurrentid != null) {
+      loadFeed(null, __feedcurrentid);
+    }
+
+  }, 30000);
+
+  $(".tweet-alert").click(function() {
+    $(".tweet-alert").hide();
+    $("#newcount").text(0);
+    $($newtweetbuffer).hide().prependTo("#feed").fadeIn("slow");
+    $newtweetbuffer = " ";
+  });
+
+  // update the dropdown city and country values
+  function updatePredictionsDropDownDisplay(dropDown, input) {
     try {
         dropDown.css({
             'width': input.outerWidth(),
