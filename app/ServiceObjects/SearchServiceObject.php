@@ -38,7 +38,7 @@ class SearchServiceObject
                 ->orWhere('username', 'LIKE', '%'.$criteria.'%')
                 ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
                 ->orderBy('name')
-                ->paginate(20);
+                ->paginate(24);
         } catch (Exception $e) {
             throw new Exception("Unable To Get Search Results From DB");
         }

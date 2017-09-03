@@ -50,4 +50,9 @@
         @endforeach
     @endif
   </div>
+  @if(count($data) > 0)
+    <div class="text-center">
+        {{ $data->links() }}
+    </div>
+  @endif
 @endsection
