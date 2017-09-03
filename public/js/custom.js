@@ -62,22 +62,18 @@ $('#form').submit(function() {
             //$("#tweeteditor").html('');
             $("#tweetbox").keyup();
             $("#tweet_image_file").val('');
-            if (data.element.image != 'tweet_images/') {
-                $response = $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
-                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li> @" + data.element.username +
-                "</li><li>" + data.element.date + "</li></ul><p class='text'>";
-                addHashTags(data.element.tags, data.element.text);
-                $response += "</p><a href='" + data.element.original + "' data-lightbox='box-" + data.element.id + "'><img src='" + data.element.image + "' class='img-responsive hidden-xs lightboxed' alt=''></a></div>" +
-                "<div class='col-xs-12 visible-xs'><a href='" + data.element.original + "' data-lightbox='box-" + data.element.id + "-mini'><img src='" + data.element.image + "' class='img-responsive visible-xs lightboxed' alt=''></a></div></div></div>";
-                $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + data.element.id + "'><i class='material-icons'>favorite_border</i> <span>0</span></a></h6></div></div>" + "<div class='margin-top-10'></div>";
-            }
-            else {
-                $response = "<div class='card'><div class='card-content'><div class='row'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='" + data.element.avatar +
-                "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><ul class='list-unstyled list-inline'><li><h6>" + data.element.name + "</h6></li><li> @" + data.element.username +
-                "</li><li>" + data.element.date + "</li></ul><p class='text'>";
-                addHashTags(data.element.tags, data.element.text);
-                $response += "</p></div></div></div><div class='card-action'>" + "<h6><a class='red-text likes' id='" + data.element.id + "'><i class='material-icons'>favorite_border</i> <span>0</span></a></h6></div></div>" + "<div class='margin-top-10'></div>";
-            }
+            $reponse =    tweetBuilder(data.element.id,
+                                       data.element.avatar,
+                                       data.element.name,
+                                       data.element.username,
+                                       data.element.date,
+                                       data.element.text,
+                                       data.element.tags,
+                                       data.element.image,
+                                       data.element.original,
+                                       null,
+                                       0
+                                     );
             $("#feed-tweet").prepend($response);
             $("#count-bar").load(' #navcount');
 

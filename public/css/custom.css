@@ -269,6 +269,11 @@ textarea:focus {
 }
 .tweet-alert {
   display: none;
+  color: #2BBBAD;
   cursor: pointer;
   text-align: center;
+}
+#card-alert {
+  border-style: solid;
+  border-color: #2BBBAD;
 }

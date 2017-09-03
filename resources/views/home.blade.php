@@ -65,8 +65,8 @@
                 @include('partials.tweet_form')
 
                 <div class="tweet-alert">
-                    <div id="card-alert" class="card light-blue lighten-5">
-                      <div class="card-content light-blue-text">
+                    <div id="card-alert" class="alert alert-primary">
+                      <div class="alerttext">
                         <p>View <span id="newcount">0</span> new Tweet</p>
                       </div>
                     </div>
