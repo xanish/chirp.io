@@ -284,3 +284,16 @@ textarea:focus {
     height: 500px;
     overflow: scroll;
 }
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    background-color: #2BBBAD;
+    border-color: #2BBBAD;
+    cursor: default;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #2BBBAD;
+    background-color: #eee;
+    border-color: #ddd;
+}
