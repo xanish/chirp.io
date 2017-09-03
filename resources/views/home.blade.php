@@ -31,8 +31,8 @@
                                 </ul>
                             </a>
                         </div>
-                        <div class="col-lg-12">
-                            <ul class="list-unstyled list-inline">
+                        <div class="col-lg-12" id="count-bar">
+                            <ul id="navcount" class="list-unstyled list-inline">
                                 <li>
                                     <a href="/{{ $user->username }}">
                                         <ul class="list-unstyled">
@@ -64,6 +64,15 @@
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 @include('partials.tweet_form')
 
+                <div class="tweet-alert">
+                    <div id="card-alert" class="card light-blue lighten-5">
+                      <div class="card-content light-blue-text">
+                        <p>View <span id="newcount">0</span> new Tweet</p>
+                      </div>
+                    </div>
+                    <div class="margin-top-10">
+                    </div>
+                </div>
                 <div id="feed">
 
                 </div>

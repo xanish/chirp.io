@@ -39,7 +39,8 @@ class TweetServiceObject
         try {
             $image_name = $this->createImage($request->tweet_image);
             $tweet_id = $this->saveTweet($user->id, $request->tweet_text, $image_name);
-            $request->tweet_text = str_replace("\n", "  <br/> ", e($request->tweet_text));
+            $request->tweet_text = str_replace("<br />", "  <br/> ", nl2br(e($request->tweet_text)));
+            $request->tweet_text = str_replace("\n", " ", $request->tweet_text);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

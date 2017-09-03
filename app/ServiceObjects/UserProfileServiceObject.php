@@ -52,7 +52,8 @@ class UserProfileServiceObject
 
             $posts = [];
             foreach ($tweets as $tweet) {
-              $tweet->text = str_replace("\n", "  <br/> ", e($tweet->text));
+              $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+              $tweet->text = str_replace("\n", " ", $tweet->text);
               $post = array(
               'id' => $tweet->id,
               'text' => explode(" ", $tweet->text),
