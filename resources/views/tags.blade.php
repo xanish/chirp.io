@@ -16,8 +16,9 @@
                         </div>
                         <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
                             <ul class="list-unstyled list-inline">
-                                <li><h6>{{ $post->name }}</h6></li>
-                                <li>{{ '@'.$post->username }}</li>
+                                <li><h6><a href="/{{ $post->username }}">{{ $post->name }}</a></h6></li>
+                                <li><a href="/{{ $post->username }}">{{ '@'.$post->username }}</a></li>
+
                                 <li>{{ $post->created_at->toDayDateTimeString() }}</li>
                             </ul>
                             <p>

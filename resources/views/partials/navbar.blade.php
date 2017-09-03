@@ -22,6 +22,9 @@
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else
+                    <li>
+                        <a href="/{{ Auth::user()->username }}">Profile</a>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown"
                            role="button"
