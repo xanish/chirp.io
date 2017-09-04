@@ -19,12 +19,15 @@ class EditProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('edit', compact('user'));
+        $success = "";
+        return view('edit', compact('user', 'success'));
     }
 
     public function update(UpdateProfileRequest $request)
     {
         $this->updateSO->updateProfile($request);
-        return redirect('/edit-profile');
+        $user = Auth::user();
+        $success = "Profile Update Successfully";
+        return view('edit', compact('user', 'success'));
     }
 }

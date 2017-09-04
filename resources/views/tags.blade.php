@@ -45,14 +45,20 @@
                         @endif
                     </div>
                 </div>
-                @if(!in_array($post->id, $liked))
+                @if(Auth::guest())
                     <div class="card-action">
-                        <h6><a class="red-text likes" id="{{ $post->id }}"><i class="material-icons">favorite_border</i> <span>{{ $post->likes }}</span></a></h6>
+                        <h6><a class="red-text" href="/login"><i class="material-icons">favorite_border</i> <span>{{ $post->likes }}</span></a></h6>
                     </div>
                 @else
-                <div class="card-action">
-                    <h6><a class="red-text unlikes" id="{{ $post->id }}"><i class="material-icons">favorite</i> <span>{{ $post->likes }}</span></a></h6>
-                </div>
+                    @if(in_array($post->id, $liked))
+                        <div class="card-action">
+                            <h6><a class="red-text unlikes" id="{{ $post->id }}"><i class="material-icons">favorite</i> <span>{{ $post->likes }}</span></a></h6>
+                        </div>
+                    @else
+                        <div class="card-action">
+                            <h6><a class="red-text likes" id="{{ $post->id }}"><i class="material-icons">favorite_border</i> <span>{{ $post->likes }}</span></a></h6>
+                        </div>
+                    @endif
                 @endif
             </div>
             @endforeach

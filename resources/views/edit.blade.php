@@ -53,5 +53,10 @@
                 @endforeach
             </ul>
         @endif
+        @if ($success)
+            <ul class="alert alert-success">
+                <li>{{ $success }}</li>
+            </ul>
+        @endif
     </div>
 @endsection

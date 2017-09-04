@@ -28,7 +28,7 @@ class SearchController extends Controller
         ]);
     }
 
-    public function tags($tag)
+    public function tags($tag, Request $request)
     {
         $data = $this->searchSO->getTweetsByTag($tag);
         return view('tags')->with([

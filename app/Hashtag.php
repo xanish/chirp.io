@@ -29,12 +29,14 @@ class Hashtag extends Model
             ->join('tweets', 'tweets.id', '=', 'hashtags.tweet_id')
             ->join('users', 'users.id', '=', 'tweets.user_id')
             ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
-            ->orderBy('tweets.id', 'DESC');
+            ->orderBy('tweets.id', 'DESC')
+            ->limit(20)
+            ->get();
     }
 
     public function findTags($criteria)
     {
-        return $this->where('tag', 'LIKE', '%'.$criteria.'%')
+        return $this->where('tag', 'LIKE', $criteria.'%')
             ->select('tag')
             ->distinct()
             ->limit(10);

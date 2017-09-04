@@ -37,9 +37,6 @@
                                 <a href="/home">Feed</a>
                             </li>
                             <li>
-                                <a href="/{{ Auth::user()->username }}">Profile</a>
-                            </li>
-                            <li>
                                 <a href="/edit-profile">Edit Profile</a>
                             </li>
                             <li class="divider"></li>

@@ -30,28 +30,28 @@ class FeedServiceObject
         $currentdata = 0;
 
         if($lastid != '') {
-        $feed = $this->tweet->whereIn('user_id', $followingids)
-        ->where('tweets.id', '<', $lastid)
-        ->join('users', 'tweets.user_id', '=', 'users.id')
-        ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
-        ->orderBy('tweets.id', 'DESC')
-        ->take(20)->get();
+            $feed = $this->tweet->whereIn('user_id', $followingids)
+            ->where('tweets.id', '<', $lastid)
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->orderBy('tweets.id', 'DESC')
+            ->take(20)->get();
         }
         elseif ($currentid != '') {
-          $currentdata = 1;
-          $feed = $this->tweet->whereIn('user_id', $followingids)
-          ->where('tweets.id', '>', $currentid)
-          ->join('users', 'tweets.user_id', '=', 'users.id')
-          ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
-          ->orderBy('tweets.id', 'DESC')
-          ->get();
+            $currentdata = 1;
+            $feed = $this->tweet->whereIn('user_id', $followingids)
+            ->where('tweets.id', '>', $currentid)
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->orderBy('tweets.id', 'DESC')
+            ->get();
         }
         else {
-          $feed = Tweet::whereIn('user_id', $followingids)
-          ->join('users', 'tweets.user_id', '=', 'users.id')
-          ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
-          ->orderBy('tweets.id', 'DESC')
-          ->take(20)->get();
+            $feed = Tweet::whereIn('user_id', $followingids)
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->orderBy('tweets.id', 'DESC')
+            ->take(20)->get();
         }
 
         $posts = $this->parseFeed($feed);
@@ -82,23 +82,23 @@ class FeedServiceObject
     public function parseFeed($feed)
     {
         $posts = [];
-          foreach ($feed as $tweet) {
-          $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
-          $tweet->text = str_replace("\n", " ", $tweet->text);
-          $post = array(
-              'id' => $tweet->id,
-              'text' => explode(" ", $tweet->text),
-              'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
-              'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-              'created_at' => $tweet->created_at->toDayDateTimeString(),
-              'likes' => $tweet->likes()->count(),
-              'name' => $tweet->name,
-              'username' => $tweet->username,
-              'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
-              'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
-          );
-          array_push($posts, (object)$post);
-          }
+        foreach ($feed as $tweet) {
+            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+            $tweet->text = str_replace("\n", " ", $tweet->text);
+            $post = array(
+                'id' => $tweet->id,
+                'text' => explode(" ", $tweet->text),
+                'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+                'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
+                'created_at' => $tweet->created_at->toDayDateTimeString(),
+                'likes' => $tweet->likes()->count(),
+                'name' => $tweet->name,
+                'username' => $tweet->username,
+                'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
+                'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
+            );
+            array_push($posts, (object)$post);
+        }
         return $posts;
     }
 }
