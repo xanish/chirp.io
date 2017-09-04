@@ -41,6 +41,11 @@
                     {!! Form::input('date', 'birthdate', $user->birthdate, ['class' => 'form-control', 'id' => 'edit-bday']) !!}
                 </div>
                 <div class="form-group">
+                    {!! Form::label('themecolor', 'Theme Color') !!}
+                    <br/>
+                    <button type="button" class="btn btn-default btn-circle"></button>
+                </div>
+                <div class="form-group">
                     {!! Form::submit('Update Profile', ['class' => 'btn btn-default btn-block form-control']) !!}
                 </div>
             </div>

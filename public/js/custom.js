@@ -541,62 +541,41 @@ $(document).ready(function() {
   }
 
   function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
+      $response =   "<div class='card hoverable'>" +
+                      "<div class='card-content'>" +
+                        "<div class='row'>" +
+                          "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
+                            "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
+                          "</div>" +
+                          "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
+                            "<ul class='list-unstyled list-inline'>" +
+                            "<li><a href='/" + username + "'><h6>" + name + "</h6></li>" +
+                            "<li> @" + username + "</a></li>" +
+                            "<li>" + created_at + "</li>" +
+                            "</ul>" +
+                            "<p class='text'>";
+                            addHashTags(tagArr, textArr) +
+                            "</p>";
+
     if (tweet_image != 'tweet_images/') {
-        $response =   "<div class='card hoverable'>" +
-                        "<div class='card-content'>" +
-                          "<div class='row'>" +
-                            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
-                              "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
-                            "</div>" +
-                            "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
-                              "<ul class='list-unstyled list-inline'>" +
-                              "<li><h6>" + name + "</h6></li>" +
-                              "<li><a href='" + username + "'> @" + username + "</a></li>" +
-                              "<li>" + created_at + "</li>" +
-                              "</ul>" +
-                              "<p class='text'>";
-                              addHashTags(tagArr, textArr);
-        $response +=          "</p>" +
-                              "<a href='" + original_image + "' data-lightbox='box-" + id + "'>" +
+        $response +=          "<a href='" + original_image + "' data-lightbox='box-" + id + "'>" +
                               "<img src='" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
                               "</a>" +
                             "</div>" +
                             "<div class='col-xs-12 visible-xs'>" +
                             "<a href='" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
                             "<img src='" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
-                            "</a>" +
-                            "</div>" +
-                          "</div>" +
-                        "</div>";
-                        addLikes(likedArr, likescount, id);
-        $response +=  "</div>" +
-                      "<div class='margin-top-10'>" +
-                      "</div>";
+                            "</a>";
       }
-    else {
-        $response =   "<div class='card hoverable'>" +
-                        "<div class='card-content'>" +
-                          "<div class='row'>" +
-                            "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
-                              "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
-                            "</div>" +
-                            "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
-                              "<ul class='list-unstyled list-inline'>" +
-                              "<li><h6>" + name + "</h6></li>" +
-                              "<li><a href='" + username + "'> @" + username + "</a></li>" +
-                              "<li>" + created_at + "</li>" +
-                              "</ul>" +
-                              "<p class='text'>";
-                              addHashTags(tagArr, textArr);
-        $response +=          "</p>" +
-                            "</div>" +
+
+        $response +=        "</div>" +
                           "</div>" +
                         "</div>";
                         addLikes(likedArr, likescount, id);
         $response +=  "</div>" +
                       "<div class='margin-top-10'>" +
                       "</div>";
-    }
+
     return $response;
   }
 

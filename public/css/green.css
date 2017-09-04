@@ -1,0 +1,46 @@
+.main-page-search-field {
+    color: #00C851;
+}
+.main-page-search-field:hover, .main-page-search-field:focus {
+    color: #00C851;
+}
+textarea:focus {
+    border-color: #00C851;
+}
+.spinner > div {
+  background-color: #00C851;
+}
+.tweet-alert {
+  color: #00C851;
+}
+#card-alert {
+  border-color: #00C851;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #00C851;
+    border-color: #00C851;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    color: #00C851;
+}
+.default-color {
+  background-color: #00C851 !important;
+}
+.btn-default, .btn-default:hover, .btn-default:focus {
+  background-color: #00C851 !important;
+}
+.btn-default:hover, .btn-default:focus {
+  background-color: #7cb342 !important;
+}
+a {
+  color: #00C851;
+}
+a:hover, a:focus {
+  color: #007E33;
+}
+.dropdown-menu li>a {
+  color: #00C851;
+}
+.dropdown-menu li>a:hover {
+  color: #007E33;
+}

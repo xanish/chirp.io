@@ -52,6 +52,11 @@ class UserProfileServiceObject
 
             $posts = [];
             foreach ($tweets as $tweet) {
+              $temp =  $tweet->hashtags()->pluck('tag')->toArray();
+              $tags = [];
+              foreach ($temp as $tag) {
+                array_push($tags, '#'.$tag);
+              }
               $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
               $tweet->text = str_replace("\n", " ", $tweet->text);
               $post = array(
@@ -61,7 +66,7 @@ class UserProfileServiceObject
               'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
               'created_at' => $tweet->created_at->toDayDateTimeString(),
               'likes' => $tweet->likes()->count(),
-              'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
+              'tags' => $tags,
               );
               array_push($posts, (object)$post);
             }
