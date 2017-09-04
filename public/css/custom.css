@@ -315,3 +315,15 @@ textarea:focus {
     background-color: #eee;
     border-color: #ddd;
 }
+a {
+  color: #2BBBAD;
+}
+a:hover, a:focus {
+  color: #00695c ;
+}
+.dropdown-menu li>a {
+  color: #2BBBAD;
+}
+.dropdown-menu li>a:hover {
+  color: #00695c ;
+}

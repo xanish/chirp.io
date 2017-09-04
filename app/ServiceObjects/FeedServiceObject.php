@@ -85,6 +85,11 @@ class FeedServiceObject
           foreach ($feed as $tweet) {
           $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
           $tweet->text = str_replace("\n", " ", $tweet->text);
+          $temp =  $tweet->hashtags()->pluck('tag')->toArray();
+          $tags = [];
+          foreach ($temp as $tag) {
+            array_push($tags, '#'.$tag);
+          }
           $post = array(
               'id' => $tweet->id,
               'text' => explode(" ", $tweet->text),
@@ -95,7 +100,7 @@ class FeedServiceObject
               'name' => $tweet->name,
               'username' => $tweet->username,
               'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
-              'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
+              'tags' => $tags,
           );
           array_push($posts, (object)$post);
           }
