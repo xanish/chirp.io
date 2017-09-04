@@ -319,4 +319,15 @@ textarea:focus {
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     border-top: none;
+a {
+  color: #2BBBAD;
+}
+a:hover, a:focus {
+  color: #00695c ;
+}
+.dropdown-menu li>a {
+  color: #2BBBAD;
+}
+.dropdown-menu li>a:hover {
+  color: #00695c ;
 }

@@ -82,23 +82,28 @@ class FeedServiceObject
     public function parseFeed($feed)
     {
         $posts = [];
-        foreach ($feed as $tweet) {
-            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
-            $tweet->text = str_replace("\n", " ", $tweet->text);
-            $post = array(
-                'id' => $tweet->id,
-                'text' => explode(" ", $tweet->text),
-                'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
-                'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-                'created_at' => $tweet->created_at->toDayDateTimeString(),
-                'likes' => $tweet->likes()->count(),
-                'name' => $tweet->name,
-                'username' => $tweet->username,
-                'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
-                'tags' => $tweet->hashtags()->pluck('tag')->toArray(),
-            );
-            array_push($posts, (object)$post);
-        }
+          foreach ($feed as $tweet) {
+          $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+          $tweet->text = str_replace("\n", " ", $tweet->text);
+          $temp =  $tweet->hashtags()->pluck('tag')->toArray();
+          $tags = [];
+          foreach ($temp as $tag) {
+            array_push($tags, '#'.$tag);
+          }
+          $post = array(
+              'id' => $tweet->id,
+              'text' => explode(" ", $tweet->text),
+              'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+              'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
+              'created_at' => $tweet->created_at->toDayDateTimeString(),
+              'likes' => $tweet->likes()->count(),
+              'name' => $tweet->name,
+              'username' => $tweet->username,
+              'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
+              'tags' => $tags,
+          );
+          array_push($posts, (object)$post);
+          }
         return $posts;
     }
 }
