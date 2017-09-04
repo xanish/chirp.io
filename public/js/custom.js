@@ -86,7 +86,7 @@ $('#form').submit(function() {
                 $(this).remove();
             })
         },
-        error: function(xhr) {
+        error: function(jqXHR, xhr) {
             if (xhr.status === 422) {
                 $errors = xhr.responseJSON;
                 $errorsHtml = '<div class="alert alert-danger" id="ERRMSG"><ul>';
@@ -99,6 +99,11 @@ $('#form').submit(function() {
                     $('#ERRMSG').remove();
                 });
                 console.log(xhr);
+            }
+            console.log(xhr);
+            console.log(jqXHR.status);
+            if(jqXHR.status == 401 || jqXHR.status == 500) {
+              redirectToLogin();
             }
         },
         complete: function() {
@@ -266,11 +271,14 @@ $(document).ready(function() {
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) + 1);
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $(body).append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                  redirectToLogin();
+                }
             }
         });
         return false;
@@ -289,11 +297,14 @@ $(document).ready(function() {
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) - 1);
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                  redirectToLogin();
+                }
             }
         });
         return false;
@@ -308,15 +319,19 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             success: function (data) {
+                $("#count-bar").load(' #navcount');
                 $('#' + $id).removeClass('follow').addClass('unfollow');
                 $('#' + $id).removeClass('btn-default').addClass('btn-danger');
                 $('#' + $id).text('Unfollow');
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                  redirectToLogin();
+                }
             }
         });
         return false;
@@ -330,15 +345,19 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             success: function (data) {
+                $("#count-bar").load(' #navcount');
                 $('#' + $id).removeClass('unfollow').addClass('follow');
                 $('#' + $id).removeClass('btn-danger').addClass('btn-default');
                 $('#' + $id).text('Follow');
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                  redirectToLogin();
+                }
             }
         });
         return false;
@@ -384,8 +403,12 @@ $(document).ready(function() {
           }
           $("#feed-tweet").append($finaldata);
         },
-        error: function(xhr) {
-            console.log(xhr);
+        error: function(jqXHR, xhr) {
+          console.log(xhr);
+          console.log(jqXHR.status);
+          if(jqXHR.status == 401) {
+            redirectToLogin();
+          }
         },
         complete: function() {
           $("#loading").hide();
@@ -457,8 +480,12 @@ $(document).ready(function() {
             $("#feed").append($finaldata);
           }
         },
-        error: function(xhr) {
+        error: function(jqXHR, xhr) {
             console.log(xhr);
+            console.log(jqXHR.status);
+            if(jqXHR.status == 401) {
+              redirectToLogin();
+            }
         },
         complete: function() {
           $("#loading").hide();
@@ -592,6 +619,10 @@ $(document).ready(function() {
     $($newtweetbuffer).hide().prependTo("#feed").fadeIn("slow");
     $newtweetbuffer = " ";
   });
+
+  function redirectToLogin() {
+    window.location="http://chirp.io/login";
+  }
 
   // update the dropdown city and country values
   function updatePredictionsDropDownDisplay(dropDown, input) {
