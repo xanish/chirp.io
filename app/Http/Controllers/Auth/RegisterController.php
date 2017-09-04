@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Color;
 
 class RegisterController extends Controller
 {
@@ -70,7 +71,10 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-
+        $color = Color::create([
+            'user_id' => $user->id,
+            'color' => 'default',
+        ]);
         \Mail::to($user)->send(new Welcome($user));
 
         return $user;

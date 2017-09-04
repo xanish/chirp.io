@@ -49,7 +49,7 @@ class FeedServiceObject
         else {
             $feed = Tweet::whereIn('user_id', $followingids)
             ->join('users', 'tweets.user_id', '=', 'users.id')
-            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
             ->orderBy('tweets.id', 'DESC')
             ->take(20)->get();
         }

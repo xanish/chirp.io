@@ -16,11 +16,12 @@ class SiteHomePageController extends Controller
 
     public function index()
     {
+        $color = "";
         if (Auth::guest()) {
             $data = $this->welcomeSO->welcomePageData();
             $popular_tags = $data['popular_tags'];
             $tweets = $data['latest_tweets'];
-            return view('welcome', compact('popular_tags', 'tweets'));
+            return view('welcome', compact('popular_tags', 'tweets', 'color'));
         }
         return redirect(action('HomeController@index'));
     }

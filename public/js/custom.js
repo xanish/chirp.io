@@ -15,6 +15,10 @@ try {
     console.log('ok');
 }
 
+function redirectToLogin() {
+    window.location="http://chirp.io/login";
+}
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -87,7 +91,7 @@ $('#form').submit(function() {
                 $(this).remove();
             })
         },
-        error: function(xhr) {
+        error: function(jqXHR, xhr) {
             if (xhr.status === 422) {
                 $errors = xhr.responseJSON;
                 $errorsHtml = '<div class="alert alert-danger" id="ERRMSG"><ul>';
@@ -100,6 +104,9 @@ $('#form').submit(function() {
                     $('#ERRMSG').remove();
                 });
                 console.log(xhr);
+            }
+            if(jqXHR.status == 401 || jqXHR.status == 500) {
+                redirectToLogin();
             }
         },
         complete: function() {
@@ -267,11 +274,14 @@ $(document).ready(function() {
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) + 1);
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $(body).append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                    redirectToLogin();
+                }
             }
         });
         return false;
@@ -290,11 +300,14 @@ $(document).ready(function() {
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) - 1);
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                    redirectToLogin();
+                }
             }
         });
         return false;
@@ -313,11 +326,14 @@ $(document).ready(function() {
                 $('#' + $id).removeClass('btn-default').addClass('btn-danger');
                 $('#' + $id).text('Unfollow');
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                    redirectToLogin();
+                }
             }
         });
         return false;
@@ -335,11 +351,14 @@ $(document).ready(function() {
                 $('#' + $id).removeClass('btn-danger').addClass('btn-default');
                 $('#' + $id).text('Follow');
             },
-            error: function (xhr) {
+            error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
+                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                    redirectToLogin();
+                }
             }
         });
         return false;
@@ -385,8 +404,12 @@ function loadTweet(_lastid) {
                 }
                 $("#feed-tweet").append($finaldata);
             },
-            error: function(xhr) {
+            error: function(jqXHR, xhr) {
                 console.log(xhr);
+                console.log(jqXHR.status);
+                if(jqXHR.status == 401) {
+                    redirectToLogin();
+                }
             },
             complete: function() {
                 $("#loading").hide();
@@ -458,8 +481,12 @@ function loadFeed(_feedlastid, _feedcurrentid) {
                 $("#feed").append($finaldata);
             }
         },
-        error: function(xhr) {
+        error: function(jqXHR, xhr) {
             console.log(xhr);
+            console.log(jqXHR.status);
+            if(jqXHR.status == 401) {
+                redirectToLogin();
+            }
         },
         complete: function() {
             $("#loading").hide();
@@ -541,41 +568,41 @@ function showBackToTop() {
     }
 }
 
-  function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
-      $response =   "<div class='card hoverable'>" +
-                      "<div class='card-content'>" +
-                        "<div class='row'>" +
-                          "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
-                            "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
-                          "</div>" +
-                          "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
-                            "<ul class='list-unstyled list-inline'>" +
-                            "<li><a href='/" + username + "'><h6>" + name + "</h6></li>" +
-                            "<li> @" + username + "</a></li>" +
-                            "<li>" + created_at + "</li>" +
-                            "</ul>" +
-                            "<p class='text'>";
-                            addHashTags(tagArr, textArr) +
-                            "</p>";
+function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
+    $response =   "<div class='card hoverable'>" +
+    "<div class='card-content'>" +
+    "<div class='row'>" +
+    "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
+    "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
+    "</div>" +
+    "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
+    "<ul class='list-unstyled list-inline'>" +
+    "<li><a href='/" + username + "'><h6>" + name + "</h6></li>" +
+    "<li> @" + username + "</a></li>" +
+    "<li>" + created_at + "</li>" +
+    "</ul>" +
+    "<p class='text'>";
+    addHashTags(tagArr, textArr) +
+    "</p>";
 
     if (tweet_image != 'tweet_images/') {
         $response +=          "<a href='" + original_image + "' data-lightbox='box-" + id + "'>" +
-                              "<img src='" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
-                              "</a>" +
-                            "</div>" +
-                            "<div class='col-xs-12 visible-xs'>" +
-                            "<a href='" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
-                            "<img src='" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
-                            "</a>";
-      }
+        "<img src='" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
+        "</a>" +
+        "</div>" +
+        "<div class='col-xs-12 visible-xs'>" +
+        "<a href='" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
+        "<img src='" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+        "</a>";
+    }
 
-        $response +=        "</div>" +
-                          "</div>" +
-                        "</div>";
-                        addLikes(likedArr, likescount, id);
-        $response +=  "</div>" +
-                      "<div class='margin-top-10'>" +
-                      "</div>";
+    $response +=        "</div>" +
+    "</div>" +
+    "</div>";
+    addLikes(likedArr, likescount, id);
+    $response +=  "</div>" +
+    "<div class='margin-top-10'>" +
+    "</div>";
 
     return $response;
 }
