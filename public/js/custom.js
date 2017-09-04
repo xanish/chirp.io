@@ -642,17 +642,26 @@ $(document).ready(function() {
                 success: function (data) {
                     $('.search-item').remove();
                     console.log(data);
-                    if (data.length == 0) {
+                    if (data.users.length != 0) {
+                        for (var i = 0; i < data.users.length; i++) {
+                            $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
+                            "' alt=''></div><div class='col-xs-10'><a href='/" + data.users[i].username + "'><ul class='list-unstyled'><li><h6>" + data.users[i].name +
+                            "</h6></li><li>@" + data.users[i].username + "</li></ul></a></div></li>";
+                            $('#search-results-dropdown').prepend($element);
+                        }
+                        $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><h6>Users</h6></li></ul></div></li>");
+                    }
+                    if (data.tags.length == 0 && data.users.length == 0) {
                         $element = "<li class='row search-item'><a class='col-xs-12'>No Results Found</a></li>"
                         $('#search-results-dropdown').prepend($element);
                     }
                     else {
-                        for (var i = 0; i < data.length; i++) {
-                            $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data[i].profile_image +
-                            "' alt=''></div><div class='col-xs-10'><a href='/" + data[i].username + "'><ul class='list-unstyled'><li><h6>" + data[i].name +
-                            "</h6></li><li>@" + data[i].username + "</li></ul></a></div></li>";
+                        for (var i = 0; i < data.tags.length; i++) {
+                            $element = "<li class='row search-item'><div class='col-xs-12'><a href='/tag/" + data.tags[i].tag + "'><ul class='list-unstyled'><li><h6>#" + data.tags[i].tag +
+                            "</h6></li></ul></a></div></li>";
                             $('#search-results-dropdown').prepend($element);
                         }
+                        $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><h6>Tags</h6></li></ul></div></li>");
                     }
                 },
                 error: function (xhr) {

@@ -16,12 +16,13 @@ class LikeServiceObject
     public function like($tweet_id)
     {
         $id = Auth::user()->id;
-        $check = $this->like->where(['user_id' => $id, 'tweet_id' => $tweet_id])->count();
-        if ($check == 0) {
-            $like = $this->like->create([
-                'user_id' => $id,
-                'tweet_id' => $tweet_id,
-            ]);
+        try {
+            $check = $this->like->liked($id, $tweet_id);
+            if ($check == 0) {
+                $like = $this->like->like($id, $tweet_id);
+            }
+        } catch (Exception $e) {
+            throw new Exception("Unable To Like Post");
         }
         return response()->json(200);
     }
@@ -29,13 +30,13 @@ class LikeServiceObject
     public function unlike($tweet_id)
     {
         $id = Auth::user()->id;
-        $check = $this->like->where(['user_id' => $id, 'tweet_id' => $tweet_id])->count();
-        if ($check > 0) {
-            $like = $this->like->where([
-                'user_id' => $id,
-                'tweet_id' => $tweet_id,
-            ]);
-            $like->delete();
+        try {
+            $check = $this->like->liked($id, $tweet_id);
+            if ($check > 0) {
+                $like = $this->like->unlike($id, $tweet_id);
+            }
+        } catch (Exception $e) {
+            throw new Exception("Unable To Unlike Post");
         }
         return response()->json(200);
     }

@@ -10,35 +10,34 @@ use App\Hashtag;
 class SearchServiceObject
 {
     private $user;
+    private $tweet;
+    private $hashtag;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Tweet $tweet, Hashtag $hashtag)
     {
         $this->user = $user;
+        $this->tweet = $tweet;
+        $this->hashtag = $hashtag;
     }
 
     public function getSearchResults($criteria)
     {
         try {
-            $data = $this->user->where('name', 'LIKE', '%'.$criteria.'%')
-                ->orWhere('username', 'LIKE', '%'.$criteria.'%')
-                ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
-                ->orderBy('name')
-                ->limit(10)
-                ->get();
+            $users = $this->user->findUsers($criteria)->get();
+            $tags = $this->hashtag->findTags(ltrim($criteria, '#'))->get();
         } catch (Exception $e) {
             throw new Exception("Unable To Get Search Results From DB");
         }
-        return $data;
+        return array(
+            "users" => $users,
+            "tags" => $tags,
+        );
     }
 
     public function getSearchResultsPaginated($criteria)
     {
         try {
-            $data = $this->user->where('name', 'LIKE', '%'.$criteria.'%')
-                ->orWhere('username', 'LIKE', '%'.$criteria.'%')
-                ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
-                ->orderBy('name')
-                ->paginate(24);
+            $data = $this->user->findUsers($criteria)->paginate(24);
         } catch (Exception $e) {
             throw new Exception("Unable To Get Search Results From DB");
         }
@@ -62,16 +61,12 @@ class SearchServiceObject
 
     public function getTweetsByTag($tag)
     {
-        $tweets = Hashtag::where('tag', $tag)
-            ->join('tweets', 'tweets.id', '=', 'hashtags.tweet_id')
-            ->join('users', 'users.id', '=', 'tweets.user_id')
-            ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
-            ->orderBy('tweets.id', 'DESC')->get();
+        $tweets = $this->hashtag->getTweetsForTag($tag)->get();
         $posts = [];
         foreach($tweets as $tweet) {
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
             $tweet->text = str_replace("\n", " ", $tweet->text);
-            $temptags = Tweet::find($tweet->id)->hashtags()->pluck('tag')->toArray();
+            $temptags = $this->tweet->getTags($tweet->id);
             $tags = [];
             foreach ($temptags as $tag) {
                 array_push($tags, '#'.$tag);
@@ -84,7 +79,7 @@ class SearchServiceObject
                 'text' => explode(" ", $tweet->text),
                 'tweet_image' => $tweet->tweet_image,
                 'original_image' => $tweet->original_image,
-                'likes' => Tweet::find($tweet->id)->likes()->count(),
+                'likes' => $this->tweet->likeCount($tweet->id),
                 'tags' => $tags,
                 'created_at' => $tweet->created_at,
             );

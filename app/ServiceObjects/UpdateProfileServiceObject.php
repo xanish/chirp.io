@@ -24,15 +24,7 @@ class UpdateProfileServiceObject
     public function saveProfile($id, $request, $profile_image, $profile_banner)
     {
         try {
-            $entry = $this->user->where('id', $id)->update([
-                'name' => $request->name,
-                'city' => $request->city,
-                'country' => $request->country,
-                'birthdate' => $request->birthdate,
-                'profile_image' => $profile_image,
-                'profile_banner' => $profile_banner,
-                'updated_at' => Carbon::now(),
-            ]);
+            $entry = $this->user->updateUserDetails($id, $request, $profile_image, $profile_banner,  Carbon::now());
         } catch (Exception $e) {
             throw new Exception("Unable To Update Profile Details");
         }

@@ -15,10 +15,11 @@ class HashtagServiceObject
     public function addTags($tags, $tweet_id)
     {
         foreach($tags as $tag) {
-            $this->hashtag->create([
-                'tag' => $tag,
-                'tweet_id' => $tweet_id,
-            ]);
+            try {
+                $this->hashtag->addTag(ltrim($tag, '#'), $tweet_id);
+            } catch (Exception $e) {
+                throw new Exception("Unable To Add Hashtag");
+            }
         }
     }
 }

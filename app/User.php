@@ -65,4 +65,26 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function updateUserDetails($id, $request, $profile_image, $profile_banner, $time)
+    {
+        $this->where('id', $id)->update([
+            'name' => $request->name,
+            'city' => $request->city,
+            'country' => $request->country,
+            'birthdate' => $request->birthdate,
+            'profile_image' => $profile_image,
+            'profile_banner' => $profile_banner,
+            'updated_at' => $time,
+        ]);
+    }
+
+    public function findUsers($criteria)
+    {
+        return $this->where('name', 'LIKE', '%'.$criteria.'%')
+            ->orWhere('username', 'LIKE', '%'.$criteria.'%')
+            ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
+            ->orderBy('name')
+            ->limit(10);
+    }
 }

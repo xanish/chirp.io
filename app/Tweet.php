@@ -24,4 +24,14 @@ class Tweet extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function getTags($id)
+    {
+        return $this->find($id)->hashtags()->pluck('tag')->toArray();
+    }
+
+    public function likeCount($id)
+    {
+        return $this->find($id)->likes()->count();
+    }
 }
