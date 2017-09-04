@@ -17,6 +17,11 @@
             <div class="rect4"></div>
             <div class="rect5"></div>
         </div>
+
+        <div id="notweetmessageprofile">
+          <h5 class="pacifico">You haven't tweeted anything yet</h5>
+        </div>
+
         <div class="stream-end">
             <i class="icofont icofont-animal-woodpecker"></i>
             <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>

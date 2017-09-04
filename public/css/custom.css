@@ -269,8 +269,13 @@ textarea:focus {
 }
 .tweet-alert {
   display: none;
+  color: #2BBBAD;
   cursor: pointer;
   text-align: center;
+}
+#card-alert {
+  border-style: solid;
+  border-color: #2BBBAD;
 }
 #main-results-dropdown {
     position: absolute;
@@ -283,6 +288,19 @@ textarea:focus {
 #search-results-dropdown {
     height: 500px;
     overflow: scroll;
+}
+#notweetmessage {
+  display: none;
+  padding-top: 10em;
+  color: grey;
+  padding-bottom: 10em;
+  text-align: center;
+}
+#notweetmessageprofile {
+  display: none;
+  padding-top: 5em;
+  color: grey;
+  text-align: center;
 }
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 3;

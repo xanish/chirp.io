@@ -65,8 +65,8 @@
                 @include('partials.tweet_form')
 
                 <div class="tweet-alert">
-                    <div id="card-alert" class="card light-blue lighten-5">
-                      <div class="card-content light-blue-text">
+                    <div id="card-alert" class="alert alert-primary">
+                      <div class="alerttext">
                         <p>View <span id="newcount">0</span> new Tweet</p>
                       </div>
                     </div>
@@ -77,16 +77,21 @@
 
                 </div>
 
-        <div class="spinner" id="loading">
-            <div class="rect1"></div>
-            <div class="rect2"></div>
-            <div class="rect3"></div>
-            <div class="rect4"></div>
-            <div class="rect5"></div>
-        </div>
-        <div class="stream-end">
-            <i class="icofont icofont-animal-woodpecker"></i>
-            <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>
+            <div class="spinner" id="loading">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+
+            <div id="notweetmessage">
+              <h5 class="pacifico">No tweets to show</h5>
+            </div>
+
+            <div class="stream-end">
+              <i class="icofont icofont-animal-woodpecker"></i>
+              <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>
             </div>
         </div>
     </div>
