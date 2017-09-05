@@ -25,13 +25,13 @@ class UserProfileServiceObject
         try {
             $user = $this->user->where('username', $username)->firstOrFail();
         } catch (Exception $e) {
-            throw new Exception("Unable To Get User Details For Profile");
+            throw new Exception($e->getMessage());
         }
         return array(
             'user' => $user,
             'tweet_count' => $user->tweets()->count(),
-            'follower_count' => $user->followers()->count(),
-            'following_count' => $user->following()->count(),
+            'follower_count' => $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count(),
+            'following_count' => $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count(),
         );
     }
 
@@ -50,7 +50,7 @@ class UserProfileServiceObject
                 ->where('id', '<', $lastid)
                 ->take(20)->get();
             } catch (Exception $e) {
-                throw new Exception("Unable To Obtain Tweets For User");
+                throw new Exception($e->getMessage());
             }
         }
         else {
@@ -59,30 +59,30 @@ class UserProfileServiceObject
                 $tweets = $baseData['user']->tweets()
                 ->take(20)->get();
             } catch (Exception $e) {
-                throw new Exception("Unable To Obtain Tweets For User");
+                throw new Exception($e->getMessage());
             }
         }
 
-            $posts = [];
-            foreach ($tweets as $tweet) {
-              $temp =  $tweet->hashtags()->pluck('tag')->toArray();
-              $tags = [];
-              foreach ($temp as $tag) {
+        $posts = [];
+        foreach ($tweets as $tweet) {
+            $temp =  $tweet->hashtags()->pluck('tag')->toArray();
+            $tags = [];
+            foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
-              }
-              $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
-              $tweet->text = str_replace("\n", " ", $tweet->text);
-              $post = array(
-              'id' => $tweet->id,
-              'text' => explode(" ", $tweet->text),
-              'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
-              'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-              'created_at' => $tweet->created_at->toDayDateTimeString(),
-              'likes' => $tweet->likes()->count(),
-              'tags' => $tags,
-              );
-              array_push($posts, (object)$post);
             }
+            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+            $tweet->text = str_replace("\n", " ", $tweet->text);
+            $post = array(
+                'id' => $tweet->id,
+                'text' => explode(" ", $tweet->text),
+                'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+                'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
+                'created_at' => $tweet->created_at->toDayDateTimeString(),
+                'likes' => $tweet->likes()->count(),
+                'tags' => $tags,
+            );
+            array_push($posts, (object)$post);
+        }
 
         return array(
             'posts' => $posts,
@@ -110,7 +110,7 @@ class UserProfileServiceObject
         public function getFollowers($username)
         {
             $baseData = $this->getBaseDetails($username);
-            $followers = $baseData['user']->followers()->orderBy('name')->get();
+            $followers = $baseData['user']->followers()->whereColumn('followers.created_at', 'followers.updated_at')->orderBy('name')->get();
             return array(
                 'user' => $baseData['user'],
                 'people' => $followers,
@@ -123,7 +123,7 @@ class UserProfileServiceObject
         public function getFollowing($username)
         {
             $baseData = $this->getBaseDetails($username);
-            $followers = $baseData['user']->following()->orderBy('name')->get();
+            $followers = $baseData['user']->following()->whereColumn('followers.created_at', 'followers.updated_at')->orderBy('name')->get();
             return array(
                 'user' => $baseData['user'],
                 'people' => $followers,

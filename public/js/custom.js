@@ -2,6 +2,7 @@ var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
 $('#search-results-dropdown').hide();
+$('#password-strength-meter').hide();
 $('#main-results-dropdown').hide();
 try {
     document.getElementById('tweet_image_file').onchange = function () {
@@ -331,7 +332,7 @@ $(document).ready(function() {
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
-                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                if(jqXHR.status == 401) {
                     redirectToLogin();
                 }
             }
@@ -356,7 +357,7 @@ $(document).ready(function() {
                 $('#fail').fadeOut(5000, function () {
                     $(this).remove();
                 });
-                if(jqXHR.status == 401 || jqXHR.status == 500) {
+                if(jqXHR.status == 401) {
                     redirectToLogin();
                 }
             }
@@ -730,3 +731,38 @@ $('#main-page-search-field').keyup(function() {
         $('#main-results-dropdown').hide();
     }
 })
+
+// password strength indicator
+var strength = {
+    0: "<span class='red-text'>Worst</span>",
+    1: "<span class='pink-text'>Bad</span>",
+    2: "<span class='orange-text'>Weak</span>",
+    3: "<span class='light-green-text'>Good</span>",
+    4: "<span class='green-text'>Strong</span>"
+}
+var password = document.getElementById('password');
+var meter = document.getElementById('password-strength-meter');
+var text = document.getElementById('password-strength-text');
+try {
+    password.addEventListener('input', function() {
+        if (!$('#password-strength-meter').is(':visible')) {
+            $('#password-strength-meter').show();
+        }
+        var val = password.value;
+        var result = zxcvbn(val);
+        // Update the password strength meter
+        meter.value = result.score;
+        // Update the text indicator
+        if (val !== "") {
+            text.innerHTML = "Strength: " + strength[result.score];
+            if (result.feedback.suggestions != "") {
+                text.innerHTML += " Hint: " + result.feedback.suggestions;
+            }
+        } else {
+            text.innerHTML = "";
+        }
+    });
+}
+catch (e) {
+    console.log("Password input not found.");
+}

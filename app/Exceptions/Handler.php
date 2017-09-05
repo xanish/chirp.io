@@ -51,9 +51,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Illuminate\Database\QueryException) {
-            return response()->view('errors.500');
-        }
+        // if ($exception instanceof \Illuminate\Database\QueryException) {
+        //     return response()->view('errors.500');
+        // }
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
             return redirect('/login');
         }
