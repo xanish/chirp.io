@@ -61,7 +61,7 @@ class SearchServiceObject
 
     public function getTweetsByTag($tag)
     {
-        $tweets = $this->hashtag->getTweetsForTag($tag)->get();
+        $tweets = $this->hashtag->getTweetsForTag($tag);
         $posts = [];
         foreach($tweets as $tweet) {
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
@@ -87,7 +87,7 @@ class SearchServiceObject
         }
         return array(
             'posts' => $posts,
-            'liked' => Auth::user()->likes()->pluck('tweet_id')->toArray(),
+            'liked' => Auth::guest() ? [] : Auth::user()->likes()->pluck('tweet_id')->toArray(),
         );
     }
 }

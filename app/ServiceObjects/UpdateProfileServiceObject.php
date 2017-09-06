@@ -6,6 +6,7 @@ use \Config;
 use App\User;
 use Carbon\Carbon;
 use App\Utils\Utils;
+use App\Color;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateProfileServiceObject
@@ -13,12 +14,14 @@ class UpdateProfileServiceObject
     private $utils;
     private $user;
     private $file;
+    private $color;
 
-    public function __construct(Utils $utils, User $user, Storage $storage)
+    public function __construct(Utils $utils, User $user, Storage $storage, Color $color)
     {
         $this->utils = $utils;
         $this->user = $user;
         $this->storage = $storage;
+        $this->color = $color;
     }
 
     public function saveProfile($id, $request, $profile_image, $profile_banner)
@@ -54,8 +57,23 @@ class UpdateProfileServiceObject
                 $profile_image,
                 $profile_banner
             );
+            $this->updateColor($request->color);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
+        }
+    }
+
+    public function updateColor($color)
+    {
+        $_color = Auth::user()->accentColor()->get();
+        if (count($_color) == 0) {
+            $this->color->create([
+                'user_id' => Auth::user()->id,
+                'color' => $color,
+            ]);
+        }
+        else {
+            $this->color->where('user_id', Auth::user()->id)->update(['color' => $color]);
         }
     }
 

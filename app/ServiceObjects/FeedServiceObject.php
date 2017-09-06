@@ -30,28 +30,28 @@ class FeedServiceObject
         $currentdata = 0;
 
         if($lastid != '') {
-        $feed = $this->tweet->whereIn('user_id', $followingids)
-        ->where('tweets.id', '<', $lastid)
-        ->join('users', 'tweets.user_id', '=', 'users.id')
-        ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
-        ->orderBy('tweets.id', 'DESC')
-        ->take(20)->get();
+            $feed = $this->tweet->whereIn('user_id', $followingids)
+            ->where('tweets.id', '<', $lastid)
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->orderBy('tweets.id', 'DESC')
+            ->take(20)->get();
         }
         elseif ($currentid != '') {
-          $currentdata = 1;
-          $feed = $this->tweet->whereIn('user_id', $followingids)
-          ->where('tweets.id', '>', $currentid)
-          ->join('users', 'tweets.user_id', '=', 'users.id')
-          ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
-          ->orderBy('tweets.id', 'DESC')
-          ->get();
+            $currentdata = 1;
+            $feed = $this->tweet->whereIn('user_id', $followingids)
+            ->where('tweets.id', '>', $currentid)
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->orderBy('tweets.id', 'DESC')
+            ->get();
         }
         else {
-          $feed = Tweet::whereIn('user_id', $followingids)
-          ->join('users', 'tweets.user_id', '=', 'users.id')
-          ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
-          ->orderBy('tweets.id', 'DESC')
-          ->take(20)->get();
+            $feed = Tweet::whereIn('user_id', $followingids)
+            ->join('users', 'tweets.user_id', '=', 'users.id')
+            ->select('users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
+            ->orderBy('tweets.id', 'DESC')
+            ->take(20)->get();
         }
 
         $posts = $this->parseFeed($feed);

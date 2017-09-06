@@ -41,11 +41,17 @@
                     {!! Form::input('date', 'birthdate', $user->birthdate, ['class' => 'form-control', 'id' => 'edit-bday']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('themecolor', 'Theme Color') !!}
-                    <br/>
-                    <button type="button" class="btn btn-default btn-circle"></button>
+                    {!! Form::label('default', 'Theme Color') !!}
+                    <ul class="list-unstyled list-inline">
+                        <li><input type="radio" class="option-input radio stock" name="color" value="default"/></li>
+                        <li><input type="radio" class="option-input radio blue" name="color" value="blue" /></li>
+                        <li><input type="radio" class="option-input radio deep-purple" name="color" value="deep-purple" /></li>
+                        <li><input type="radio" class="option-input radio pink" name="color" value="pink" /></li>
+                        <li><input type="radio" class="option-input radio green" name="color" value="green" /></li>
+                        <li><input type="radio" class="option-input radio orange" name="color" value="orange" /></li>
+                    </ul>
                 </div>
-                <div class="form-group">
+                <div class="form-group margin-top-10">
                     {!! Form::submit('Update Profile', ['class' => 'btn btn-default btn-block form-control']) !!}
                 </div>
             </div>
@@ -56,6 +62,11 @@
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
+            </ul>
+        @endif
+        @if ($success)
+            <ul class="alert alert-success">
+                <li>{{ $success }}</li>
             </ul>
         @endif
     </div>
