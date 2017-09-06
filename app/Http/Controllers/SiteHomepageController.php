@@ -18,6 +18,7 @@ class SiteHomePageController extends Controller
     {
         $color = "";
         if (Auth::guest()) {
+
             $data = $this->welcomeSO->welcomePageData();
             $popular_tags = $data['popular_tags'];
             $tweets = $data['latest_tweets'];

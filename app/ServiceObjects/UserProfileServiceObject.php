@@ -6,32 +6,49 @@ use App\Tweet;
 use Carbon\Carbon;
 use \Config;
 use Auth;
+use App\Like;
 use App\Utils\Utils;
+use App\Hashtag;
 use Exception;
 
 class UserProfileServiceObject
 {
     private $user;
     private $utils;
+    private $hashtag;
+    private $like;
 
-    public function __construct(User $user, Utils $utils)
+    public function __construct(User $user, Utils $utils, Hashtag $hashtag, Like $like)
     {
         $this->user = $user;
+        $this->like = $like;
+        $this->hashtag = $hashtag;
         $this->utils = $utils;
     }
 
     private function getBaseDetails($username)
     {
         try {
-            $user = $this->user->where('username', $username)->firstOrFail();
+            $user = $this->user->where('username', $username)
+            ->select(
+                'id',
+                'name',
+                'username',
+                'profile_image',
+                'profile_banner',
+                'city',
+                'country',
+                'birthdate',
+                'created_at'
+                )->firstOrFail();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
         return array(
             'user' => $user,
-            'tweet_count' => $user->tweets()->count(),
-            'follower_count' => $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count(),
-            'following_count' => $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count(),
+            'tweet_count' => $user->tweets()->count('tweets.id'),
+            'follower_count' => $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count('followers.id'),
+            'following_count' => $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count('followers.id'),
         );
     }
 
@@ -64,8 +81,12 @@ class UserProfileServiceObject
         }
 
         $posts = [];
+        $ids = $tweets->pluck('id')->toArray();
+        $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->get();
+        $likes = $this->like->all()->whereIn('tweet_id', $ids);
+
         foreach ($tweets as $tweet) {
-            $temp =  $tweet->hashtags()->pluck('tag')->toArray();
+            $temp =  $tags_collection->where('tweet_id', $tweet->id)->pluck('tag')->toArray();
             $tags = [];
             foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
@@ -78,12 +99,11 @@ class UserProfileServiceObject
                 'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
                 'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
                 'created_at' => $tweet->created_at->toDayDateTimeString(),
-                'likes' => $tweet->likes()->count(),
+                'likes' => $likes->where('tweet_id', $tweet->id)->count(),
                 'tags' => $tags,
             );
             array_push($posts, (object)$post);
         }
-
         return array(
             'posts' => $posts,
             'liked' => $liked,

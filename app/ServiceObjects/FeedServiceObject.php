@@ -4,21 +4,27 @@ namespace App\ServiceObjects;
 use Auth;
 use App\User;
 use App\Tweet;
+use App\Like;
 use Carbon\Carbon;
 use \Config;
 use App\Follower;
+use App\Hashtag;
 
 class FeedServiceObject
 {
     private $user;
+    private $like;
     private $tweet;
     private $follower;
+    private $hashtag;
 
-    public function __construct(User $user, Tweet $tweet, Follower $follower)
+    public function __construct(User $user, Tweet $tweet, Follower $follower, Like $like, Hashtag $hashtag)
     {
         $this->user = $user;
+        $this->like = $like;
         $this->tweet = $tweet;
         $this->follower = $follower;
+        $this->hashtag = $hashtag;
     }
 
     public function getFeed($lastid, $currentid)
@@ -85,16 +91,20 @@ class FeedServiceObject
     public function parseFeed($feed)
     {
         $posts = [];
+        $ids = $feed->pluck('id')->toArray();
+        $follow = $this->follower->all()->where('user_id', Auth::user()->id);
+        $likes = $this->like->all()->whereIn('tweet_id', $ids);
+        $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->get();
         foreach ($feed as $tweet) {
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
             $tweet->text = str_replace("\n", " ", $tweet->text);
-            $temp =  $tweet->hashtags()->pluck('tag')->toArray();
+            $temp =  $tags_collection->where('tweet_id', $tweet->id)->pluck('tag')->toArray();
             $tags = [];
             foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
             }
-            $follow = $this->follower->where([['user_id', Auth::user()->id],['follows', $tweet->uid]])->get()[0];
-            if ($tweet->created_at < $follow->updated_at or $follow->created_at == $follow->updated_at) {
+            $f = $follow->where('follows', $tweet->uid);
+            if ($tweet->created_at < $f->get('updated_at') or $f->get('created_at') == $f->get('updated_at')) {
                 $post = array(
                     'id' => $tweet->id,
                     'user_id' => $tweet->uid,
@@ -102,7 +112,7 @@ class FeedServiceObject
                     'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
                     'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
                     'created_at' => $tweet->created_at->toDayDateTimeString(),
-                    'likes' => $tweet->likes()->count(),
+                    'likes' => $likes->where('tweet_id', $tweet->id)->count(),
                     'name' => $tweet->name,
                     'username' => $tweet->username,
                     'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
