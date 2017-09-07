@@ -41,4 +41,14 @@ class Hashtag extends Model
             ->distinct()
             ->limit(10);
     }
+
+    public function tweets($tweet_ids)
+    {
+        return $this->whereIn('tweet_id', $tweet_ids)->get();
+    }
+
+    public function popular()
+    {
+        return $this->selectRaw('tag, count(tag) as tag_count')->groupBy('tag')->orderBy('tag_count', 'DESC')->limit(10)->get();
+    }
 }

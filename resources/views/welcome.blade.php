@@ -75,16 +75,6 @@
                 @endforeach
             </table>
         </div>
-        <div class="margin-top-10"></div>
-        @endforeach
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-        <h4 class="pacifico">Popular Tags</h4>
-        <table class="table">
-            @foreach($popular_tags as $tag)
-            <tr><td><a href="/tag/{{ $tag->tag }}">{{ $tag->tag }}</a></td><td>{{ $tag->tag_count }}</td></tr>
-            @endforeach
-        </table>
     </div>
 </div>
 @endsection

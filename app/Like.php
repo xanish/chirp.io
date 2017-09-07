@@ -41,4 +41,9 @@ class Like extends Model
         ]);
         return $likes->delete();
     }
+
+    public function tweets($tweet_ids)
+    {
+        return $this->all()->whereIn('tweet_id', $tweet_ids);
+    }
 }

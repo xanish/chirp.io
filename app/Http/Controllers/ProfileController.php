@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\ServiceObjects\UserProfileServiceObject;
-
+use App\Follower;
 class ProfileController extends Controller
 {
     private $profileSO;
@@ -45,7 +45,8 @@ class ProfileController extends Controller
 
     public function followers(Request $request, $username)
     {
-        $followersData = $this->profileSO->getFollowers($username);
+        $followersData = $this->profileSO->followers($username);
+        // return response()->json($followersData['people'][0]);
         $path = $request->path();
         $color = "";
         if (Auth::user()) {
@@ -65,7 +66,7 @@ class ProfileController extends Controller
 
     public function following(Request $request, $username)
     {
-        $followingData = $this->profileSO->getFollowing($username);
+        $followingData = $this->profileSO->following($username);
         $path = $request->path();
         $color = "";
         if (Auth::user()) {

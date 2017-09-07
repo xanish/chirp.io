@@ -30,7 +30,7 @@ class FeedServiceObject
     public function getFeed($lastid, $currentid)
     {
         $id = Auth::id();
-        $user = $this->user->find($id);
+        $user = Auth::user();
         $tweet_count = $user->tweets()->count();
         $follower_count = $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count();
         $following_count = $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count();
@@ -75,7 +75,7 @@ class FeedServiceObject
     public function getUser()
     {
         $id = Auth::id();
-        $user = User::find($id);
+        $user = Auth::user();
         $tweet_count = $user->tweets()->count();
         $follower_count = $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count();
         $following_count = $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count();
