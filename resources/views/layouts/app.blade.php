@@ -10,10 +10,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/emojionearea.css') }}" rel="stylesheet">
     <link href="{{ asset('font/icofont.ttf') }}" rel="application/x-font-ttf">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
-    @if($color != 'default')
+    @if($color != 'default' and $color != '')
         <link rel="stylesheet" href="{{ asset('css/'.$color.'.css') }}">
     @endif
 </head>
@@ -30,6 +31,7 @@
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/mdb.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/emojionearea.js') }}"></script>
     <script src="{{ asset('js/lightbox.js') }}" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCso5QRQXnxgph82Q8tV3oYj24SG56jnCc&libraries=places"></script>
     <script src="https://use.fontawesome.com/dfa2b313d5.js"></script>

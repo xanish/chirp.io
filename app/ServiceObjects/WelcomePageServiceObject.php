@@ -23,7 +23,10 @@ class WelcomePageServiceObject
 
     public function welcomePageData()
     {
-        $latest_tweets = $this->tweet->latest()->where('created_at', '>', Carbon::now()->subDays(7))->limit(10)->get();
+        $latest_tweets = $this->tweet->latest()->where('tweets.created_at', '>', Carbon::now()->subDays(7))
+                                               ->join('users', 'tweets.user_id', '=', 'users.id')
+                                               ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
+                                               ->limit(10)->get();
         $ids = $latest_tweets->pluck('id')->toArray();
         $likes = $this->like->all()->whereIn('tweet_id', $ids);
         $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->get();
@@ -37,12 +40,16 @@ class WelcomePageServiceObject
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
             $tweet->text = str_replace("\n", " ", $tweet->text);
             $t = [
-                'text' => nl2br(e($tweet->text)),
-                'tweet_image' => $tweet->tweet_image,
+                'text' => explode(' ', $tweet->text),
+                'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
                 'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
                 'created_at' => $tweet->created_at,
                 'likes' => $likes->where('tweet_id', $tweet->id)->count(),
-                'user' => $tweet->user()->firstOrFail(),
+                'id' => $tweet->id,
+                'user_id' => $tweet->uid,
+                'name' => $tweet->name,
+                'username' => $tweet->username,
+                'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
                 'tags' => $tags,
             ];
             array_push($tweets, (object)$t);

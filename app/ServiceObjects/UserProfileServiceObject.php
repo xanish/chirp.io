@@ -91,6 +91,8 @@ class UserProfileServiceObject
             foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
             }
+            // $tweet->text =json_encode($tweet->text);
+            //$tweet->text = preg_split( '/(<.*>)/u', $tweet->text, -1, PREG_SPLIT_DELIM_CAPTURE );
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
             $tweet->text = str_replace("\n", " ", $tweet->text);
             $post = array(

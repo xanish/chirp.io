@@ -31,7 +31,7 @@ class EditProfileController extends Controller
         $color = Auth::user()->accentColor()->firstOrFail();
         $color = $color->color;
         $user = Auth::user();
-        $success = "Profile Update Successfully";
+        $success = "Profile Updated Successfully";
         return view('edit', compact('user', 'success', 'color'));
     }
 }
