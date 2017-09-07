@@ -58,7 +58,7 @@ class User extends Authenticatable
     {
         foreach ($this->following as $person)
         {
-            if ($person->id == $id)
+            if ($person->id == $id and $person->pivot->created_at == $person->pivot->updated_at)
             {
                 return true;
             }

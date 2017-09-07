@@ -6,32 +6,49 @@ use App\Tweet;
 use Carbon\Carbon;
 use \Config;
 use Auth;
+use App\Like;
 use App\Utils\Utils;
+use App\Hashtag;
 use Exception;
 
 class UserProfileServiceObject
 {
     private $user;
     private $utils;
+    private $hashtag;
+    private $like;
 
-    public function __construct(User $user, Utils $utils)
+    public function __construct(User $user, Utils $utils, Hashtag $hashtag, Like $like)
     {
         $this->user = $user;
+        $this->like = $like;
+        $this->hashtag = $hashtag;
         $this->utils = $utils;
     }
 
     private function getBaseDetails($username)
     {
         try {
-            $user = $this->user->where('username', $username)->firstOrFail();
+            $user = $this->user->where('username', $username)
+            ->select(
+                'id',
+                'name',
+                'username',
+                'profile_image',
+                'profile_banner',
+                'city',
+                'country',
+                'birthdate',
+                'created_at'
+                )->firstOrFail();
         } catch (Exception $e) {
-            throw new Exception("Unable To Get User Details For Profile");
+            throw new Exception($e->getMessage());
         }
         return array(
             'user' => $user,
-            'tweet_count' => $user->tweets()->count(),
-            'follower_count' => $user->followers()->count(),
-            'following_count' => $user->following()->count(),
+            'tweet_count' => $user->tweets()->count('tweets.id'),
+            'follower_count' => $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count('followers.id'),
+            'following_count' => $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count('followers.id'),
         );
     }
 
@@ -50,7 +67,7 @@ class UserProfileServiceObject
                 ->where('id', '<', $lastid)
                 ->take(20)->get();
             } catch (Exception $e) {
-                throw new Exception("Unable To Obtain Tweets For User");
+                throw new Exception($e->getMessage());
             }
         }
         else {
@@ -59,35 +76,36 @@ class UserProfileServiceObject
                 $tweets = $baseData['user']->tweets()
                 ->take(20)->get();
             } catch (Exception $e) {
-                throw new Exception("Unable To Obtain Tweets For User");
+                throw new Exception($e->getMessage());
             }
         }
 
-            $posts = [];
-            foreach ($tweets as $tweet) {
-              $temp =  $tweet->hashtags()->pluck('tag')->toArray();
-              $tags = [];
-              foreach ($temp as $tag) {
+        $posts = [];
+        $ids = $tweets->pluck('id')->toArray();
+        $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->get();
+        $likes = $this->like->all()->whereIn('tweet_id', $ids);
+
+        foreach ($tweets as $tweet) {
+            $temp =  $tags_collection->where('tweet_id', $tweet->id)->pluck('tag')->toArray();
+            $tags = [];
+            foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
-              }
-              // $tweet->text =json_encode($tweet->text);
-              //$tweet->text = preg_split( '/(<.*>)/u', $tweet->text, -1, PREG_SPLIT_DELIM_CAPTURE );
-              $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
-              $tweet->text = str_replace("\n", " ", $tweet->text);
-
-              $post = array(
-              'id' => $tweet->id,
-              //'text' => $tweet->text,
-              'text' => explode(' ', $tweet->text),
-              'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
-              'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-              'created_at' => $tweet->created_at->toDayDateTimeString(),
-              'likes' => $tweet->likes()->count(),
-              'tags' => $tags,
-              );
-              array_push($posts, (object)$post);
             }
-
+            // $tweet->text =json_encode($tweet->text);
+            //$tweet->text = preg_split( '/(<.*>)/u', $tweet->text, -1, PREG_SPLIT_DELIM_CAPTURE );
+            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+            $tweet->text = str_replace("\n", " ", $tweet->text);
+            $post = array(
+                'id' => $tweet->id,
+                'text' => explode(" ", $tweet->text),
+                'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+                'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
+                'created_at' => $tweet->created_at->toDayDateTimeString(),
+                'likes' => $likes->where('tweet_id', $tweet->id)->count(),
+                'tags' => $tags,
+            );
+            array_push($posts, (object)$post);
+        }
         return array(
             'posts' => $posts,
             'liked' => $liked,
@@ -114,7 +132,7 @@ class UserProfileServiceObject
         public function getFollowers($username)
         {
             $baseData = $this->getBaseDetails($username);
-            $followers = $baseData['user']->followers()->orderBy('name')->get();
+            $followers = $baseData['user']->followers()->whereColumn('followers.created_at', 'followers.updated_at')->orderBy('name')->get();
             return array(
                 'user' => $baseData['user'],
                 'people' => $followers,
@@ -127,7 +145,7 @@ class UserProfileServiceObject
         public function getFollowing($username)
         {
             $baseData = $this->getBaseDetails($username);
-            $followers = $baseData['user']->following()->orderBy('name')->get();
+            $followers = $baseData['user']->following()->whereColumn('followers.created_at', 'followers.updated_at')->orderBy('name')->get();
             return array(
                 'user' => $baseData['user'],
                 'people' => $followers,

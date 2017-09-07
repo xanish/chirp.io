@@ -1,4 +1,23 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+meter {
+  margin: 0 auto 1em;
+  width: 100% !important;
+  height: 0.5em;
+  background: none;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+meter::-webkit-meter-bar {
+  background: none !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
+meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
+meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+meter[value="1"]::-moz-meter-bar { background: red; }
+meter[value="2"]::-moz-meter-bar { background: yellow; }
+meter[value="3"]::-moz-meter-bar { background: orange; }
+meter[value="4"]::-moz-meter-bar { background: green; }
 /**
  * @package IcoFont by ShapeBootstrap - https://shapebootstrap.net
  * @version 1.0.0 Beta
@@ -289,7 +308,7 @@ textarea:focus {
     z-index: 999;
 }
 #search-results-dropdown {
-    height: 500px;
+    max-height: 500px;
     overflow: scroll;
 }
 #notweetmessage {
@@ -320,19 +339,72 @@ textarea:focus {
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     border-top: none;
-  }
+}
 a {
   color: #2BBBAD;
 }
 a:hover, a:focus {
-  color: #00695c ;
+  color: #00695c;
 }
 .dropdown-menu li>a {
   color: #2BBBAD;
 }
 .dropdown-menu li>a:hover {
-  color: #00695c ;
+  color: #00695c;
 }
-.stock {
-    background-color: #2BBBAD !important;
+.option-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    position: relative;
+    top: 13.33333px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    transition: all 0.15s ease-out 0s;
+    background: #2bbbad;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0.5rem;
+    outline: none;
+    position: relative;
+    z-index: 1000;
+}
+.option-input:checked {
+    background: #2bbbad;
+}
+.option-input:checked::before {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    content: '✔';
+    display: inline-block;
+    font-size: 26.66667px;
+    text-align: center;
+    line-height: 40px;
+}
+.option-input:checked::after {
+    -webkit-animation: click-wave 0.65s;
+    -moz-animation: click-wave 0.65s;
+    animation: click-wave 0.65s;
+    background: #40e0d0;
+    content: '';
+    display: block;
+    position: relative;
+    z-index: 100;
+}
+.option-input.radio {
+    border-radius: 50%;
+}
+.option-input.radio::after {
+    border-radius: 50%;
+}
+.search {
+  height: 2em !important;
 }
