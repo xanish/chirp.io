@@ -42,7 +42,7 @@ class FeedServiceObject
             $feed = $this->tweet->whereIn('user_id', $followingids)
             ->where('tweets.id', '<', $lastid)
             ->join('users', 'tweets.user_id', '=', 'users.id')
-            ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
             ->orderBy('tweets.id', 'DESC')
             ->take(20)->get();
         }
@@ -51,7 +51,7 @@ class FeedServiceObject
             $feed = $this->tweet->whereIn('user_id', $followingids)
             ->where('tweets.id', '>', $currentid)
             ->join('users', 'tweets.user_id', '=', 'users.id')
-            ->select('users.id as uid', 'users.id', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.created_at')
+            ->select('users.id as uid', 'users.id', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
             ->orderBy('tweets.id', 'DESC')
             ->get();
         }

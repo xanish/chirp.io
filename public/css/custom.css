@@ -405,3 +405,6 @@ a:hover, a:focus {
 .option-input.radio::after {
     border-radius: 50%;
 }
+.search {
+  height: 2em !important;
+}
