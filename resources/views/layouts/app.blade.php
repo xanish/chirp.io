@@ -13,14 +13,14 @@
     <link href="{{ asset('font/icofont.ttf') }}" rel="application/x-font-ttf">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
-    @if($color != 'default')
+    @if($color != 'default' and $color != '')
         <link rel="stylesheet" href="{{ asset('css/'.$color.'.css') }}">
     @endif
 </head>
 <body>
     <div id="app">
         @include('partials.navbar')
-
+        
         @yield('content')
     </div>
 
