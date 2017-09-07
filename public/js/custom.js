@@ -24,29 +24,29 @@ $.ajaxSetup({
 });
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
 })
 
 var text_max = 150;
 $('#count_message').html(text_max);
 /*$('#tweetbox').keyup(function() {
-    $('#ERRORMSG').html('');
-    var empty = false;
-    if ($(this).val().length == 0) {
-        empty = true;
-    }
-    if (empty) {
-        $('#tweet-button').attr('disabled', 'disabled');
-    } else {
-        $('#tweet-button').attr('disabled', false);
-    }
-    var text_length = $('#tweetbox').val().length;
-    var text_remaining = text_max - text_length;
-    $('#count_message').html(text_remaining);
+$('#ERRORMSG').html('');
+var empty = false;
+if ($(this).val().length == 0) {
+empty = true;
+}
+if (empty) {
+$('#tweet-button').attr('disabled', 'disabled');
+} else {
+$('#tweet-button').attr('disabled', false);
+}
+var text_length = $('#tweetbox').val().length;
+var text_remaining = text_max - text_length;
+$('#count_message').html(text_remaining);
 });
 
 $('#tweetbox').keydown(function() {
-    $('#tweetbox').keyup();
+$('#tweetbox').keyup();
 });*/
 
 // ajax tweet post
@@ -112,7 +112,7 @@ $('#form').submit(function() {
             console.log(xhr);
             console.log(jqXHR.status);
             if(jqXHR.status == 401 || jqXHR.status == 500) {
-              redirectToLogin();
+                redirectToLogin();
             }
         },
         complete: function() {
@@ -125,45 +125,51 @@ $('#form').submit(function() {
 });
 
 $(document).ready(function() {
-  try {
-    $('#tweetbox').emojioneArea({
-      pickerPosition: "bottom",
-      tonesStyle: "bullet",
-      events: {
-          // Display remaining characters on tweetbox
-          keyup: function (editor, event) {
-          $('#ERRORMSG').html('');
-          var empty = false;
-          if ($(editor).html().length == 0) {
-            empty = true;
-          }
-          if (empty) {
-            $('#tweet-button').attr('disabled', 'disabled');
-          } else {
-            $('#tweet-button').attr('disabled', false);
-          }
-          var text_length = $("#tweeteditor > img").length + $(editor).text().length;
-          var text_remaining = text_max - text_length;
-          if(text_remaining < 0)
-          {
-            $('#tweet-button').attr('disabled', 'disabled');
-          }
-          $('#count_message').html(text_remaining);
-        },
-        keydown: function (editor, event) {
-          $(editor).keyup();
-        },
-        emojibtn_click: function (button, event) {
-          $("div#tweeteditor.emojionearea-editor").keyup();
-        }
-      }
-    });
+    try {
+        $('#tweetbox').emojioneArea({
+            pickerPosition: "bottom",
+            tonesStyle: "bullet",
+            events: {
+                // Display remaining characters on tweetbox
+                keyup: function (editor, event) {
+                    $('#ERRORMSG').html('');
+                    var empty = false;
+                    if ($(editor).html().length == 0) {
+                        empty = true;
+                    }
+                    if (empty) {
+                        $('#tweet-button').attr('disabled', 'disabled');
+                    } else {
+                        $('#tweet-button').attr('disabled', false);
+                    }
+                    var text_length = $("#tweeteditor > img").length + $(editor).text().length;
+                    var text_remaining = text_max - text_length;
+                    if(text_remaining < 0)
+                    {
+                        $('#tweet-button').attr('disabled', 'disabled');
+                        $("#count_message").css("color", "red");
+                    }
+                    else {
+                        $("#count_message").css("color", "");
+                    }
+                    $('#count_message').html(text_remaining);
+                },
+                keydown: function (editor, event) {
+                    $(editor).keyup();
+                },
+                emojibtn_click: function (button, event) {
+                    $("div#tweeteditor.emojionearea-editor").keyup();
+                }
+            }
+        });
     }
     catch(e)
     {
-  console.log(e);
-      // To prevent emojioneArea is not a function error.
+        console.log(e);
+        // To prevent emojioneArea is not a function error.
     }
+
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 
     if ( $('#feed-tweet').length ) {
         unbindscroll();
@@ -318,6 +324,7 @@ $(document).ready(function() {
                 $('#' + $id + ' i.material-icons').text('favorite');
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) + 1);
+                $('#' + $id).children().prop('title', 'Unlike');
             },
             error: function (jqXHR, xhr) {
                 $(body).append($messageFail);
@@ -325,7 +332,7 @@ $(document).ready(function() {
                     $(this).remove();
                 });
                 if(jqXHR.status == 401 || jqXHR.status == 500) {
-                  redirectToLogin();
+                    redirectToLogin();
                 }
             }
         });
@@ -351,7 +358,7 @@ $(document).ready(function() {
                     $(this).remove();
                 });
                 if(jqXHR.status == 401 || jqXHR.status == 500) {
-                  redirectToLogin();
+                    redirectToLogin();
                 }
             }
         });
@@ -416,60 +423,60 @@ $(document).ready(function() {
 var __lastid;
 function loadTweet(_lastid) {
     try {
-    $.ajax({
-        url: 'gettweets',
-        type: 'GET',
-        data: {
-          username : _username,
-          lastid : _lastid
-        },
-        success: function(data) {
-            console.log(data);
-            var $finaldata = " ";
-            if(data.posts.length != 0) {
-              //$("#notweetmessageprofile").hide();
-              tweetcounter += data.posts.length;
+        $.ajax({
+            url: 'gettweets',
+            type: 'GET',
+            data: {
+                username : _username,
+                lastid : _lastid
+            },
+            success: function(data) {
+                console.log(data);
+                var $finaldata = " ";
+                if(data.posts.length != 0) {
+                    //$("#notweetmessageprofile").hide();
+                    tweetcounter += data.posts.length;
+                }
+                for( i=0; i<data.posts.length; i++ ) {
+                    $finaldata += tweetBuilder(data.posts[i].id,
+                        data.user.profile_image,
+                        data.user.name,
+                        data.user.username,
+                        data.posts[i].created_at,
+                        data.posts[i].text,
+                        data.posts[i].tags,
+                        data.posts[i].tweet_image,
+                        data.posts[i].original_image,
+                        data.liked,
+                        data.posts[i].likes
+                    );
+                    __lastid = data.posts[i].id;
+                    //$finaldata = $finaldata + $response;
+                }
+                if(data.posts.length == 0) {
+                    __lastid = null;
+                }
+                $("#feed-tweet").append($finaldata);
+            },
+            error: function(jqXHR, xhr) {
+                console.log(xhr);
+                console.log(jqXHR.status);
+                if(jqXHR.status == 401) {
+                    redirectToLogin();
+                }
+            },
+            complete: function() {
+                $("#loading").hide();
+                bindscroll();
+                if(tweetcounter == 0) {
+                    $("#notweetmessageprofile").show();
+                }
+                if(__lastid == null) {
+                    //$("#loading").hide();
+                    showBackToTop();
+                }
             }
-            for( i=0; i<data.posts.length; i++ ) {
-              $finaldata += tweetBuilder(data.posts[i].id,
-                                         data.user.profile_image,
-                                         data.user.name,
-                                         data.user.username,
-                                         data.posts[i].created_at,
-                                         data.posts[i].text,
-                                         data.posts[i].tags,
-                                         data.posts[i].tweet_image,
-                                         data.posts[i].original_image,
-                                         data.liked,
-                                         data.posts[i].likes
-                                       );
-            __lastid = data.posts[i].id;
-            //$finaldata = $finaldata + $response;
-          }
-          if(data.posts.length == 0) {
-            __lastid = null;
-          }
-          $("#feed-tweet").append($finaldata);
-        },
-        error: function(jqXHR, xhr) {
-          console.log(xhr);
-          console.log(jqXHR.status);
-          if(jqXHR.status == 401) {
-            redirectToLogin();
-          }
-        },
-        complete: function() {
-          $("#loading").hide();
-          bindscroll();
-          if(tweetcounter == 0) {
-            $("#notweetmessageprofile").show();
-          }
-            if(__lastid == null) {
-              //$("#loading").hide();
-              showBackToTop();
-            }
-        }
-      });
+        });
     }catch(e) {}
     return false;
 };
@@ -532,7 +539,7 @@ function loadFeed(_feedlastid, _feedcurrentid) {
             console.log(xhr);
             console.log(jqXHR.status);
             if(jqXHR.status == 401) {
-              redirectToLogin();
+                redirectToLogin();
             }
         },
         complete: function() {
@@ -601,10 +608,10 @@ function addHashTags(tagArr, textArr) {
 function addLikes(likedArr, likescount, id) {
     if(likedArr != -1) {
         if(jQuery.inArray(id, likedArr) != -1) {
-            $response += "<div class='card-action'>" + "<h6><a class='red-text unlikes' id='" + id + "'><i class='material-icons' data-toggle='tooltip' data-placement='top' title='Unlike'>favorite</i> <span>" + likescount + "</span></a></h6></div>";
+            $response += "<div class='card-action'>" + "<h6><a class='red-text unlikes' id='" + id + "'><i class='material-icons' data-toggle='tooltip' data-placement='bottom' title='Unlike'>favorite</i> <span>" + likescount + "</span></a></h6></div>";
         }
         else {
-            $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + id + "'><i class='material-icons'>favorite_border</i> <span>" + likescount + "</span></a></h6></div>";
+            $response += "<div class='card-action'>" + "<h6><a class='red-text likes' id='" + id + "'><i class='material-icons' data-toggle='tooltip' data-placement='bottom' title='Like'>favorite_border</i> <span>" + likescount + "</span></a></h6></div>";
         }
     }
     else {
@@ -671,12 +678,12 @@ $(".tweet-alert").click(function() {
     $newtweetbuffer = " ";
 });
 
-  function redirectToLogin() {
+function redirectToLogin() {
     window.location="http://chirp.io/login";
-  }
+}
 
-  // update the dropdown city and country values
-  function updatePredictionsDropDownDisplay(dropDown, input) {
+// update the dropdown city and country values
+function updatePredictionsDropDownDisplay(dropDown, input) {
     try {
         dropDown.css({
             'width': input.outerWidth(),

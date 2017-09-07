@@ -17,6 +17,7 @@ class FeedServiceObject
     private $tweet;
     private $follower;
     private $hashtag;
+    public $followingids;
 
     public function __construct(User $user, Tweet $tweet, Follower $follower, Like $like, Hashtag $hashtag)
     {
@@ -29,12 +30,14 @@ class FeedServiceObject
 
     public function getFeed($lastid, $currentid)
     {
-        $id = Auth::id();
-        $user = $this->user->find($id);
-        $tweet_count = $user->tweets()->count();
-        $follower_count = $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count();
-        $following_count = $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count();
-        $followingids = $user->following()->pluck('follows');
+        //$id = Auth::id();
+        $user = Auth::user();
+        //$tweet_count = $user->tweets()->count();
+        //$follower_count = $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count();
+        //$following_count = $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count();
+        //$followingids = $user->following()->pluck('follows');
+        $followingids = $this->getFollowing($user)->pluck('follows');
+        //$following_count = $followingids->count();
         $liked = Auth::user()->likes()->pluck('tweet_id')->toArray();
         $currentdata = 0;
 
@@ -74,11 +77,11 @@ class FeedServiceObject
 
     public function getUser()
     {
-        $id = Auth::id();
-        $user = User::find($id);
+        //$id = Auth::id();
+        $user = Auth::user();
         $tweet_count = $user->tweets()->count();
-        $follower_count = $user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count();
-        $following_count = $user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count();
+        $follower_count = $this->getFollowers($user)->whereColumn('followers.created_at', 'followers.updated_at')->count();//$user->followers()->whereColumn('followers.created_at', 'followers.updated_at')->count();
+        $following_count = $this->getFollowing($user)->whereColumn('followers.created_at', 'followers.updated_at')->count();//$user->following()->whereColumn('followers.created_at', 'followers.updated_at')->count();
 
         return array(
             'user' => $user,
@@ -88,11 +91,24 @@ class FeedServiceObject
         );
     }
 
+    public function getFollowers($user)
+    {
+        $followers = $user->followers();//->whereColumn('followers.created_at', 'followers.updated_at');
+        return $followers;
+    }
+
+    public function getFollowing($user)
+    {
+        $following = $user->following();//->whereColumn('followers.created_at', 'followers.updated_at');
+        return $following;
+    }
+
     public function parseFeed($feed)
     {
         $posts = [];
         $ids = $feed->pluck('id')->toArray();
-        $follow = $this->follower->all()->where('user_id', Auth::user()->id);
+        $follow = $this->getFollowing(Auth::user())->get();//follower->all()->where('user_id', Auth::user()->id);
+        //return response($follow);
         $likes = $this->like->all()->whereIn('tweet_id', $ids);
         $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->get();
         foreach ($feed as $tweet) {
@@ -104,6 +120,7 @@ class FeedServiceObject
                 array_push($tags, '#'.$tag);
             }
             $f = $follow->where('follows', $tweet->uid);
+            return response($f);
             if ($tweet->created_at < $f->get('updated_at') or $f->get('created_at') == $f->get('updated_at')) {
                 $post = array(
                     'id' => $tweet->id,
