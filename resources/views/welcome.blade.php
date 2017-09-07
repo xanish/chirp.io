@@ -50,31 +50,31 @@
                                 <img src="{{ asset($tweet->tweet_image) }}" class="img-responsive hidden-xs lightboxed" alt="">
                             </a>
                             @endif
-                            </div>
-                            @if($tweet->tweet_image != null)
-                            <div class="col-xs-12 visible-xs">
-                                <a href="{{ asset($tweet->original_image) }}" data-lightbox="box-{{ $tweet->id }}-mini">
-                                    <img src="{{ asset($tweet->tweet_image) }}" class="img-responsive lightboxed" alt="">
-                                </a>
-                            </div>
-                            @endif
                         </div>
-                    </div>
-                    <div class="card-action">
-                        <h6><a class="red-text" href="/login"><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
+                        @if($tweet->tweet_image != null)
+                        <div class="col-xs-12 visible-xs">
+                            <a href="{{ asset($tweet->original_image) }}" data-lightbox="box-{{ $tweet->id }}-mini">
+                                <img src="{{ asset($tweet->tweet_image) }}" class="img-responsive lightboxed" alt="">
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 </div>
-                <div class="margin-top-10"></div>
+                <div class="card-action">
+                    <h6><a class="red-text" href="/login"><i class="material-icons">favorite</i> <span>{{ $tweet->likes }}</span></a></h6>
+                </div>
+            </div>
+            <div class="margin-top-10"></div>
+            @endforeach
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <h4 class="pacifico">Popular Tags</h4>
+            <table class="table">
+                @foreach($popular_tags as $tag)
+                <tr><td><a href="/tag/{{ $tag->tag }}">{{ $tag->tag }}</a></td><td>{{ $tag->tag_count }}</td></tr>
                 @endforeach
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                <h4 class="pacifico">Popular Tags</h4>
-                <table class="table">
-                    @foreach($popular_tags as $tag)
-                    <tr><td><a href="/tag/{{ $tag->tag }}">{{ $tag->tag }}</a></td><td>{{ $tag->tag_count }}</td></tr>
-                    @endforeach
-                </table>
-            </div>
+            </table>
         </div>
     </div>
-    @endsection
+</div>
+@endsection

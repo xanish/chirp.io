@@ -19,10 +19,8 @@ class HomeController extends Controller
     public function index()
     {
         $response = $this->feedSO->getUser();
-        $color = Auth::user()->accentColor()->firstOrFail();
         return view('home')->with([
             'user' => $response['user'],
-            'color' => $color->color,
             'tweet_count' => $response['tweet_count'],
             'follower_count' => $response['follower_count'],
             'following_count' => $response['following_count'],

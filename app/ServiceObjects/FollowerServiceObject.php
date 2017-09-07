@@ -7,12 +7,15 @@ use App\Follower;
 use Carbon\Carbon;
 use Exception;
 
-class FollowerServiceObject {
+class FollowerServiceObject
+{
     private $user;
+    private $follower;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Follower $follower)
     {
         $this->user = $user;
+        $this->follower = $follower;
     }
 
     public function follow ($uid)
@@ -21,10 +24,10 @@ class FollowerServiceObject {
             $follow = $this->user->find($uid);
             $id = Auth::id();
             $user = $this->user->find($id);
-            $follows = Follower::where([['user_id', $user->id],['follows', $follow->id]])->get();
+            $follows = $this->follower->where([['user_id', $user->id],['follows', $follow->id]])->get();
             $now = Carbon::now();
             if (count($follows) > 0) {
-                Follower::where([['user_id', $user->id],['follows', $follow->id]])->update([
+                $this->follower->where([['user_id', $user->id],['follows', $follow->id]])->update([
                     'created_at' => $now,
                     'updated_at' => $now,
                 ]);
@@ -45,8 +48,7 @@ class FollowerServiceObject {
             $unfollow = $this->user->find($uid);
             $id = Auth::id();
             $user = $this->user->find($id);
-            // $user->following()->detach($unfollow->id);
-            Follower::where([['user_id', $user->id],['follows', $unfollow->id]])->update([
+            $this->follower->where([['user_id', $user->id],['follows', $unfollow->id]])->update([
                 'updated_at' => Carbon::now(),
             ]);
         } catch (Exception $e) {
