@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Color;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use App\Jobs\SendVerificationEmail;
 
 class RegisterController extends Controller
 {
@@ -52,7 +55,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:30',
             'username' => 'required|string|max:20',
-            'email' => 'required|string|email|max:20|unique:users',
+            'email' => 'required|string|email|max:40|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -70,13 +73,43 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'email_token' => base64_encode($data['email']),
         ]);
         $color = Color::create([
             'user_id' => $user->id,
             'color' => 'default',
         ]);
-        \Mail::to($user)->send(new Welcome($user));
 
         return $user;
+    }
+
+    /**
+    * Handle a registration request for the application.
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response
+    */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+        dispatch(new SendVerificationEmail($user));
+        return view('verification');
+    }
+
+    /**
+    * Handle a registration request for the application.
+    *
+    * @param $token
+    * @return \Illuminate\Http\Response
+    */
+    public function verify($token)
+    {
+        $user = User::where('email_token',$token)->first();
+        $user->verified = 1;
+        if($user->save()){
+            return view('emailconfirm',['user'=>$user]);
+        }
+        \Mail::to($user)->send(new Welcome($user));
     }
 }

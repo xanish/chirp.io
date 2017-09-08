@@ -26,3 +26,5 @@ Route::delete('/unfollow/{id}', 'FollowsController@unfollow');
 Route::get('/{username}', 'ProfileController@profile');
 Route::get('/{username}/followers', 'ProfileController@followers');
 Route::get('/{username}/following', 'ProfileController@following');
+
+Route::get('/verifyemail/{token}', 'Auth\RegisterController@verify');

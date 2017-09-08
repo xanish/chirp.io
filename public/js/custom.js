@@ -142,8 +142,31 @@ $(document).ready(function() {
                     } else {
                         $('#tweet-button').attr('disabled', false);
                     }
-                    var text_length = $("#tweeteditor > img").length + $(editor).text().length;
-                    var text_remaining = text_max - text_length;
+
+                    var count = $('#count_message');
+                    var emojis = $("#tweeteditor > div > img").length + $("#tweeteditor > img").length;
+                    //console.log($("#tweeteditor > div > img").length);
+                    console.log('emojis : ' + $("#tweeteditor > img").length);
+                    var characters = $(editor).text().length;
+                    console.log('chars : ' + characters);
+                    var newlines = $($("#tweeteditor").html()).length;
+                    console.log('newlines : ' + newlines);
+
+                    if (!!newlines) newlines -= 1;
+                    //console.log('!!newlines : ' + !!newlines);
+                    //console.log('edited newline : ' + newlines);
+
+                    characters += newlines + emojis;
+                    console.log('final chars : ' + characters);
+
+                    if (characters > (text_max - 11)) {
+                        count.addClass('over');
+                    } else {
+                        count.removeClass('over');
+                    }
+
+                    var text_remaining = text_max - characters;
+                    console.log('text remaining : ' + text_remaining);
                     if(text_remaining < 0)
                     {
                         $('#tweet-button').attr('disabled', 'disabled');
@@ -153,6 +176,28 @@ $(document).ready(function() {
                         $("#count_message").css("color", "");
                     }
                     $('#count_message').html(text_remaining);
+
+                    /*$('#ERRORMSG').html('');
+                    var empty = false;
+                    if ($(editor).html().length == 0) {
+                        empty = true;
+                    }
+                    if (empty) {
+                        $('#tweet-button').attr('disabled', 'disabled');
+                    } else {
+                        $('#tweet-button').attr('disabled', false);
+                    }
+                    var text_length = $("#tweeteditor > img").length + $(editor).text().length + geteditornewline();
+                    var text_remaining = text_max - text_length;
+                    if(text_remaining < 0)
+                    {
+                        $('#tweet-button').attr('disabled', 'disabled');
+                        $("#count_message").css("color", "red");
+                    }
+                    else {
+                        $("#count_message").css("color", "");
+                    }
+                    $('#count_message').html(text_remaining);*/
                 },
                 keydown: function (editor, event) {
                     $(editor).keyup();
@@ -626,7 +671,7 @@ function showBackToTop() {
 }
 
 function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
-    $response =   "<div class='card hoverable'>" +
+    $response =   "<div class='card hoverable overflow'>" +
     "<div class='card-content'>" +
     "<div class='row'>" +
     "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +

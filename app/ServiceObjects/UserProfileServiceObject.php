@@ -29,7 +29,7 @@ class UserProfileServiceObject
     {
         $user;
         try {
-            if ($username != Auth::user()->username) {
+            if (Auth::guest()) {
                 $user = $this->user->where('username', $username)
                 ->select(
                     'id',
