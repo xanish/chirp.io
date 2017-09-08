@@ -18,11 +18,9 @@ class EditProfileController extends Controller
 
     public function index()
     {
-        $color = Auth::user()->accentColor()->firstOrFail();
-        $color = $color->color;
         $user = Auth::user();
         $success = "";
-        return view('edit', compact('user', 'success', 'color'));
+        return view('edit', compact('user', 'success'));
     }
 
     public function update(UpdateProfileRequest $request)

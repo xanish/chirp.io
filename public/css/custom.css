@@ -408,3 +408,14 @@ a:hover, a:focus {
 .search {
   height: 2em !important;
 }
+.tooltip-inner {
+    height: 30px !important;
+    text-align: center !important;
+    padding-top: 3px !important;
+    padding-bottom: 0 !important;
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+    vertical-align: middle !important;
+    font-size: 1rem !important;
+    border-radius: 4px !important;
+}

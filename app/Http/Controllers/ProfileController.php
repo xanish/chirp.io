@@ -28,17 +28,11 @@ class ProfileController extends Controller
     {
         $profileData = $this->profileSO->getProfile($username);
         $path = $request->path();
-        $color = "";
-        if (Auth::user()) {
-            $color = Auth::user()->accentColor()->firstOrFail();
-            $color = $color->color;
-        }
         return view('tweets')->with([
             'user' => $profileData['user'],
             'tweet_count' => $profileData['tweet_count'],
             'follower_count' => $profileData['follower_count'],
             'following_count' => $profileData['following_count'],
-            'color' => $color,
             'path' => $path,
         ]);
     }
@@ -46,13 +40,7 @@ class ProfileController extends Controller
     public function followers(Request $request, $username)
     {
         $followersData = $this->profileSO->followers($username);
-        // return response()->json($followersData['people'][0]);
         $path = $request->path();
-        $color = "";
-        if (Auth::user()) {
-            $color = Auth::user()->accentColor()->firstOrFail();
-            $color = $color->color;
-        }
         return view('follows')->with([
             'user' => $followersData['user'],
             'people' => $followersData['people'],
@@ -60,7 +48,6 @@ class ProfileController extends Controller
             'follower_count' => $followersData['follower_count'],
             'following_count' => $followersData['following_count'],
             'path' => $path,
-            'color' => $color,
         ]);
     }
 
@@ -68,11 +55,6 @@ class ProfileController extends Controller
     {
         $followingData = $this->profileSO->following($username);
         $path = $request->path();
-        $color = "";
-        if (Auth::user()) {
-            $color = Auth::user()->accentColor()->firstOrFail();
-            $color = $color->color;
-        }
         return view('follows')->with([
             'user' => $followingData['user'],
             'people' => $followingData['people'],
@@ -80,7 +62,6 @@ class ProfileController extends Controller
             'follower_count' => $followingData['follower_count'],
             'following_count' => $followingData['following_count'],
             'path' => $path,
-            'color' => $color,
         ]);
     }
 
