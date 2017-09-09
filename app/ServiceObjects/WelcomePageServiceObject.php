@@ -90,7 +90,7 @@ class WelcomePageServiceObject
 
         $tweets = $this->parseTweets($latest_tweets, $tags, $likes);
         return [
-            'popular_tags' => $this->hashtag->popular(),
+            // 'popular_tags' => $this->hashtag->popular(),
             'latest_tweets' => $tweets,
         ];
     }

@@ -82,11 +82,11 @@ var _username = {!! json_encode($user->username) !!}
                             <a class="btn btn-default" href="login">Login To Follow</a>
                         @elseif(Auth::user()->username == $user->username)
                             {{--Display nothing--}}
-                        @elseif(Auth::user()->follows($user->id) == true)
+                        @elseif($follows == true)
                             <div class="card-action">
                                 <button type="button" id="{{ $user->id }}" class="btn btn-danger unfollow">Unfollow</button>
                             </div>
-                        @elseif(Auth::user()->follows($user->id) == false)
+                        @elseif($follows == false)
                             <div class="card-action">
                                 <button type="button" id="{{ $user->id }}" class="btn btn-default follow">Follow</button>
                             </div>

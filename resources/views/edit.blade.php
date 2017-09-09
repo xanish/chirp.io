@@ -38,17 +38,18 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('birthdate', 'Birthdate') !!}
-                    {!! Form::input('date', 'birthdate', $user->birthdate, ['class' => 'form-control', 'id' => 'edit-bday']) !!}
+                    <input type="text" data-provide="datepicker" value="{{ $user->birthdate }}" class="form-control" id="edit-bday" name="birthdate" data-date-format="yyyy-mm-dd">
                 </div>
                 <div class="form-group">
                     {!! Form::label('default', 'Theme Color') !!}
                     <ul class="list-unstyled list-inline">
-                        <li><input type="radio" class="option-input radio stock" name="color" value="default"/></li>
-                        <li><input type="radio" class="option-input radio blue" name="color" value="blue" /></li>
-                        <li><input type="radio" class="option-input radio deep-purple" name="color" value="deep-purple" /></li>
-                        <li><input type="radio" class="option-input radio pink" name="color" value="pink" /></li>
-                        <li><input type="radio" class="option-input radio green" name="color" value="green" /></li>
-                        <li><input type="radio" class="option-input radio orange" name="color" value="orange" /></li>
+                        @foreach($colors as $c)
+                            @if($c == $color)
+                                <li><input type="radio" class="option-input radio {{ $c }}" name="color" value="{{ $c }}" checked/></li>
+                            @else
+                                <li><input type="radio" class="option-input radio {{ $c }}" name="color" value="{{ $c }}"/></li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
                 <div class="form-group margin-top-10">

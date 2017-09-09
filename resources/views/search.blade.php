@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="container">
-  <h4>Search Results</h4>
+  <h4>Users matching: {{ $criteria }}</h4>
     @if(count($data) == 0)
         <h5 class="text-center pacifico grey-text">No users found</h5>
     @else
         @foreach ($data as $result)
-            @if($result->username != Auth::user()->username)
+            @if(Auth::guest() or $result->username != Auth::user()->username)
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 margin-top-10">
                     <div class="card">
                         <div class="card-image">

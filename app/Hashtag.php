@@ -30,8 +30,7 @@ class Hashtag extends Model
             ->join('users', 'users.id', '=', 'tweets.user_id')
             ->select('users.username', 'users.name', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
             ->orderBy('tweets.id', 'DESC')
-            ->limit(20)
-            ->get();
+            ->paginate(20);
     }
 
     public function findTags($criteria)

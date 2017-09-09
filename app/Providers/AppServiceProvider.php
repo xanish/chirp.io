@@ -14,9 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', function ($view) {
-            $view->with('color', \App\Http\Controllers\ColorController::getColor());
-        });
+        // view()->composer('layouts.app', function($view){
+        //     $view->with('color', '\App\Http\Controllers\ColorController::getColor()');
+        // });
     }
 
     /**
