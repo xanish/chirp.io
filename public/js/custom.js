@@ -2,6 +2,7 @@ var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
 var EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
+
 $('#search-results-dropdown').hide();
 $('#password-strength-meter').hide();
 $('#main-results-dropdown').hide();
@@ -48,6 +49,25 @@ $('#count_message').html(text_remaining);
 $('#tweetbox').keydown(function() {
 $('#tweetbox').keyup();
 });*/
+
+function load_popular_tags() {
+    $('#loading').show();
+    $.ajax({
+        url: '/popular_tags',
+        type: 'GET',
+        success: function (data) {
+            data.forEach(function(element){
+                $('#popular-tags').append('<tr><td><a href="/tag/' + element.tag + '/tweets">' + element.tag + '</a></td><td>' + element.tag_count + '</td></tr>')
+            });
+        },
+        error: function (xhr) {
+            $('#popular-tags').append('<h6 class="text-center">Unable To Load Popular Tweets Try Again Later</h6>');
+        },
+        complete: function () {
+            $("#loading").hide();
+        }
+    });
+}
 
 // ajax tweet post
 $('#form').submit(function() {
@@ -129,6 +149,15 @@ function getText( obj ) {
 }
 
 $(document).ready(function() {
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+    });
+
+    if ($("#popular-tags").length > 0) {
+        load_popular_tags();
+    }
+
+
     try {
         $('#tweetbox').emojioneArea({
             pickerPosition: "bottom",
@@ -655,7 +684,7 @@ function addHashTags(tagArr, textArr) {
         var chirptext = textArr[j];
         if(jQuery.inArray(chirptext, tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
-            $response += "<a href='/tag/" + taggedtext + "'>" + chirptext + "</a>" + " ";
+            $response += "<a href='/tag/" + taggedtext + "/tweets'>" + chirptext + "</a>" + " ";
         }
         else if(chirptext == "") {
             $response += "&nbsp;";
@@ -761,6 +790,7 @@ $('#navbar-search').keyup(function () {
     if ($(this).val() != '') {
         $('#search-page').attr('href','/search/' + $(this).val());
         $('#navsearch').attr('action', '/search/' + $(this).val());
+        var criteria =  $(this).val();
         $('#search-results-dropdown').show();
         $.ajax({
             url: '/search',
@@ -772,6 +802,7 @@ $('#navbar-search').keyup(function () {
                 $('.search-item').remove();
                 console.log(data);
                 if (data.users.length != 0) {
+                    $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/search/" + criteria + "'><h6>Show All Matching Users</h6></a></li></ul></div></li>");
                     for (var i = 0; i < data.users.length; i++) {
                         $element = "<li class='row search-item'><div class='col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
                         "' alt=''></div><div class='col-xs-10'><a href='/" + data.users[i].username + "'><ul class='list-unstyled'><li><h6>" + data.users[i].name +
@@ -785,8 +816,9 @@ $('#navbar-search').keyup(function () {
                     $('#search-results-dropdown').prepend($element);
                 }
                 else {
+                    $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/tag/" + criteria + "'><h6>Show All Matching Tags</h6></a></li></ul></div></li>");
                     for (var i = 0; i < data.tags.length; i++) {
-                        $element = "<li class='row search-item'><div class='col-xs-12'><a href='/tag/" + data.tags[i].tag + "'><ul class='list-unstyled'><li><h6>#" + data.tags[i].tag +
+                        $element = "<li class='row search-item'><div class='col-xs-12 highlight'><a href='/tag/" + data.tags[i].tag + "/tweets'><ul class='list-unstyled'><li><h6>#" + data.tags[i].tag +
                         "</h6></li></ul></a></div></li>";
                         $('#search-results-dropdown').prepend($element);
                     }
@@ -834,7 +866,7 @@ $('#main-page-search-field').keyup(function() {
                 else {
                     $('#search-results').prepend("<li class='row search-item' id='tag-search-items'></div></li>");
                     for (var i = 0; i < data.tags.length; i++) {
-                        $element = "<li class='search-item col-lg-4 col-md-4 col-sm-6 col-xs-12'><a href='/tag/" + data.tags[i].tag + "'><ul class='list-unstyled'><li><h6>#" + data.tags[i].tag +
+                        $element = "<li class='search-item col-lg-4 col-md-4 col-sm-6 col-xs-12'><a href='/tag/" + data.tags[i].tag + "/tweets'><ul class='list-unstyled'><li><h6>#" + data.tags[i].tag +
                         "</h6></li></ul></a></li>";
                         $('#tag-search-items').prepend($element);
                     }

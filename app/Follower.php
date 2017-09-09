@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Follower extends Model
 {
-    public function users($id)
+    public function users($where)
     {
-        return $this->where('user_id', $id)->orWhere('follows', $id)->select('user_id', 'follows')->get();
+        return $this->whereRaw($where)->select('user_id', 'follows')->get();
     }
 }

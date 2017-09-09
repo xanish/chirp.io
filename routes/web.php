@@ -7,7 +7,9 @@ Auth::routes();
 
 Route::get('/search', 'SearchController@search');
 Route::get('/search/{search}', 'SearchController@results');
-Route::get('/tag/{tag}', 'SearchController@tags');
+Route::get('/popular_tags', 'TagController@popular_tags');
+Route::get('/tag/{tag}/tweets', 'TagController@tweets');
+Route::get('/tag/{tag}', 'TagController@tags');
 
 Route::post('/tweet', 'TweetController@create');
 

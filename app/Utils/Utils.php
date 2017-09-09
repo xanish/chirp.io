@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use Image;
+use Auth;
 
 class Utils
 {
@@ -23,5 +24,19 @@ class Utils
             Image::make($image)->save($location.'/original_'.$image_name);
         }
         return $image_name;
+    }
+
+    public function getColor()
+    {
+        $color = "";
+        if (Auth::user()) {
+           try {
+               $color = Auth::user()->accentColor()->firstOrFail();
+           } catch (Exception $e) {
+               throw new Exception($e->getMessage());
+           }
+           $color = $color->color;
+        }
+        return $color;
     }
 }

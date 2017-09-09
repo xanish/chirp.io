@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\ServiceObjects\UserProfileServiceObject;
-use App\Follower;
+use App\Utils\Utils;
+
 class ProfileController extends Controller
 {
     private $profileSO;
+    private $utils;
 
-    public function __construct(UserProfileServiceObject $profileSO)
+    public function __construct(UserProfileServiceObject $profileSO, Utils $utils)
     {
         $this->middleware('auth')->except([
             'profile',
             'fetchTweets'
         ]);
         $this->profileSO = $profileSO;
+        $this->utils = $utils;
     }
 
     public function fetchTweets(Request $request) {
@@ -34,6 +37,8 @@ class ProfileController extends Controller
             'follower_count' => $profileData['follower_count'],
             'following_count' => $profileData['following_count'],
             'path' => $path,
+            'color' => $this->utils->getColor(),
+            'follows' => $profileData['follows'],
         ]);
     }
 
@@ -48,6 +53,8 @@ class ProfileController extends Controller
             'follower_count' => $followersData['follower_count'],
             'following_count' => $followersData['following_count'],
             'path' => $path,
+            'color' => $this->utils->getColor(),
+            'follows' => $followersData['follows'],
         ]);
     }
 
@@ -62,6 +69,8 @@ class ProfileController extends Controller
             'follower_count' => $followingData['follower_count'],
             'following_count' => $followingData['following_count'],
             'path' => $path,
+            'color' => $this->utils->getColor(),
+            'follows' => $followingData['follows'],
         ]);
     }
 

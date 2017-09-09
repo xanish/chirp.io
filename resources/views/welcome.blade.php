@@ -18,7 +18,7 @@
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container" onload="load_popular_tags()">
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
             <h4 class="pacifico">Latest Tweets</h4>
@@ -39,7 +39,7 @@
                             <p>
                                 @foreach($tweet->text as $word)
                                 @if(in_array($word, $tweet->tags))
-                                <a href="/tag/{{ ltrim($word, '#') }}">{!! $word !!}</a>
+                                <a href="/tag/{{ ltrim($word, '#') }}/tweets">{!! $word !!}</a>
                                 @else
                                 {!! $word !!}
                                 @endif
@@ -69,10 +69,14 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
             <h4 class="pacifico">Popular Tags</h4>
-            <table class="table">
-                @foreach($popular_tags as $tag)
-                <tr><td><a href="/tag/{{ $tag->tag }}">{{ $tag->tag }}</a></td><td>{{ $tag->tag_count }}</td></tr>
-                @endforeach
+            <table class="table" id="popular-tags">
+                <div class="spinner" id="loading">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
             </table>
         </div>
     </div>

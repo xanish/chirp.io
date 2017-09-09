@@ -14,6 +14,7 @@
     <link href="{{ asset('font/icofont.ttf') }}" rel="application/x-font-ttf">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.min.css') }}">
     @if($color != 'default' and $color != '')
         <link rel="stylesheet" href="{{ asset('css/'.$color.'.css') }}">
     @endif
@@ -21,7 +22,7 @@
 <body>
     <div id="app">
         @include('partials.navbar')
-        
+
         @yield('content')
     </div>
 
@@ -33,6 +34,7 @@
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/emojionearea.js') }}"></script>
     <script src="{{ asset('js/lightbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCso5QRQXnxgph82Q8tV3oYj24SG56jnCc&libraries=places"></script>
     <script src="https://use.fontawesome.com/dfa2b313d5.js"></script>
 </body>

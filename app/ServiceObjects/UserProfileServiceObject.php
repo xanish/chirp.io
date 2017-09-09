@@ -29,7 +29,7 @@ class UserProfileServiceObject
     {
         $user;
         try {
-            if (Auth::guest()) {
+            if (Auth::guest() or $username != Auth::user()->username) {
                 $user = $this->user->where('username', $username)
                 ->select(
                     'id',
@@ -134,41 +134,60 @@ class UserProfileServiceObject
         );
     }
 
+    public function doesFollow($users, $id)
+    {
+        $follows = $users->where('user_id', Auth::id());
+        $follows = $follows->where('follows', $id);
+        if (count($follows) == 0) {
+            $follows = false;
+        }
+        else {
+            $follows = true;
+        }
+        return $follows;
+    }
+
     public function getProfile($username)
     {
         $user = $this->getUser($username);
         $users = $this->follower->users($user->id);
+        $follows = $this->doesFollow($users, $user->id);
         return array(
             'user' => $user,
             'tweet_count' => $user->tweets()->count('tweets.id'),
             'follower_count' => $users->where('follows', $user->id)->count(),
             'following_count' => $users->where('user_id', $user->id)->count(),
+            'follows' => $follows,
         );
     }
 
     public function followers($username)
     {
         $user = $this->getUser($username);
-        $users = $this->follower->users($user->id);
+        $users = $this->follower->users('(user_id = '. $user->id .' or follows = '. $user->id .') and created_at = updated_at');
+        $follows = $this->doesFollow($users, $user->id);
         return array(
             'user' => $user,
             'people' => $this->getFollowers($user, $this->getFollowerIds($users, $user->id)),
             'tweet_count' => $user->tweets()->count('tweets.id'),
             'follower_count' => $users->where('follows', $user->id)->count(),
             'following_count' => $users->where('user_id', $user->id)->count(),
+            'follows' => $follows,
         );
     }
 
     public function following($username)
     {
         $user = $this->getUser($username);
-        $users = $this->follower->users($user->id);
+        $users = $this->follower->users('(user_id = '. $user->id .' or follows = '. $user->id .') and created_at = updated_at');
+        $follows = $this->doesFollow($users, $user->id);
         return array(
             'user' => $user,
             'people' => $this->getFollowers($user, $this->getFollowingIds($users, $user->id)),
             'tweet_count' => $user->tweets()->count('tweets.id'),
             'follower_count' => $users->where('follows', $user->id)->count(),
             'following_count' => $users->where('user_id', $user->id)->count(),
+            'follows' => $follows,
         );
     }
 }

@@ -72,7 +72,7 @@ class UpdateProfileServiceObject
                 'color' => $color,
             ]);
         }
-        else {
+        else if($color != '') {
             $this->color->where('user_id', Auth::user()->id)->update(['color' => $color]);
         }
     }

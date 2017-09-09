@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ServiceObjects\SearchServiceObject;
 use Auth;
+use App\Utils\Utils;
 
 class SearchController extends Controller
 {
     private $searchSO;
+    private $utils;
 
-    public function __construct(SearchServiceObject $searchSO)
+    public function __construct(SearchServiceObject $searchSO, Utils $utils)
     {
         $this->searchSO = $searchSO;
+        $this->utils = $utils;
     }
 
     public function search(Request $request)
@@ -26,16 +29,8 @@ class SearchController extends Controller
         return view('search')->with([
             'data' => $response['data'],
             'ids' => $response['ids'],
-        ]);
-    }
-
-    public function tags($tag, Request $request)
-    {
-        $data = $this->searchSO->getTweetsByTag($tag);
-        return view('tags')->with([
-            'posts' => $data['posts'],
-            'liked' => $data['liked'],
-            'tag' => '#'.$tag,
+            'color' => $this->utils->getColor(),
+            'criteria' => $search,
         ]);
     }
 }

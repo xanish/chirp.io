@@ -57,7 +57,8 @@ class SearchServiceObject
         }
         if (Auth::user()) {
             $user = Auth::user();
-            $ids = $user->following()->pluck('follows')->toArray();
+            $ids = (new Follower)->users('user_id = '. $user->id .' and created_at = updated_at');
+            $ids = $ids->pluck('follows')->toArray();
         }
         return array('data' => $data, 'ids' => $ids);
     }
@@ -65,38 +66,18 @@ class SearchServiceObject
     public function getTweetsByTag($tag)
     {
         $tweets = $this->hashtag->getTweetsForTag($tag);
-        
         $ids = $tweets->pluck('id')->toArray();
-
-        $tags_collection = $this->hashtag->tweets($ids);
         $likes = $this->like->tweets($ids);
-
-        $posts = [];
-        foreach($tweets as $tweet) {
-            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
-            $tweet->text = str_replace("\n", " ", $tweet->text);
-            $temptags =  $tags_collection->where('tweet_id', $tweet->id)->pluck('tag')->toArray();
-            $tags = [];
-            foreach ($temptags as $tag) {
-                array_push($tags, '#'.$tag);
-            }
-            $post = array(
-                'username' => $tweet->username,
-                'name' => $tweet->name,
-                'profile_image' => $tweet->profile_image,
-                'id' => $tweet->id,
-                'text' => explode(" ", $tweet->text),
-                'tweet_image' => $tweet->tweet_image,
-                'original_image' => $tweet->original_image,
-                'likes' => $likes->where('tweet_id', $tweet->id)->count(),
-                'tags' => $tags,
-                'created_at' => $tweet->created_at,
-            );
-            array_push($posts, (object)$post);
-        }
+        $tags_collection = $this->hashtag->tweets($ids);
         return array(
-            'posts' => $posts,
+            'posts' => $tweets,
             'liked' => Auth::guest() ? [] : $likes->where('user_id', Auth::id())->pluck('tweet_id')->toArray(),
+            'tags' => $tags_collection->pluck('tag')->unique()->values()->toArray(),
         );
+    }
+
+    public function popular()
+    {
+        return $this->hashtag->popular();
     }
 }

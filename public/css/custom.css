@@ -1,4 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+.overflow {
+    overflow: visible;
+}
+.dropdown-menu li > a:hover {
+    background-color: #cecece;
+}
+.search-item .highlight:hover, .search-item .highlight a > ul > li > h6:hover {
+    background-color: #cecece;
+}
+td, th {
+    padding: 10px !important;
+}
 meter {
   margin: 0 auto 1em;
   width: 100% !important;
