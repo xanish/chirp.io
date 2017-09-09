@@ -124,6 +124,10 @@ $('#form').submit(function() {
     return false;
 });
 
+function getText( obj ) {
+    return obj.textContent ? obj.textContent : obj.innerText;
+}
+
 $(document).ready(function() {
     try {
         $('#tweetbox').emojioneArea({
@@ -149,12 +153,24 @@ $(document).ready(function() {
                     console.log('emojis : ' + $("#tweeteditor > img").length);
                     var characters = $(editor).text().length;
                     console.log('chars : ' + characters);
-                    var newlines = $($("#tweeteditor").html()).length;
+                    //var newlines = document.getElementById('tweeteditor').innerHTML.length;
+                    var newlines = $('#tweeteditor div').length;
+                    var test = $("#tweeteditor")
+                               .contents()
+                               .filter(function() {
+                                   return !!$.trim( this.innerHTML || this.data );
+                               })
+                               .first();
+
+                    console.log(test.html());
+                    //console.log(getText(test[0]));
                     console.log('newlines : ' + newlines);
 
-                    if (!!newlines) newlines -= 1;
-                    //console.log('!!newlines : ' + !!newlines);
-                    //console.log('edited newline : ' + newlines);
+                    if(test.html() == "<br>") {
+                        if (!!newlines) newlines -= 1;
+                        console.log('!!newlines : ' + !!newlines);
+                        console.log('edited newline : ' + newlines);
+                    }
 
                     characters += newlines + emojis;
                     console.log('final chars : ' + characters);
