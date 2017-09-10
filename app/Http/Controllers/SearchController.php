@@ -29,7 +29,6 @@ class SearchController extends Controller
         return view('search')->with([
             'data' => $response['data'],
             'ids' => $response['ids'],
-            'color' => $this->utils->getColor(),
             'criteria' => $search,
         ]);
     }

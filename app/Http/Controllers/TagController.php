@@ -21,8 +21,7 @@ class TagController extends Controller
     {
         $tags = Hashtag::where('tag', 'LIKE', '%'.$tag.'%')->groupBy('tag')->select('tag')->paginate(50);
         $page = 'tags';
-        $color = $this->utils->getColor();
-        return view('tags', compact('tags', 'page', 'color', 'tag'));
+        return view('tags', compact('tags', 'page', 'tag'));
     }
 
     public function tweets($tag, Request $request)
@@ -34,7 +33,6 @@ class TagController extends Controller
             'liked' => $data['liked'],
             'tag' => '#'.$tag,
             'tags' => $data['tags'],
-            'color' => $this->utils->getColor(),
         ]);
     }
 

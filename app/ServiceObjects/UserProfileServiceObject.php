@@ -65,7 +65,9 @@ class UserProfileServiceObject
 
     public function getFollowers($user, $ids)
     {
-        return $this->user->whereIn('id', $ids)->select('id', 'username', 'name', 'birthdate', 'city', 'country', 'profile_image', 'profile_banner', 'created_at')->get();
+        return $this->user->whereIn('id', $ids)
+                          ->select('id', 'username', 'name', 'birthdate', 'city', 'country', 'profile_image', 'profile_banner', 'created_at')
+                          ->paginate(20);
     }
 
     public function getTweets($username, $lastid)

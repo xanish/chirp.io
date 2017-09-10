@@ -21,8 +21,7 @@ class SiteHomePageController extends Controller
             $data = $this->welcomeSO->welcomePageData();
             // $popular_tags = $data['popular_tags'];
             $tweets = $data['latest_tweets'];
-            $color = $this->utils->getColor();
-            return view('welcome', compact('tweets', 'color'));
+            return view('welcome', compact('tweets'));
         }
         return redirect(action('HomeController@index'));
     }

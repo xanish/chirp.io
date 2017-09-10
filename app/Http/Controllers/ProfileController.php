@@ -37,7 +37,6 @@ class ProfileController extends Controller
             'follower_count' => $profileData['follower_count'],
             'following_count' => $profileData['following_count'],
             'path' => $path,
-            'color' => $this->utils->getColor(),
             'follows' => $profileData['follows'],
         ]);
     }
@@ -53,7 +52,6 @@ class ProfileController extends Controller
             'follower_count' => $followersData['follower_count'],
             'following_count' => $followersData['following_count'],
             'path' => $path,
-            'color' => $this->utils->getColor(),
             'follows' => $followersData['follows'],
         ]);
     }
@@ -69,7 +67,6 @@ class ProfileController extends Controller
             'follower_count' => $followingData['follower_count'],
             'following_count' => $followingData['following_count'],
             'path' => $path,
-            'color' => $this->utils->getColor(),
             'follows' => $followingData['follows'],
         ]);
     }
