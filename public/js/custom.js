@@ -93,18 +93,18 @@ $('#form').submit(function() {
             $("#tweet_image_file").val('');
             $('#count_message').html(text_max);
             $('#tweet-button').attr('disabled', 'disabled');
-            $reponse =    tweetBuilder(data.element.id,
-                data.element.avatar,
-                data.element.name,
-                data.element.username,
-                data.element.date,
-                data.element.text,
-                data.element.tags,
-                data.element.image,
-                data.element.original,
-                null,
-                0
-            );
+            $reponse =   tweetBuilder(data.element.id,
+                                      data.element.avatar,
+                                      data.element.name,
+                                      data.element.username,
+                                      data.element.date,
+                                      data.element.text,
+                                      data.element.tags,
+                                      data.element.image,
+                                      data.element.original,
+                                      null,
+                                      0
+                                     );
             $("#feed-tweet").prepend($response);
             $("#count-bar").load(' #navcount');
 
@@ -144,6 +144,10 @@ $('#form').submit(function() {
     return false;
 });
 
+function getText( obj ) {
+    return obj.textContent ? obj.textContent : obj.innerText;
+}
+
 $(document).ready(function() {
     $('.datepicker').datepicker({
         format: 'yyyy-mm-dd',
@@ -171,8 +175,38 @@ $(document).ready(function() {
                     } else {
                         $('#tweet-button').attr('disabled', false);
                     }
-                    var text_length = $("#tweeteditor > img").length + $(editor).text().length;
-                    var text_remaining = text_max - text_length;
+
+                    var count = $('#count_message');
+                    var emojis = $("#tweeteditor > div > img").length + $("#tweeteditor > img").length;
+                    //console.log($("#tweeteditor > div > img").length);
+                    //console.log('emojis : ' + $("#tweeteditor > img").length);
+                    var characters = $(editor).text().length;
+                    //console.log('chars : ' + characters);
+                    var newlines = $('#tweeteditor div').length;
+                    var checker = $("#tweeteditor").contents().first();
+
+                    //console.log(checker[0]);
+                    //console.log(getText(checker[0]));
+                    //console.log(typeof getText(checker[0]));
+                    //console.log('newlines : ' + newlines);
+
+                    if(checker.html() == "<br>" || checker.has("div")) {
+                        if (!!newlines) newlines -= 1;
+                        //console.log('!!newlines : ' + !!newlines);
+                        //console.log('edited newline : ' + newlines);
+                    }
+
+                    characters += newlines + emojis;
+                    //console.log('final chars : ' + characters);
+
+                    if (characters > (text_max - 11)) {
+                        count.addClass('over');
+                    } else {
+                        count.removeClass('over');
+                    }
+
+                    var text_remaining = text_max - characters;
+                    //console.log('text remaining : ' + text_remaining);
                     if(text_remaining < 0)
                     {
                         $('#tweet-button').attr('disabled', 'disabled');
@@ -182,6 +216,28 @@ $(document).ready(function() {
                         $("#count_message").css("color", "");
                     }
                     $('#count_message').html(text_remaining);
+
+                    /*$('#ERRORMSG').html('');
+                    var empty = false;
+                    if ($(editor).html().length == 0) {
+                        empty = true;
+                    }
+                    if (empty) {
+                        $('#tweet-button').attr('disabled', 'disabled');
+                    } else {
+                        $('#tweet-button').attr('disabled', false);
+                    }
+                    var text_length = $("#tweeteditor > img").length + $(editor).text().length + geteditornewline();
+                    var text_remaining = text_max - text_length;
+                    if(text_remaining < 0)
+                    {
+                        $('#tweet-button').attr('disabled', 'disabled');
+                        $("#count_message").css("color", "red");
+                    }
+                    else {
+                        $("#count_message").css("color", "");
+                    }
+                    $('#count_message').html(text_remaining);*/
                 },
                 keydown: function (editor, event) {
                     $(editor).keyup();
@@ -194,7 +250,7 @@ $(document).ready(function() {
     }
     catch(e)
     {
-        console.log(e);
+        //console.log(e);
         // To prevent emojioneArea is not a function error.
     }
 
@@ -353,7 +409,7 @@ $(document).ready(function() {
                 $('#' + $id + ' i.material-icons').text('favorite');
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) + 1);
-                $('#' + $id).children().prop('title', 'Unlike');
+                $('#' + $id).children().first().attr('title', 'Unlike').tooltip('fixTitle').tooltip('show');
             },
             error: function (jqXHR, xhr) {
                 $(body).append($messageFail);
@@ -380,6 +436,7 @@ $(document).ready(function() {
                 $('#' + $id + ' i.material-icons').text('favorite_border');
                 $current = $('#' + $id + ' span').text();
                 $('#' + $id + ' span').text(parseInt($current) - 1);
+                $('#' + $id).children().first().attr('title', 'Like').tooltip('fixTitle').tooltip('show');
             },
             error: function (jqXHR, xhr) {
                 $('#app').append($messageFail);

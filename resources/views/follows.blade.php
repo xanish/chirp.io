@@ -45,6 +45,7 @@
                         <div class="margin-top-10"></div>
                     </div>
                 @endforeach
+                {{ $people->links() }}
             @endif
         </div>
     </div>
