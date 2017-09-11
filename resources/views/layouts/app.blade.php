@@ -20,6 +20,9 @@
     @endif
 </head>
 <body>
+    <script>
+    var color = {!! json_encode($color) !!}
+    </script>
     <div id="app">
         @include('partials.navbar')
 

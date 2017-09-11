@@ -76,18 +76,25 @@ class SearchServiceObject
         foreach ($tags_collection as $tag) {
             array_push($tags, '#'.$tag);
         }
+        $posts = [];
         foreach ($tweets as $tweet) {
-            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
-            $tweet->text = str_replace("\n", " ", $tweet->text);
-            $tweet->text = explode(" ", $tweet->text);
-            $tweet->tweet_image = Config::get("constants.tweet_images").$tweet->tweet_image;
-            $tweet->original_image = Config::get("constants.tweet_images").$tweet->original_image;
-            //$tweet->created_at = $tweet->created_at->toDayDateTimeString();
-            $tweet->likes = $likes->where('tweet_id', $tweet->id)->count();
-            $tweet->profile_image = Config::get("constants.avatars").$tweet->profile_image;
+            $post = array(
+                'id' => $tweet->id,
+                'user_id' => $tweet->uid,
+                'text' => explode(" ", str_replace("\n", " ", str_replace("<br />", "  <br/> ", nl2br(e($tweet->text))))),
+                'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
+                'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
+                'created_at' => $tweet->created_at->timestamp,
+                'likes' => $likes->where('tweet_id', $tweet->id)->count(),
+                'name' => $tweet->name,
+                'username' => $tweet->username,
+                'profile_image' => Config::get("constants.avatars").$tweet->profile_image,
+                'tags' => $tweet->tags,
+            );
+            array_push($posts, (object)$post);
         }
         return array(
-            'posts' => $tweets,
+            'posts' => $posts,
             'liked' => Auth::guest() ? [] : $likes->where('user_id', Auth::id())->pluck('tweet_id')->toArray(),
             'tags' => $tags,
         );

@@ -34,7 +34,9 @@ class TagController extends Controller
 
     public function tweets(Request $request)
     {
+
         $data = $this->searchSO->getTweetsByTag($request->tag, $request->lastid);
+        return response()->json($data);
         return response($data);
     }
 

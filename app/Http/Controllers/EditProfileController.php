@@ -21,18 +21,16 @@ class EditProfileController extends Controller
     {
         $user = Auth::user();
         $success = "";
-        $color = (new \App\ServiceObjects\ColorServiceObject)->getColor();
         $colors = ['default', 'blue', 'deep-purple', 'pink', 'green', 'orange'];
-        return view('edit', compact('user', 'success', 'colors', 'color'));
+        return view('edit', compact('user', 'success', 'colors'));
     }
 
     public function update(UpdateProfileRequest $request)
     {
-        $color = $this->updateSO->updateProfile($request);
-        $user = $color['user'];
-        $color = $color['color'];
+        $data = $this->updateSO->updateProfile($request);
+        $user = $data['user'];
         $success = "Profile Updated Successfully";
         $colors = ['default', 'blue', 'deep-purple', 'pink', 'green', 'orange'];
-        return view('edit', compact('user', 'success', 'colors', 'color'));
+        return view('edit', compact('user', 'success', 'colors'));
     }
 }
