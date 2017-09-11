@@ -7,6 +7,8 @@ use App\Tweet;
 use App\Like;
 use App\Follower;
 use App\Hashtag;
+use \Config;
+use Carbon\Carbon;
 
 class SearchServiceObject
 {
@@ -63,16 +65,30 @@ class SearchServiceObject
         return array('data' => $data, 'ids' => $ids);
     }
 
-    public function getTweetsByTag($tag)
+    public function getTweetsByTag($tag, $lastid)
     {
-        $tweets = $this->hashtag->getTweetsForTag($tag);
+        $tweets = $this->hashtag->getTweetsForTag($tag, $lastid);
         $ids = $tweets->pluck('id')->toArray();
         $likes = $this->like->tweets($ids);
-        $tags_collection = $this->hashtag->tweets($ids);
+        $tags_collection = $this->hashtag->tweets($ids)->pluck('tag')->unique()->values()->toArray();
+        $tags = [];
+        foreach ($tags_collection as $tag) {
+            array_push($tags, '#'.$tag);
+        }
+        foreach ($tweets as $tweet) {
+            $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
+            $tweet->text = str_replace("\n", " ", $tweet->text);
+            $tweet->text = explode(" ", $tweet->text);
+            $tweet->tweet_image = Config::get("constants.tweet_images").$tweet->tweet_image;
+            $tweet->original_image = Config::get("constants.tweet_images").$tweet->original_image;
+            //$tweet->created_at = $tweet->created_at->toDayDateTimeString();
+            $tweet->likes = $likes->where('tweet_id', $tweet->id)->count();
+            $tweet->profile_image = Config::get("constants.avatars").$tweet->profile_image;
+        }
         return array(
             'posts' => $tweets,
             'liked' => Auth::guest() ? [] : $likes->where('user_id', Auth::id())->pluck('tweet_id')->toArray(),
-            'tags' => $tags_collection->pluck('tag')->unique()->values()->toArray(),
+            'tags' => $tags,
         );
     }
 

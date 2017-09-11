@@ -190,7 +190,7 @@ $(document).ready(function() {
                     //console.log(typeof getText(checker[0]));
                     //console.log('newlines : ' + newlines);
 
-                    if(checker.html() == "<br>" || checker.has("div")) {
+                    if(checker.html() == "<br>") {
                         if (!!newlines) newlines -= 1;
                         //console.log('!!newlines : ' + !!newlines);
                         //console.log('edited newline : ' + newlines);
@@ -265,6 +265,11 @@ $(document).ready(function() {
         unbindscroll();
         $("#loading").show();
         loadFeed(null, null);
+    }
+    if ( $('#searchfeed').length ) {
+        unbindscroll();
+        $("#loading").show();
+        loadSearchedByTagTweets(null);
     }
 
     // autocomplete for cities and countries
@@ -643,6 +648,69 @@ function loadFeed(_feedlastid, _feedcurrentid) {
     return false;
 };
 
+var __searchbytaglastid;
+function loadSearchedByTagTweets(_searchbytaglastid) {
+    try {
+        $.ajax({
+            url: '/getsearchbytagtweets',
+            type: 'GET',
+            data: {
+                tag : _tag,
+                lastid : _searchbytaglastid
+            },
+            success: function(data) {
+                console.log(data);
+                console.log('tag : ' + _tag);
+                var $finaldata = " ";
+                if(data.posts.length != 0) {
+                    //$("#notweetmessageprofile").hide();
+                    tweetcounter += data.posts.length;
+                }
+                for( i=0; i<data.posts.length; i++ ) {
+                    $finaldata += tweetBuilder(data.posts[i].id,
+                        data.posts[i].profile_image,
+                        data.posts[i].name,
+                        data.posts[i].username,
+                        data.posts[i].created_at,
+                        data.posts[i].text,
+                        data.tags,
+                        data.posts[i].tweet_image,
+                        data.posts[i].original_image,
+                        data.liked,
+                        data.posts[i].likes
+                    );
+                    __searchbytaglastid = data.posts[i].id;
+                    //$finaldata = $finaldata + $response;
+                }
+                if(data.posts.length == 0) {
+                    __searchbytaglastid = null;
+                }
+                $("#searchfeed").append($finaldata);
+            },
+            error: function(jqXHR, xhr) {
+                console.log(xhr);
+                console.log(jqXHR.status);
+                if(jqXHR.status == 401) {
+                    redirectToLogin();
+                }
+            },
+            complete: function() {
+                $("#loading").hide();
+                bindscroll();
+                if(tweetcounter == 0) {
+                    $("#tagname").html('#' + _tag);
+                    $("#notweetmessage").show();
+                }
+                if(__searchbytaglastid == null) {
+                    //$("#loading").hide();
+                    showBackToTop();
+                }
+            }
+        });
+    }catch(e) {}
+    return false;
+};
+
 function backtotop() {
     $('html, body').animate({scrollTop : 0},600);
     return false;
@@ -661,6 +729,12 @@ function bindscroll() {
                 unbindscroll();
                 $("#loading").show();
                 loadFeed(__feedlastid, null);
+            }
+
+            if(__searchbytaglastid != null) {
+                unbindscroll();
+                $("#loading").show();
+                loadSearchedByTagTweets(__searchbytaglastid);
             }
         }
     });
@@ -706,7 +780,7 @@ function addLikes(likedArr, likescount, id) {
 }
 
 function showBackToTop() {
-    if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) > $(window).height()) {
+    if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) || $('#searchfeed').outerHeight(true) > $(window).height()) {
         $('.stream-end').show();
     }
 }
@@ -716,7 +790,7 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "<div class='card-content'>" +
     "<div class='row'>" +
     "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
-    "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
+    "<img class='img-responsive img-circle' src='/" + profile_image + "' alt=''>" +
     "</div>" +
     "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
     "<ul class='list-unstyled list-inline'>" +
