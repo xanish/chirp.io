@@ -7,6 +7,7 @@ use App\Tweet;
 use App\Like;
 use App\Follower;
 use App\Hashtag;
+use App\Populartag;
 
 class SearchServiceObject
 {
@@ -73,11 +74,12 @@ class SearchServiceObject
             'posts' => $tweets,
             'liked' => Auth::guest() ? [] : $likes->where('user_id', Auth::id())->pluck('tweet_id')->toArray(),
             'tags' => $tags_collection->pluck('tag')->unique()->values()->toArray(),
+            'likes' => $likes,
         );
     }
 
     public function popular()
     {
-        return $this->hashtag->popular();
+        return Populartag::select('tag', 'tag_count')->get();
     }
 }

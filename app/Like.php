@@ -44,6 +44,6 @@ class Like extends Model
 
     public function tweets($tweet_ids)
     {
-        return $this->all()->whereIn('tweet_id', $tweet_ids);
+        return $this->whereIn('tweet_id', $tweet_ids)->select('tweet_id', 'user_id')->get();
     }
 }

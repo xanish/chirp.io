@@ -7,11 +7,11 @@
                 <div class="card">
                     <div class="card-image">
                         <div class="view overlay hm-white-slight z-depth-1">
-                            <img src="{{ asset(Config::get('constants.banners').$user->profile_banner) }}"
-                                 class="img-responsive" alt="">
-                            <a href="#">
+                            <a href="{{ asset(Config::get('constants.banners').'original_'.$user->profile_banner) }}" data-lightbox="box-{{ $user->id }}"><img src="{{ asset(Config::get('constants.banners').$user->profile_banner) }}"
+                                 class="img-responsive lightboxed" alt=""></a>
+                            <!-- <a href="#">
                                 <div class="mask waves-effect"></div>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                     <div class="card-content">

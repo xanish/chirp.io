@@ -25,7 +25,7 @@ class TweetServiceObject
                 'user_id' => $id,
                 'text' => $text,
                 'tweet_image' => $image,
-                'original_image' => 'original_'.$image,
+                'original_image' => $image == NULL ? $image:'original_'.$image ,
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed To Save Tweet");

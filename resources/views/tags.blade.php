@@ -36,7 +36,7 @@
                                 </ul>
                                 <p>
                                     @foreach(explode(' ', str_replace("\n", " ", str_replace("<br />", "  <br/> ", nl2br(e($post->text))))) as $word)
-                                        @if(in_array(ltrim($word, '#'), $tags))
+                                        @if(in_array(ltrim($word, '#'), $tags) and !in_array($word, $tags))
                                             <a href="/tag/{{ ltrim($word, '#') }}/tweets">{!! $word !!}</a>
                                         @else
                                             {!! $word !!}

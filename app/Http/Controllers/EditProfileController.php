@@ -5,36 +5,34 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Support\Facades\Auth;
 use App\ServiceObjects\UpdateProfileServiceObject;
-use App\Utils\Utils;
+// use App\User;
 
 class EditProfileController extends Controller
 {
     private $updateSO;
-    private $utils;
 
-    public function __construct(UpdateProfileServiceObject $updateSO, Utils $utils)
+    public function __construct(UpdateProfileServiceObject $updateSO)
     {
         $this->middleware('auth');
         $this->updateSO = $updateSO;
-        $this->utils = $utils;
     }
 
     public function index()
     {
         $user = Auth::user();
         $success = "";
-        $color = $this->utils->getColor();
+        $color = (new \App\ServiceObjects\ColorServiceObject)->getColor();
         $colors = ['default', 'blue', 'deep-purple', 'pink', 'green', 'orange'];
-        return view('edit', compact('user', 'success', 'color', 'colors'));
+        return view('edit', compact('user', 'success', 'colors', 'color'));
     }
 
     public function update(UpdateProfileRequest $request)
     {
-        $this->updateSO->updateProfile($request);
-        $color = $this->utils->getColor();
-        $user = Auth::user();
+        $color = $this->updateSO->updateProfile($request);
+        $user = $color['user'];
+        $color = $color['color'];
         $success = "Profile Updated Successfully";
         $colors = ['default', 'blue', 'deep-purple', 'pink', 'green', 'orange'];
-        return view('edit', compact('user', 'success', 'color', 'colors'));
+        return view('edit', compact('user', 'success', 'colors', 'color'));
     }
 }

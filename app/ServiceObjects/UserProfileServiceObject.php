@@ -78,6 +78,7 @@ class UserProfileServiceObject
                 $tweets = $user->tweets()
                 ->where('id', '<', $lastid)
                 ->take(20)
+                ->select('id', 'text', 'tweet_image', 'original_image', 'user_id', 'created_at')
                 ->get();
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
@@ -88,6 +89,7 @@ class UserProfileServiceObject
                 $user = $this->getUser($username);
                 $tweets = $user->tweets()
                 ->take(20)
+                ->select('id', 'text', 'tweet_image', 'original_image', 'user_id', 'created_at')
                 ->get();
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
@@ -119,7 +121,7 @@ class UserProfileServiceObject
                 'text' => explode(" ", $tweet->text),
                 'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
                 'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-                'created_at' => $tweet->created_at->toDayDateTimeString(),
+                'created_at' => $tweet->created_at->timestamp,
                 'likes' => $likes->where('tweet_id', $tweet->id)->count(),
                 'tags' => $tags,
             );

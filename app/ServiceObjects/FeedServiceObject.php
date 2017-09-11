@@ -92,8 +92,8 @@ class FeedServiceObject
     {
         $posts = [];
         $ids = $feed->pluck('id')->toArray();
-        $likes = $this->like->all()->whereIn('tweet_id', $ids);
-        $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->get();
+        $likes = $this->like->whereIn('tweet_id', $ids)->select('tweet_id', 'user_id')->get();
+        $tags_collection = $this->hashtag->whereIn('tweet_id', $ids)->select('tag', 'tweet_id')->get();
         foreach ($feed as $tweet) {
             $tweet->text = str_replace("<br />", "  <br/> ", nl2br(e($tweet->text)));
             $tweet->text = str_replace("\n", " ", $tweet->text);
@@ -110,7 +110,7 @@ class FeedServiceObject
                     'text' => explode(" ", $tweet->text),
                     'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
                     'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-                    'created_at' => $tweet->created_at->toDayDateTimeString(),
+                    'created_at' => $tweet->created_at->timestamp,
                     'likes' => $likes->where('tweet_id', $tweet->id)->count(),
                     'name' => $tweet->name,
                     'username' => $tweet->username,
