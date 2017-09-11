@@ -44,4 +44,6 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
             </div>
         @endif
     </div>
+
+    @include('partials.tweetmodal')
 @endsection
