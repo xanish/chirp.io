@@ -2,6 +2,8 @@ var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
 var EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
+console.log(color);
+$("#" + color).prop('checked', true);
 
 $('#search-results-dropdown').hide();
 $('#password-strength-meter').hide();
@@ -166,7 +168,7 @@ $(document).ready(function() {
 
     if ($("#success-update-msg").length > 0) {
         $("#success-update-msg").fadeOut(5000, function() {
-            $$("#success-update-msg").remove();
+            $("#success-update-msg").remove();
         });
     }
 
@@ -202,7 +204,7 @@ $(document).ready(function() {
                     //console.log(typeof getText(checker[0]));
                     //console.log('newlines : ' + newlines);
 
-                    if(checker.html() == "<br>" || checker.has("div")) {
+                    if(checker.html() == "<br>") {
                         if (!!newlines) newlines -= 1;
                         //console.log('!!newlines : ' + !!newlines);
                         //console.log('edited newline : ' + newlines);
@@ -277,6 +279,11 @@ $(document).ready(function() {
         unbindscroll();
         $("#loading").show();
         loadFeed(null, null);
+    }
+    if ( $('#searchfeed').length ) {
+        unbindscroll();
+        $("#loading").show();
+        loadSearchedByTagTweets(null);
     }
 
     // autocomplete for cities and countries
@@ -664,6 +671,69 @@ function loadFeed(_feedlastid, _feedcurrentid) {
     return false;
 };
 
+var __searchbytaglastid;
+function loadSearchedByTagTweets(_searchbytaglastid) {
+    try {
+        $.ajax({
+            url: '/getsearchbytagtweets',
+            type: 'GET',
+            data: {
+                tag : _tag,
+                lastid : _searchbytaglastid
+            },
+            success: function(data) {
+                console.log(data);
+                console.log('tag : ' + _tag);
+                var $finaldata = " ";
+                if(data.posts.length != 0) {
+                    //$("#notweetmessageprofile").hide();
+                    tweetcounter += data.posts.length;
+                }
+                for( i=0; i<data.posts.length; i++ ) {
+                    $finaldata += tweetBuilder(data.posts[i].id,
+                        data.posts[i].profile_image,
+                        data.posts[i].name,
+                        data.posts[i].username,
+                        getFormattedDate(data.posts[i].created_at),
+                        data.posts[i].text,
+                        data.tags,
+                        data.posts[i].tweet_image,
+                        data.posts[i].original_image,
+                        data.liked,
+                        data.posts[i].likes
+                    );
+                    __searchbytaglastid = data.posts[i].id;
+                    //$finaldata = $finaldata + $response;
+                }
+                if(data.posts.length == 0) {
+                    __searchbytaglastid = null;
+                }
+                $("#searchfeed").append($finaldata);
+            },
+            error: function(jqXHR, xhr) {
+                console.log(xhr);
+                console.log(jqXHR.status);
+                if(jqXHR.status == 401) {
+                    redirectToLogin();
+                }
+            },
+            complete: function() {
+                $("#loading").hide();
+                bindscroll();
+                if(tweetcounter == 0) {
+                    $("#tagname").html('#' + _tag);
+                    $("#notweetmessage").show();
+                }
+                if(__searchbytaglastid == null) {
+                    //$("#loading").hide();
+                    showBackToTop();
+                }
+            }
+        });
+    }catch(e) {}
+    return false;
+};
+
 function backtotop() {
     $('html, body').animate({scrollTop : 0},600);
     return false;
@@ -682,6 +752,12 @@ function bindscroll() {
                 unbindscroll();
                 $("#loading").show();
                 loadFeed(__feedlastid, null);
+            }
+
+            if(__searchbytaglastid != null) {
+                unbindscroll();
+                $("#loading").show();
+                loadSearchedByTagTweets(__searchbytaglastid);
             }
         }
     });
@@ -727,7 +803,7 @@ function addLikes(likedArr, likescount, id) {
 }
 
 function showBackToTop() {
-    if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) > $(window).height()) {
+    if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) || $('#searchfeed').outerHeight(true) > $(window).height()) {
         $('.stream-end').show();
     }
 }
@@ -737,7 +813,7 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "<div class='card-content'>" +
     "<div class='row'>" +
     "<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>" +
-    "<img class='img-responsive img-circle' src='" + profile_image + "' alt=''>" +
+    "<img class='img-responsive img-circle' src='/" + profile_image + "' alt=''>" +
     "</div>" +
     "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
     "<ul class='list-unstyled list-inline'>" +
@@ -750,13 +826,13 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "</p>";
 
     if (tweet_image != 'tweet_images/') {
-        $response +=          "<a href='" + original_image + "' data-lightbox='box-" + id + "'>" +
-        "<img src='" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
+        $response +=          "<a href='/" + original_image + "' data-lightbox='box-" + id + "'>" +
+        "<img src='/" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
         "</a>" +
         "</div>" +
         "<div class='col-xs-12 visible-xs'>" +
-        "<a href='" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
-        "<img src='" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+        "<a href='/" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
+        "<img src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
         "</a>";
     }
 

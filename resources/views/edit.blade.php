@@ -44,11 +44,7 @@
                     {!! Form::label('default', 'Theme Color') !!}
                     <ul class="list-unstyled list-inline">
                         @foreach($colors as $c)
-                            @if($c == $color)
-                                <li><input type="radio" class="option-input radio {{ $c }}" name="color" value="{{ $c }}" checked/></li>
-                            @else
-                                <li><input type="radio" class="option-input radio {{ $c }}" name="color" value="{{ $c }}"/></li>
-                            @endif
+                            <li><input type="radio" class="option-input radio {{ $c }}" name="color" value="{{ $c }}" id="{{ $c }}"/></li>
                         @endforeach
                     </ul>
                 </div>

@@ -8,13 +8,14 @@ Auth::routes();
 Route::get('/search', 'SearchController@search');
 Route::get('/search/{search}', 'SearchController@results');
 Route::get('/popular_tags', 'TagController@popular_tags');
-Route::get('/tag/{tag}/tweets', 'TagController@tweets');
+Route::get('/tag/{tag}/tweets', 'TagController@index');
 Route::get('/tag/{tag}', 'TagController@tags');
 
 Route::post('/tweet', 'TweetController@create');
 
 Route::get('/gettweets', 'ProfileController@fetchTweets');
 Route::get('/getfeed', 'HomeController@getfeed');
+Route::get('/getsearchbytagtweets', 'TagController@tweets');
 
 Route::post('/like/{tweet_id}', 'LikesController@like');
 Route::delete('/unlike/{tweet_id}', 'LikesController@unlike');

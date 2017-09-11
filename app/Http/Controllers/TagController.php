@@ -17,6 +17,14 @@ class TagController extends Controller
         $this->utils = $utils;
     }
 
+    public function index($tag)
+    {
+        return view('tags')->with([
+            'page' => 'tweets',
+            'tag' => '#'.$tag,
+        ]);
+    }
+
     public function tags($tag)
     {
         $tags = Hashtag::where('tag', 'LIKE', '%'.$tag.'%')->groupBy('tag')->select('tag')->paginate(50);
@@ -24,16 +32,12 @@ class TagController extends Controller
         return view('tags', compact('tags', 'page', 'tag'));
     }
 
-    public function tweets($tag, Request $request)
+    public function tweets(Request $request)
     {
-        $data = $this->searchSO->getTweetsByTag($tag);
-        return view('tags')->with([
-            'page' => 'tweets',
-            'posts' => $data['posts'],
-            'liked' => $data['liked'],
-            'tag' => '#'.$tag,
-            'tags' => $data['tags'],
-        ]);
+
+        $data = $this->searchSO->getTweetsByTag($request->tag, $request->lastid);
+        return response()->json($data);
+        return response($data);
     }
 
     public function popular_tags()
