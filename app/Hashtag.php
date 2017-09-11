@@ -58,7 +58,7 @@ class Hashtag extends Model
 
     public function tweets($tweet_ids)
     {
-        return $this->whereIn('tweet_id', $tweet_ids)->get();
+        return $this->whereIn('tweet_id', $tweet_ids)->select('tag', 'tweet_id')->get();
     }
 
     public function popular()

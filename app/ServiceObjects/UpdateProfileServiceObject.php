@@ -27,7 +27,7 @@ class UpdateProfileServiceObject
     public function saveProfile($id, $request, $profile_image, $profile_banner)
     {
         try {
-            $entry = $this->user->updateUserDetails($id, $request, $profile_image, $profile_banner,  Carbon::now());
+            $this->user->updateUserDetails($id, $request, $profile_image, $profile_banner,  Carbon::now());
         } catch (Exception $e) {
             throw new Exception("Unable To Update Profile Details");
         }
@@ -61,18 +61,15 @@ class UpdateProfileServiceObject
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+        return array(
+            'user' => $this->user->find(Auth::user()->id),
+            'color' => $request->color == "" ? 'default':$request->color,
+        );
     }
 
     public function updateColor($color)
     {
-        $_color = Auth::user()->accentColor()->get();
-        if (count($_color) == 0) {
-            $this->color->create([
-                'user_id' => Auth::user()->id,
-                'color' => $color,
-            ]);
-        }
-        else if($color != '') {
+        if($color != '') {
             $this->color->where('user_id', Auth::user()->id)->update(['color' => $color]);
         }
     }

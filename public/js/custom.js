@@ -149,14 +149,26 @@ function getText( obj ) {
 }
 
 $(document).ready(function() {
-    $('.datepicker').datepicker({
-        format: 'yyyy-mm-dd',
-    });
+    try {
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            defaultValue: bdate,
+        });
+    } catch (e) {
+
+    } finally {
+
+    }
 
     if ($("#popular-tags").length > 0) {
         load_popular_tags();
     }
 
+    if ($("#success-update-msg").length > 0) {
+        $("#success-update-msg").fadeOut(5000, function() {
+            $$("#success-update-msg").remove();
+        });
+    }
 
     try {
         $('#tweetbox').emojioneArea({
@@ -511,6 +523,15 @@ $(document).ready(function() {
 
 });
 
+function getFormattedDate(timestamp) {
+    var d = new Date(parseInt(timestamp)*1000);
+    var options = {
+        weekday: "long", year: "numeric", month: "short",
+        day: "numeric", hour: "2-digit", minute: "2-digit"
+    };
+    return d.toLocaleTimeString("en-us", options);
+}
+
 var __lastid;
 function loadTweet(_lastid) {
     try {
@@ -533,7 +554,7 @@ function loadTweet(_lastid) {
                         data.user.profile_image,
                         data.user.name,
                         data.user.username,
-                        data.posts[i].created_at,
+                        getFormattedDate(data.posts[i].created_at),
                         data.posts[i].text,
                         data.posts[i].tags,
                         data.posts[i].tweet_image,
@@ -597,7 +618,7 @@ function loadFeed(_feedlastid, _feedcurrentid) {
                     data.posts[i].profile_image,
                     data.posts[i].name,
                     data.posts[i].username,
-                    data.posts[i].created_at,
+                    getFormattedDate(data.posts[i].created_at),
                     data.posts[i].text,
                     data.posts[i].tags,
                     data.posts[i].tweet_image,

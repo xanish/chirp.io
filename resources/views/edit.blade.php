@@ -66,7 +66,7 @@
             </ul>
         @endif
         @if ($success)
-            <ul class="alert alert-success">
+            <ul class="alert alert-success" id="success-update-msg">
                 <li>{{ $success }}</li>
             </ul>
         @endif

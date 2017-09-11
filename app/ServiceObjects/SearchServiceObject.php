@@ -9,6 +9,7 @@ use App\Follower;
 use App\Hashtag;
 use \Config;
 use Carbon\Carbon;
+use App\Populartag;
 
 class SearchServiceObject
 {
@@ -94,6 +95,6 @@ class SearchServiceObject
 
     public function popular()
     {
-        return $this->hashtag->popular();
+        return Populartag::select('tag', 'tag_count')->get();
     }
 }
