@@ -5,6 +5,17 @@
 .margin-top-50 {
     margin-top: 50px;
 }
+.margin-top-70 {
+    margin-top: 70px;
+}
+.margin-top-90 {
+    margin-top: 90px;
+}
+.navbar-fixed {
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
 .padding-bottom-15 {
     padding-bottom: 15px;
 }
@@ -150,7 +161,7 @@ meter[value="4"]::-moz-meter-bar { background: green; }
     margin-top: 20px;
 }
 .parallax {
-    margin-top: -22px;
+    /*margin-top: -22px;*/
     min-height: 400px;
     background: no-repeat fixed center;
     background-size: cover;

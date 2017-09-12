@@ -6,7 +6,7 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
 </script>
     <div class="container">
         @if($page == 'tags')
-            <h4>Tags Containing: {{ $tag }}</h4>
+            <h4 class="margin-top-90">Tags Containing: {{ $tag }}</h4>
             <div class="row margin-top-50">
                 @foreach($tags as $tag)
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 padding-bottom-15">
@@ -18,7 +18,7 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
                 {{ $tags->links() }}
             </div>
         @else
-            <h4>Tweets Containing: {{ $tag }}</h4>
+            <h4 class="margin-top-90">Tweets Containing: {{ $tag }}</h4>
             <div class="col-lg-10 col-lg-push-1 col-md-10 col-md-push-1 col-sm-10 col-sm-push-1 col-xs-12">
 
                 <div id="searchfeed">

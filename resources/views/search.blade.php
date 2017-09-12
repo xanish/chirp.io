@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h4>Users matching: {{ $criteria }}</h4>
+  <h4 class="margin-top-90">Users matching: {{ $criteria }}</h4>
     @if(count($data) == 0)
         <h5 class="text-center pacifico grey-text">No users found</h5>
     @else
