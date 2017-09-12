@@ -62,6 +62,11 @@ function load_popular_tags() {
     });
 }
 
+$("#tweet-button").click(function() {
+    $('#tweet-button').attr('disabled', 'disabled');
+    $('#form').submit();
+});
+
 // ajax tweet post
 $('#form').submit(function() {
     $('#RESPONSE_MSG').html('');
@@ -117,6 +122,7 @@ $('#form').submit(function() {
                 });
                 $errorsHtml += '</ul></div>';
                 $('#tweetform').append($errorsHtml);
+                $('#tweet-button').attr('disabled', false);
                 $('#ERRMSG').fadeOut(6000, function() {
                     $('#ERRMSG').remove();
                 });
