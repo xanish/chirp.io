@@ -1,4 +1,4 @@
-# Chirp.io - A mini twiiter clone #
+# Chirp.io - A mini twitter clone #
 
 ## Built Using ##
 * [PHP](http://php.net/manual/en/intro-whatis.php)
