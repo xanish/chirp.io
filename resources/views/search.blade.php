@@ -55,4 +55,6 @@
         {{ $data->links() }}
     </div>
   @endif
+  
+  @include('partials.tweetmodal')
 @endsection

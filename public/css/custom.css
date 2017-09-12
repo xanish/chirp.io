@@ -434,3 +434,20 @@ a:hover, a:focus {
 .overflow {
     overflow: visible;
 }
+.modal {
+  padding-top: 8%;
+}
+.modal-content  {
+    -webkit-border-radius: 6px !important;
+    -moz-border-radius: 6px !important;
+    border-radius: 6px !important;
+}
+.btn-floating{
+	position:fixed;
+    background-color: #2bbbad;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	border-radius:50px;
+}

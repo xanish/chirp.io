@@ -51,4 +51,6 @@
             @endif
         </div>
     </div>
+    
+    @include('partials.tweetmodal')
 @endsection
