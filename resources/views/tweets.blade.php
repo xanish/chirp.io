@@ -5,6 +5,8 @@
         @if(!Auth::guest())
             @if(Auth::user()->username == $user->username)
                 @include('partials.tweet_form')
+            @else
+                @include('partials.tweetmodal')
             @endif
         @endif
         <div id="feed-tweet">
