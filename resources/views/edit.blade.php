@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
+        <div class="row margin-top-90">
             {!! Form::model($user, ['method' => 'PATCH', 'url' => 'edit-profile', 'files' => true, 'id' => 'edit-profile']) !!}
             <div class="col-lg-4 col-sm-12">
             <img class="img-responsive center-block" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">

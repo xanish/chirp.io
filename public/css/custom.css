@@ -170,9 +170,6 @@ meter[value="4"]::-moz-meter-bar { background: green; }
     position: absolute;
     top: -180px;
 }
-.jumbotron {
-    margin-top: -22px;
-}
 #main-page-search-field {
     background-color: #fff !important;
     color: #636b6f;

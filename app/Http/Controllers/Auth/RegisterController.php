@@ -94,7 +94,10 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
         dispatch(new SendVerificationEmail($user));
-        return view('verification');
+        return view('message')->with([
+            'title' => 'Registration',
+            'msg' => 'Please check your mail to confirm your registration on Chirp.',
+        ]);
     }
 
     /**
@@ -108,7 +111,10 @@ class RegisterController extends Controller
         $user = User::where('email_token',$token)->first();
         $user->verified = 1;
         if($user->save()){
-            return view('emailconfirm',['user'=>$user]);
+            return view('message')->with([
+                'title' => 'Registration Confirmed',
+                'msg' => 'Your e-mail address has been verified successfully. Click here to <a href="/login">Login</a> to your account.',
+            ]);
         }
         \Mail::to($user)->send(new Welcome($user));
     }

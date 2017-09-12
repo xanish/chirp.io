@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Client;
+use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -41,5 +44,33 @@ class LoginController extends Controller
             session(['url.intended' => url()->previous()]);
         }
         return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        if (Auth::attempt(['username' => $request->get('username'), 'password' => $request->get('password'), 'verified' => 1])) {
+            return redirect('/home');
+        }
+        else if (Auth::attempt(['username' => $request->get('username'), 'password' => $request->get('password'), 'verified' => NULL])) {
+            Auth::logout();
+            return view('message')->with([
+                'title' => 'Please Verify Your E-mail',
+                'msg' => 'Confirm your registration by following the link sent on your mail.',
+            ]);
+        }
+        else {
+            return $this->sendFailedLoginResponse($request);
+        }
+    }
+
+    protected function sendFailedLoginResponse(Request $request, $trans = 'auth.failed')
+    {
+        $errors = [$this->username() => trans($trans)];
+        if ($request->expectsJson()) {
+            return response()->json($errors, 422);
+        }
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors($errors);
     }
 }

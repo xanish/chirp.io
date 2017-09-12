@@ -5,8 +5,14 @@ var tweetcounter = 0;
 var currentuser;
 var messageFail = '<div id="fail" class="alert alert-danger float-success"><h6>Try Again Later</h6></div>';
 
-if ($('#'+color).length > 0) {
-    $('#'+color).prop('checked', true);
+try {
+    if ($('#'+color).length > 0) {
+        $('#'+color).prop('checked', true);
+    }
+} catch (e) {
+
+} finally {
+
 }
 
 $('#search-results-dropdown').hide();
@@ -217,25 +223,6 @@ $(document).ready(function() {
     {
         // To prevent emojioneArea is not a function error.
     }
-    else {
-    $("#count_message").css("color", "");
-}
-$('#count_message').html(text_remaining);*/
-},
-keydown: function (editor, event) {
-    $(editor).keyup();
-},
-emojibtn_click: function (button, event) {
-    $("div#tweeteditor.emojionearea-editor").keyup();
-}
-}
-});
-}
-catch(e)
-{
-    //console.log(e);
-    // To prevent emojioneArea is not a function error.
-}
 
 $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 

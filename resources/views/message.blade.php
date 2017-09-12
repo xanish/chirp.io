@@ -1,12 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row margin-top-90">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Registration</div>
+                <div class="panel-heading"><h5>{{ $title }}</h5></div>
                 <div class="panel-body">
-                    You have successfully registered. An email is sent to you for verification.
+                    {!! $msg !!}
                 </div>
             </div>
         </div>

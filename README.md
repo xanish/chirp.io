@@ -10,6 +10,7 @@
 
 ## Features ##
 * Login / Register
+* User email verification
 * Profile edit
 * Color schemes
 * Follow / Unfollow users
