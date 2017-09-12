@@ -49,7 +49,7 @@ class TweetServiceObject
             'text' => explode(' ', $request->tweet_text),
             'image' => Config::get("constants.tweet_images").$image_name,
             'original' => Config::get("constants.tweet_images").'original_'.$image_name,
-            'date' => Carbon::now()->toDayDateTimeString(),
+            'date' => Carbon::now()->timestamp,
             'name' => $user->name,
             'username' => $user->username,
             'avatar' => Config::get("constants.avatars").$user->profile_image,

@@ -55,6 +55,8 @@
         {{ $data->links() }}
     </div>
   @endif
-  
-  @include('partials.tweetmodal')
+
+  @if(!Auth::guest())
+      @include('partials.tweetmodal')
+  @endif
 @endsection

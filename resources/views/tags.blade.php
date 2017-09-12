@@ -7,9 +7,9 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
     <div class="container">
         @if($page == 'tags')
             <h4>Tags Containing: {{ $tag }}</h4>
-            <div class="row">
+            <div class="row margin-top-50">
                 @foreach($tags as $tag)
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 padding-bottom-15">
                         <h6><a href="/tag/{{$tag->tag}}/tweets">{{$tag->tag}}</a></h6>
                     </div>
                 @endforeach
@@ -45,5 +45,7 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
         @endif
     </div>
 
-    @include('partials.tweetmodal')
+    @if(!Auth::guest())
+        @include('partials.tweetmodal')
+    @endif
 @endsection

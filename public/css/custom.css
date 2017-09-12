@@ -2,6 +2,12 @@
 .overflow {
     overflow: visible;
 }
+.margin-top-50 {
+    margin-top: 50px;
+}
+.padding-bottom-15 {
+    padding-bottom: 15px;
+}
 .dropdown-menu li > a:hover {
     background-color: #cecece;
 }

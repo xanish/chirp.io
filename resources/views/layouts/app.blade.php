@@ -20,9 +20,6 @@
     @endif
 </head>
 <body>
-    <script>
-    var color = {!! json_encode($color) !!}
-    </script>
     <div id="app">
         @include('partials.navbar')
 
@@ -39,5 +36,8 @@
     <script src="{{ asset('js/lightbox.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCso5QRQXnxgph82Q8tV3oYj24SG56jnCc&libraries=places"></script>
+    <script>
+    var color = {!! json_encode($color) !!}
+    </script>
 </body>
 </html>

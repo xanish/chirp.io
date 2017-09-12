@@ -3,8 +3,8 @@
 @section('data')
     <div class="col-lg-8 col-md-9 col-sm-9 col-xs-12" >
         @if(!Auth::guest())
-          @if(Auth::user()->username == $user->username)
-            @include('partials.tweet_form')
+            @if(Auth::user()->username == $user->username)
+                @include('partials.tweet_form')
             @endif
         @endif
         <div id="feed-tweet">

@@ -2,8 +2,13 @@ var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
 var EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
-console.log(color);
-$("#" + color).prop('checked', true);
+try {
+    $("#" + color).prop('checked', true);
+} catch (e) {
+
+} finally {
+
+}
 
 $('#search-results-dropdown').hide();
 $('#password-strength-meter').hide();
@@ -17,7 +22,7 @@ try {
         $('#tweetform').append($upload);
     };
 } catch(e) {
-    console.log('ok');
+
 }
 
 $.ajaxSetup({
@@ -32,25 +37,6 @@ $(function () {
 
 var text_max = 150;
 $('#count_message').html(text_max);
-/*$('#tweetbox').keyup(function() {
-$('#ERRORMSG').html('');
-var empty = false;
-if ($(this).val().length == 0) {
-empty = true;
-}
-if (empty) {
-$('#tweet-button').attr('disabled', 'disabled');
-} else {
-$('#tweet-button').attr('disabled', false);
-}
-var text_length = $('#tweetbox').val().length;
-var text_remaining = text_max - text_length;
-$('#count_message').html(text_remaining);
-});
-
-$('#tweetbox').keydown(function() {
-$('#tweetbox').keyup();
-});*/
 
 function load_popular_tags() {
     $('#loading').show();
@@ -79,7 +65,7 @@ $('#form').submit(function() {
     console.log(hashtags);
     formData.append('hashtags', JSON.stringify(hashtags));
     $.ajax({
-        url: 'tweet',
+        url: '/tweet',
         type: 'POST',
         data: formData,
         cache: false,
@@ -89,7 +75,6 @@ $('#form').submit(function() {
             $("#notweetmessageprofile").hide();
             $response = '';
             console.log(data);
-            //$("#tweetbox").html('');
             $("#tweeteditor").html('');
             $("#tweetbox").keyup();
             $("#tweet_image_file").val('');
@@ -99,7 +84,7 @@ $('#form').submit(function() {
                                       data.element.avatar,
                                       data.element.name,
                                       data.element.username,
-                                      data.element.date,
+                                      getFormattedDate(data.element.date),
                                       data.element.text,
                                       data.element.tags,
                                       data.element.image,
@@ -528,7 +513,7 @@ $(document).ready(function() {
 function getFormattedDate(timestamp) {
     var d = new Date(parseInt(timestamp)*1000);
     var options = {
-        weekday: "long", year: "numeric", month: "short",
+        weekday: "short", year: "numeric", month: "short",
         day: "numeric", hour: "2-digit", minute: "2-digit"
     };
     return d.toLocaleTimeString("en-us", options);
@@ -1010,5 +995,5 @@ try {
     });
 }
 catch (e) {
-    console.log("Password input not found.");
+
 }
