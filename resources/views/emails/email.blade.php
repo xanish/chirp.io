@@ -1,6 +1,12 @@
 @component('mail::message')
+# Hey, {{ $user->name }}
 
-<h1>Click the Link To Verify Your Email</h1>
-Click the following link to verify your email <a href="{{url('/verifyemail/'.$email_token)}}"></a>
+Follow the link below to confirm your registration at Chirp.
 
+@component('mail::button', ['url' => 'http://chirp.io/verifyemail/'.$user->email_token])
+Confirm Email
+@endcomponent
+
+Thanks,<br>
+{{ config('app.name') }}
 @endcomponent

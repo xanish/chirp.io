@@ -2,6 +2,7 @@ var HASHTAG_REGEX = /#([a-zA-Z]+[0-9]*)+/gi;
 var EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
+var currentuser;
 var messageFail = '<div id="fail" class="alert alert-danger float-success"><h6>Try Again Later</h6></div>';
 
 if ($('#'+color).length > 0) {
@@ -78,21 +79,22 @@ $('#form').submit(function() {
             $("#tweet_image_file").val('');
             $('#count_message').html(text_max);
             $('#tweet-button').attr('disabled', 'disabled');
-            $reponse =   tweetBuilder(data.element.id,
-                data.element.avatar,
-                data.element.name,
-                data.element.username,
-                getFormattedDate(data.element.date),
-                data.element.text,
-                data.element.tags,
-                data.element.image,
-                data.element.original,
-                null,
-                0
-            );
-            $("#feed-tweet").prepend($response);
-            $("#count-bar").load(' #navcount');
-
+            if(currentuser == data.element.username) {
+              $reponse =   tweetBuilder(data.element.id,
+                                        data.element.avatar,
+                                        data.element.name,
+                                        data.element.username,
+                                        getFormattedDate(data.element.date),
+                                        data.element.text,
+                                        data.element.tags,
+                                        data.element.image,
+                                        data.element.original,
+                                        null,
+                                        0
+                                       );
+              $("#feed-tweet").prepend($response);
+              $("#count-bar").load(' #navcount');
+            }
             $('#attach').remove();
             $successmsg = '<div class="alert alert-success" id="postsuccess"><ul><li>Posted Successfully</li></ul></div>';
             $('#tweetform').append($successmsg);
@@ -121,7 +123,7 @@ $('#form').submit(function() {
             }
         },
         complete: function() {
-            if(__lastid == null) {
+            if(__lastid == null && $('#feed-tweet').length) {
                 showBackToTop();
             }
         }
@@ -175,26 +177,15 @@ $(document).ready(function() {
 
                     var count = $('#count_message');
                     var emojis = $("#tweeteditor > div > img").length + $("#tweeteditor > img").length;
-                    //console.log($("#tweeteditor > div > img").length);
-                    //console.log('emojis : ' + $("#tweeteditor > img").length);
                     var characters = $(editor).text().length;
-                    //console.log('chars : ' + characters);
                     var newlines = $('#tweeteditor div').length;
                     var checker = $("#tweeteditor").contents().first();
 
-                    //console.log(checker[0]);
-                    //console.log(getText(checker[0]));
-                    //console.log(typeof getText(checker[0]));
-                    //console.log('newlines : ' + newlines);
-
                     if(checker.html() == "<br>") {
                         if (!!newlines) newlines -= 1;
-                        //console.log('!!newlines : ' + !!newlines);
-                        //console.log('edited newline : ' + newlines);
                     }
 
                     characters += newlines + emojis;
-                    //console.log('final chars : ' + characters);
 
                     if (characters > (text_max - 11)) {
                         count.addClass('over');
@@ -203,7 +194,6 @@ $(document).ready(function() {
                     }
 
                     var text_remaining = text_max - characters;
-                    //console.log('text remaining : ' + text_remaining);
                     if(text_remaining < 0)
                     {
                         $('#tweet-button').attr('disabled', 'disabled');
@@ -213,23 +203,19 @@ $(document).ready(function() {
                         $("#count_message").css("color", "");
                     }
                     $('#count_message').html(text_remaining);
-
-                    /*$('#ERRORMSG').html('');
-                    var empty = false;
-                    if ($(editor).html().length == 0) {
-                    empty = true;
+                },
+                keydown: function (editor, event) {
+                    $(editor).keyup();
+                },
+                emojibtn_click: function (button, event) {
+                    $("div#tweeteditor.emojionearea-editor").keyup();
                 }
-                if (empty) {
-                $('#tweet-button').attr('disabled', 'disabled');
-            } else {
-            $('#tweet-button').attr('disabled', false);
-        }
-        var text_length = $("#tweeteditor > img").length + $(editor).text().length + geteditornewline();
-        var text_remaining = text_max - text_length;
-        if(text_remaining < 0)
-        {
-        $('#tweet-button').attr('disabled', 'disabled');
-        $("#count_message").css("color", "red");
+            }
+        });
+    }
+    catch(e)
+    {
+        // To prevent emojioneArea is not a function error.
     }
     else {
     $("#count_message").css("color", "");
@@ -445,8 +431,8 @@ function loadTweet(_lastid) {
                 console.log(data);
                 var $finaldata = " ";
                 if(data.posts.length != 0) {
-                    //$("#notweetmessageprofile").hide();
                     tweetcounter += data.posts.length;
+                    currentuser = data.user.username;
                 }
                 for( i=0; i<data.posts.length; i++ ) {
                     $finaldata += tweetBuilder(data.posts[i].id,
@@ -495,76 +481,78 @@ function loadTweet(_lastid) {
 var __feedlastid;
 var __feedcurrentid = null;
 function loadFeed(_feedlastid, _feedcurrentid) {
-    $.ajax({
-        url: 'getfeed',
-        type: 'GET',
-        data: {
-            lastid : _feedlastid,
-            currentid : _feedcurrentid
-        },
-        success: function(data) {
-            console.log(data);
-            var $finaldata = " ";
-            if(data.posts.length !=0) {
-                if(data.posts[0].id > __feedcurrentid) {
-                    __feedcurrentid = data.posts[0].id;
+    try {
+        $.ajax({
+            url: 'getfeed',
+            type: 'GET',
+            data: {
+                lastid : _feedlastid,
+                currentid : _feedcurrentid
+            },
+            success: function(data) {
+                console.log(data);
+                var $finaldata = " ";
+                if(data.posts.length !=0) {
+                    if(data.posts[0].id > __feedcurrentid) {
+                        __feedcurrentid = data.posts[0].id;
+                    }
+                    $("#notweetmessage").hide();
+                    tweetcounter += parseFloat(data.posts.length);
                 }
-                $("#notweetmessage").hide();
-                tweetcounter += parseFloat(data.posts.length);
-            }
-            for( i=0; i<data.posts.length; i++ ) {
-                $finaldata += tweetBuilder(data.posts[i].id,
-                    data.posts[i].profile_image,
-                    data.posts[i].name,
-                    data.posts[i].username,
-                    getFormattedDate(data.posts[i].created_at),
-                    data.posts[i].text,
-                    data.posts[i].tags,
-                    data.posts[i].tweet_image,
-                    data.posts[i].original_image,
-                    data.liked,
-                    data.posts[i].likes
-                );
-                if(data.currentdata == 0) {
-                    __feedlastid = data.posts[i].id;
+                for( i=0; i<data.posts.length; i++ ) {
+                    $finaldata += tweetBuilder(data.posts[i].id,
+                        data.posts[i].profile_image,
+                        data.posts[i].name,
+                        data.posts[i].username,
+                        getFormattedDate(data.posts[i].created_at),
+                        data.posts[i].text,
+                        data.posts[i].tags,
+                        data.posts[i].tweet_image,
+                        data.posts[i].original_image,
+                        data.liked,
+                        data.posts[i].likes
+                    );
+                    if(data.currentdata == 0) {
+                        __feedlastid = data.posts[i].id;
+                    }
+                    //$finaldata = $finaldata + $response;
                 }
-                //$finaldata = $finaldata + $response;
-            }
-            if(data.posts.length == 0 && data.currentdata == 0) {
-                __feedlastid = null;
-            }
-            if(data.currentdata == 1) {
-                var count = parseFloat($("#newcount").text());
-                count += parseFloat(data.posts.length);
-                $("#newcount").text(count);
-                if(count > 0) {
-                    $(".tweet-alert").show();
+                if(data.posts.length == 0 && data.currentdata == 0) {
+                    __feedlastid = null;
                 }
-                $newtweetbuffer = $finaldata + $newtweetbuffer;
+                if(data.currentdata == 1) {
+                    var count = parseFloat($("#newcount").text());
+                    count += parseFloat(data.posts.length);
+                    $("#newcount").text(count);
+                    if(count > 0) {
+                        $(".tweet-alert").show();
+                    }
+                    $newtweetbuffer = $finaldata + $newtweetbuffer;
+                }
+                else {
+                    $("#feed").append($finaldata);
+                }
+            },
+            error: function(jqXHR, xhr) {
+                console.log(xhr);
+                console.log(jqXHR.status);
+                if(jqXHR.status == 401) {
+                    redirectToLogin();
+                }
+            },
+            complete: function() {
+                $("#loading").hide();
+                bindscroll();
+                if(tweetcounter == 0) {
+                    $("#notweetmessage").show();
+                }
+                if(__feedlastid == null) {
+                    //$("#loading").hide();
+                    showBackToTop();
+                }
             }
-            else {
-                $("#feed").append($finaldata);
-            }
-        },
-        error: function(jqXHR, xhr) {
-            console.log(xhr);
-            console.log(jqXHR.status);
-            if(jqXHR.status == 401) {
-                redirectToLogin();
-            }
-        },
-        complete: function() {
-            $("#loading").hide();
-            bindscroll();
-            if(tweetcounter == 0) {
-                $("#notweetmessage").show();
-            }
-            if(__feedlastid == null) {
-                //$("#loading").hide();
-                showBackToTop();
-            }
-        }
-    });
+        });
+    }catch(e){}
     return false;
 };
 
