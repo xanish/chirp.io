@@ -11,10 +11,11 @@
 ## Features ##
 * Login / Register
 * Profile edit
+* Color schemes
 * Follow / Unfollow users
 * Tweet with 150 characters limit
 * Feed posts from users you follow
-* Like / Unlike Tweets
+* Like / Unlike tweets
 * Load tweet on feed automatically when someone tweets
 * Lightbox on images
 * Search for users, hashtags and tweets
