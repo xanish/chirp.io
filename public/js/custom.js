@@ -926,11 +926,11 @@ function like_unlike(id, url, method, remove_class, add_class, icon, increment, 
             $('#' + $id).children().first().attr('title', title).tooltip('fixTitle').tooltip('show');
         },
         error: function (jqXHR, xhr) {
-            $(body).append(messageFail);
+            $('#app').append(messageFail);
             $('#fail').fadeOut(5000, function () {
                 $(this).remove();
             });
-            if(jqXHR.status == 401 || jqXHR.status == 500) {
+            if(jqXHR.status === 401 || jqXHR.status === 500) {
                 redirectToLogin();
             }
         }
