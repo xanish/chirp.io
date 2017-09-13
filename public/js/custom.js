@@ -50,7 +50,7 @@ function load_popular_tags() {
         type: 'GET',
         success: function (data) {
             data.forEach(function(element){
-                $('#popular-tags').append('<tr><td><a href="/tag/' + element.tag + '/tweets">' + element.tag + '</a></td><td>' + element.tag_count + '</td></tr>')
+                $('#popular-tags').append('<tr><td><a href="/tag/' + element.tag + '/tweets">' + '#' + element.tag + '</a></td><td>' + element.tag_count + '</td></tr>')
             });
         },
         error: function (xhr) {
@@ -704,14 +704,16 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "</p>";
 
     if (tweet_image != 'tweet_images/') {
-        $response +=          "<a href='/" + original_image + "' data-lightbox='box-" + id + "'>" +
-        "<img src='/" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
+        $response +=          "<div class='chirp_image'>" +
+        "<a href='/" + original_image + "' data-lightbox='box-" + id + "'>" +
+        "<img class='tweetimage' src='/" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
         "</a>" +
         "</div>" +
         "<div class='col-xs-12 visible-xs'>" +
         "<a href='/" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
-        "<img src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
-        "</a>";
+        "<img class='tweetimage' src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+        "</a>" +
+        "</div>";
     }
 
     $response +=        "</div>" +

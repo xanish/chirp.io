@@ -37,7 +37,23 @@
                                 </div>
                                 @else
                                 <div class="card-action">
-                                    <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
+                                    @php
+                                    $follow = 0
+                                    @endphp
+
+                                    @foreach($following as $follows)
+                                        @if($person->id == $follows->id)
+                                            <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block follow">Unfollow</button>
+                                            @php
+                                            $follow = 1
+                                            @endphp
+                                            @break
+                                        @endif
+                                    @endforeach
+
+                                    @if($follow == 0)
+                                        <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
+                                    @endif
                                 </div>
                                 @endif
                             @endif
@@ -51,6 +67,6 @@
             @endif
         </div>
     </div>
-    
+
     @include('partials.tweetmodal')
 @endsection
