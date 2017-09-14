@@ -45,9 +45,11 @@ class ProfileController extends Controller
     {
         $followersData = $this->profileSO->followers($username);
         $path = $request->path();
+        //return response($followersData);
         return view('follows')->with([
             'user' => $followersData['user'],
             'people' => $followersData['people'],
+            'following' => $followersData['following'],
             'tweet_count' => $followersData['tweet_count'],
             'follower_count' => $followersData['follower_count'],
             'following_count' => $followersData['following_count'],
