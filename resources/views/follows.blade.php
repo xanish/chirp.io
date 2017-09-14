@@ -36,9 +36,13 @@
                                     <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
                                 </div>
                                 @else
-                                <div class="card-action">
-                                    <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
-                                </div>
+                                    <div class="card-action">
+                                    @if(in_array($person->id, $following))
+                                        <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
+                                    @else
+                                        <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
+                                    @endif
+                                    </div>
                                 @endif
                             @endif
                         </div>
@@ -51,6 +55,6 @@
             @endif
         </div>
     </div>
-    
+
     @include('partials.tweetmodal')
 @endsection
