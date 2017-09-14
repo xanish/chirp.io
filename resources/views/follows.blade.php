@@ -36,25 +36,13 @@
                                     <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
                                 </div>
                                 @else
-                                <div class="card-action">
-                                    @php
-                                    $follow = 0
-                                    @endphp
-
-                                    @foreach($following as $follows)
-                                        @if($person->id == $follows->id)
-                                            <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block follow">Unfollow</button>
-                                            @php
-                                            $follow = 1
-                                            @endphp
-                                            @break
-                                        @endif
-                                    @endforeach
-
-                                    @if($follow == 0)
+                                    <div class="card-action">
+                                    @if(in_array($person->id, $following))
+                                        <button type="button" id="{{ $person->id }}" class="btn btn-danger btn-block unfollow">Unfollow</button>
+                                    @else
                                         <button type="button" id="{{ $person->id }}" class="btn btn-default btn-block follow">Follow</button>
                                     @endif
-                                </div>
+                                    </div>
                                 @endif
                             @endif
                         </div>

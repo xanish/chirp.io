@@ -154,7 +154,7 @@ class UserProfileServiceObject
     public function getProfile($username)
     {
         $user = $this->getUser($username);
-        $users = $this->follower->users($user->id);
+        $users = $this->follower->users('(user_id = '. $user->id .' or follows = '. $user->id .') and created_at = updated_at');
         $follows = $this->doesFollow($users, $user->id);
         return array(
             'user' => $user,
@@ -173,7 +173,7 @@ class UserProfileServiceObject
         return array(
             'user' => $user,
             'people' => $this->getFollowers($user, $this->getFollowerIds($users, $user->id)),
-            'following' => $this->getFollowers($user, $this->getFollowingIds($users, $user->id)),
+            'following' => $this->getFollowingIds($users, $user->id),
             'tweet_count' => $user->tweets()->count('tweets.id'),
             'follower_count' => $users->where('follows', $user->id)->count(),
             'following_count' => $users->where('user_id', $user->id)->count(),
