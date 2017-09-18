@@ -414,7 +414,7 @@ var __lastid;
 function loadTweet(_lastid) {
     try {
         $.ajax({
-            url: 'gettweets',
+            url: '/gettweets',
             type: 'GET',
             data: {
                 username : _username,
@@ -476,7 +476,7 @@ var __feedcurrentid = null;
 function loadFeed(_feedlastid, _feedcurrentid) {
     try {
         $.ajax({
-            url: 'getfeed',
+            url: '/getfeed',
             type: 'GET',
             data: {
                 lastid : _feedlastid,
