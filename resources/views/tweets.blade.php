@@ -22,7 +22,7 @@
 
         <div id="notweetmessageprofile">
           <h5 class="pacifico">
-              @if(Auth::user()->username == $user->username)
+              @if(!Auth::guest() and Auth::user()->username == $user->username)
                 You haven't tweeted anything yet
               @else
                 {{ $user->name }} hasn't tweeted anything yet
