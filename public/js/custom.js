@@ -62,13 +62,9 @@ function load_popular_tags() {
     });
 }
 
-$("#tweet-button").click(function() {
-    $('#tweet-button').attr('disabled', 'disabled');
-    $('#form').submit();
-});
-
 // ajax tweet post
 $('#form').submit(function() {
+    $('#tweet-button').attr('disabled', 'disabled');
     $('#RESPONSE_MSG').html('');
     var formData = new FormData($(this)[0]);
     var hashtags = ($('#tweetbox').val()).match(HASHTAG_REGEX);

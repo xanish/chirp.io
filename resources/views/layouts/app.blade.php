@@ -36,6 +36,7 @@
     </script>
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/emojionearea.js') }}"></script>
+    <script src="{{ asset('js/disablescroll.js') }}"></script>
     <script src="{{ asset('js/lightbox.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCso5QRQXnxgph82Q8tV3oYj24SG56jnCc&libraries=places"></script>
