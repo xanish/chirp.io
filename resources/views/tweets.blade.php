@@ -21,7 +21,13 @@
         </div>
 
         <div id="notweetmessageprofile">
-          <h5 class="pacifico">You haven't tweeted anything yet</h5>
+          <h5 class="pacifico">
+              @if(!Auth::guest() and Auth::user()->username == $user->username)
+                You haven't tweeted anything yet
+              @else
+                {{ $user->name }} hasn't tweeted anything yet
+              @endif
+          </h5>
         </div>
 
         <div class="stream-end">

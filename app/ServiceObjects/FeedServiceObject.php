@@ -103,7 +103,7 @@ class FeedServiceObject
                 array_push($tags, '#'.$tag);
             }
             $f = $follow->where('follows', $tweet->uid);
-            if ($tweet->created_at < $f->get('updated_at') or $f->get('created_at') == $f->get('updated_at')) {
+            if ($tweet->created_at < $f->pluck('updated_at')[0] or $f->pluck('created_at')[0] == $f->pluck('updated_at')[0]) {
                 $post = array(
                     'id' => $tweet->id,
                     'user_id' => $tweet->uid,
