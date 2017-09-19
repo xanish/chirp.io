@@ -5,9 +5,17 @@
         <div class="row">
             @if(count($people) == 0)
                 @if($path == $user->username.'/following')
+                    @if(Auth::user()->username == $user->username)
                     <h5 class="pacifico text-center">You don't seem to be following anyone <i class="material-icons">sentiment_very_dissatisfied</i></h5>
+                    @else
+                    <h5 class="pacifico text-center">{{ $user->name }} doesn't seem to be following anyone <i class="material-icons">sentiment_very_dissatisfied</i></h5>
+                    @endif
                 @else
+                    @if(Auth::user()->username == $user->username)
                     <h5 class="pacifico text-center">You don't have any followers <i class="material-icons">sentiment_very_dissatisfied</i></h5>
+                    @else
+                    <h5 class="pacifico text-center">{{ $user->name }} doesn't have any followers <i class="material-icons">sentiment_very_dissatisfied</i></h5>
+                    @endif
                 @endif
             @else
                 @foreach($people as $person)
