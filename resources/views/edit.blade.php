@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row margin-top-90">
             {!! Form::model($user, ['method' => 'PATCH', 'url' => 'edit-profile', 'files' => true, 'id' => 'edit-profile']) !!}
-            <div class="col-lg-4 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <img class="img-responsive center-block" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
                 <div class="text-center">
                     <h5>{{ $user->name }}</h5>
@@ -19,7 +19,7 @@
                     {!! Form::file('profile_banner',['class' => 'form-control', 'accept' => '.jpeg,.png,.jpg,.gif']) !!}
                 </div>
             </div>
-            <div class="col-lg-8 col-sm-12">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                 <div class="form-group">
                     {!! Form::label('name', 'Name') !!}
                     {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'edit-name']) !!}

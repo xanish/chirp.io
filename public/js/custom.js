@@ -144,6 +144,10 @@ function getText( obj ) {
 }
 
 $(document).ready(function() {
+    $('body').on('click', '.tweetimage', function() {
+        $(window).disablescroll();
+    });
+    
     try {
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
@@ -699,21 +703,25 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     addHashTags(tagArr, textArr) +
     "</p>";
 
-    if (tweet_image != 'tweet_images/') {
-        $response +=          "<div class='chirp_image'>" +
+    if (tweet_image != '/tweet_images/') {
+        $response +=          "<div class='chirp_image hidden-xs'>" +
         "<a href='/" + original_image + "' data-lightbox='box-" + id + "'>" +
-        "<img class='tweetimage' src='/" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
-        "</a>" +
-        "</div>" +
-        "<div class='col-xs-12 visible-xs'>" +
-        "<a href='/" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
-        "<img class='tweetimage' src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+        "<img class='tweetimage img-responsive' src='/" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
         "</a>" +
         "</div>";
     }
 
-    $response +=        "</div>" +
-    "</div>" +
+    $response +=        "</div>";
+
+    if (tweet_image != '/tweet_image/') {
+        $response += "<div class='col-xs-12 visible-xs text-center'>" +
+        "<a href='/" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
+        "<img class='tweetimage img-responsive' src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+        "</a>" +
+        "</div>";
+    }
+
+    $response += "</div>" +
     "</div>";
     addLikes(likedArr, likescount, id);
     $response +=  "</div>" +

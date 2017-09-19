@@ -173,7 +173,7 @@ meter[value="4"]::-moz-meter-bar { background: green; }
 #main-page-search-field {
     background-color: #fff !important;
     color: #636b6f;
-    padding: 5px 10px 5px 10px !important;
+    padding: 5px 0px 5px 0px !important;
     border-bottom: none !important;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12) !important;
     text-align: center;
@@ -334,7 +334,7 @@ textarea:focus {
     z-index: 999;
 }
 #search-results-dropdown {
-    max-height: 500px;
+    max-height: 280px;
     overflow: scroll;
 }
 #notweetmessage {
@@ -461,9 +461,11 @@ a:hover, a:focus {
     background-color: #2bbbad;
 	width:60px;
 	height:60px;
-	bottom:40px;
-	right:40px;
+	bottom:10px;
+	right:10px;
 	border-radius:50px;
+    z-index: 10000;
+    margin: 0;
 }
 #textcomplete-dropdown-1 {
   z-index: 2000 !important;
