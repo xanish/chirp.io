@@ -23,7 +23,11 @@ try {
         try {
             $('#attach').remove();
         } catch(e) {}
-        $upload = '<div class="alert alert-success" id="attach"><ul><li><i class="material-icons">attach_file</i>' + this.files.item(0).name + '</li></ul></div>';
+        $upload =   '<div class="alert alert-success" id="attach"><ul><li><i class="material-icons">attach_file</i>' +
+                    this.files.item(0).name +
+                    '<i class="material-icons remove-attach-file">close</i>' +
+                    '</li></ul>' +
+                    '</div>';
         $('#tweetform').append($upload);
     };
 } catch(e) {
@@ -35,10 +39,6 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
 
 var text_max = 150;
 $('#count_message').html(text_max);
@@ -68,7 +68,7 @@ $('#form').submit(function() {
     $('#RESPONSE_MSG').html('');
     var formData = new FormData($(this)[0]);
     var hashtags = ($('#tweetbox').val()).match(HASHTAG_REGEX);
-    console.log(hashtags);
+    //console.log(hashtags);
     formData.append('hashtags', JSON.stringify(hashtags));
     $.ajax({
         url: '/tweet',
@@ -112,17 +112,19 @@ $('#form').submit(function() {
         error: function(jqXHR, xhr) {
             if (jqXHR.status === 422) {
                 $errors = jqXHR.responseJSON;
-                $errorsHtml = '<div class="alert alert-danger" id="ERRMSG"><ul>';
+                console.log($errors);
+                $errorsHtml = '';
                 $.each( $errors, function( key, value ) {
                     $errorsHtml += '<li>' + value[0] + '</li>';
                 });
-                $errorsHtml += '</ul></div>';
-                $('#tweetform').append($errorsHtml);
+                $("#ERRMSG ul").html($errorsHtml);
+                $('#ERRMSG').stop(false, true);
+                $('#ERRMSG').show();
                 $('#tweet-button').attr('disabled', false);
                 $('#ERRMSG').fadeOut(6000, function() {
-                    $('#ERRMSG').remove();
+                    $('#ERRMSG').hide();
                 });
-                console.log(xhr);
+                //console.log(xhr);
             }
             console.log(xhr);
             console.log(jqXHR.status);
@@ -158,6 +160,15 @@ $(document).ready(function() {
     } finally {
 
     }
+
+    $('body').on('click', '.tweetimage', function() {
+        $(window).disablescroll();
+    });
+
+    $('body').on('click', '.remove-attach-file', function() {
+        $("#tweet_image_file").val('');
+        $('#attach').remove();
+    });
 
     if ($("#popular-tags").length > 0) {
         load_popular_tags();

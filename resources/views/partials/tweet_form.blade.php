@@ -5,14 +5,14 @@
             <textarea class="form-control" name="tweet_text" id="tweetbox" rows="4" placeholder="What's happening!"
                       maxlength="150" wrap="soft"></textarea>
             <div class="row">
-                <div class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
                     <input type="file" id="tweet_image_file" name="tweet_image" style="display: none;"
                            accept=".jpeg,.png,.jpg,.gif">
                     <button type="button" class="btn btn-default no-margin"
                             onclick="document.getElementById('tweet_image_file').click();"><i
                                 class="material-icons">image</i></button>
                 </div>
-                <div class="col-lg-1 col-md-8 col-sm-6 col-xs-4 text-center padding-10">
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-4 text-center padding-10">
                     <span id="count_message"></span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
@@ -22,11 +22,8 @@
             </div>
         </div>
     </form>
-    @if ($errors->any())
-        <ul class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+    <div class="alert alert-danger" id="ERRMSG">
+        <ul>
         </ul>
-    @endif
+    </div>
 </div>

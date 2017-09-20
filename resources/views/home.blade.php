@@ -31,7 +31,7 @@
                                 </ul>
                             </a>
                         </div>
-                        <div class="col-lg-12" id="count-bar">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="count-bar">
                             <ul id="navcount" class="list-unstyled list-inline">
                                 <li>
                                     <a href="/{{ $user->username }}">

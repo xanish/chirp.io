@@ -473,3 +473,10 @@ a:hover, a:focus {
 .tweetimage {
     border-radius: 2px;
 }
+#ERRMSG {
+    display: none;
+}
+.remove-attach-file {
+    float: right;
+    cursor: pointer;
+}
