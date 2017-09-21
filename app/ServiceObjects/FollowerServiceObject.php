@@ -52,7 +52,7 @@ class FollowerServiceObject
                 'updated_at' => Carbon::now(),
             ]);
         } catch (Exception $e) {
-            throw new Exception("Unable To Remove Follower");
+            throw new Exception($e->getMessage());
         }
         return response()->json(200);
     }

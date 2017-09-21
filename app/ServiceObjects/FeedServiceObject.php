@@ -33,6 +33,7 @@ class FeedServiceObject
         $user = Auth::user();
         $follow = $this->follower->users('user_id = '. $user->id .' or follows = '. $user->id);
         $followingids = $follow->where('user_id', $user->id)->pluck('follows');
+        $followingids->push(Auth::id());
         $currentdata = 0;
 
         if($lastid != '') {
@@ -102,8 +103,10 @@ class FeedServiceObject
             foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
             }
+
             $f = $follow->where('follows', $tweet->uid);
-            if ($tweet->created_at < $f->pluck('updated_at')[0] or $f->pluck('created_at')[0] == $f->pluck('updated_at')[0]) {
+
+            if ($tweet->uid == Auth::id() or $tweet->created_at < $f->pluck('updated_at')[0] or $f->pluck('created_at')[0] == $f->pluck('updated_at')[0]) {
                 $post = array(
                     'id' => $tweet->id,
                     'user_id' => $tweet->uid,

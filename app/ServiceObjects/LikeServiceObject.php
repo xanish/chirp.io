@@ -22,7 +22,7 @@ class LikeServiceObject
                 $like = $this->like->like($id, $tweet_id);
             }
         } catch (Exception $e) {
-            throw new Exception("Unable To Like Post");
+            throw new Exception($e->getMessage());
         }
         return response()->json(200);
     }
@@ -36,7 +36,7 @@ class LikeServiceObject
                 $like = $this->like->unlike($id, $tweet_id);
             }
         } catch (Exception $e) {
-            throw new Exception("Unable To Unlike Post");
+            throw new Exception($e->getMessage());
         }
         return response()->json(200);
     }

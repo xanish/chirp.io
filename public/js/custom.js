@@ -24,12 +24,22 @@ try {
         try {
             $('#attach').remove();
         } catch(e) {}
-        $upload =   '<div class="alert alert-success" id="attach"><ul><li><i class="material-icons">attach_file</i>' +
+        $upload =   '<div class="alert alert-success row" id="attach"><ul id="attach-item"><li><i class="material-icons">attach_file</i>' +
                     this.files.item(0).name +
                     '<i class="material-icons remove-attach-file">close</i>' +
                     '</li></ul>' +
                     '</div>';
+        var files = !!this.files ? this.files : [];
+        if (/^image/.test( files[0].type)) { // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+
+            reader.onloadend = function() { // set image data as background of div
+                $("#imagePreview").css("background-image", "url("+this.result+")");
+            }
+        }
         $('#tweetform').append($upload);
+        $('#attach-item').append('<li><div id="imagePreview"></div></li>');
     };
 } catch(e) {
 
@@ -165,6 +175,7 @@ $(document).ready(function() {
     $('body').on('click', '.remove-attach-file', function() {
         $("#tweet_image_file").val('');
         $('#attach').remove();
+        $('#imagePreview').remove();
     });
 
     if ($("#popular-tags").length > 0) {
