@@ -87,21 +87,25 @@ $('#form').submit(function() {
             $("#tweet_image_file").val('');
             $('#count_message').html(text_max);
             $('#tweet-button').attr('disabled', 'disabled');
+            $reponse =   tweetBuilder(data.element.id,
+                                      data.element.avatar,
+                                      data.element.name,
+                                      data.element.username,
+                                      getFormattedDate(data.element.date),
+                                      data.element.text,
+                                      data.element.tags,
+                                      data.element.image,
+                                      data.element.original,
+                                      null,
+                                      0
+                                     );
             if(currentuser == data.element.username) {
-              $reponse =   tweetBuilder(data.element.id,
-                                        data.element.avatar,
-                                        data.element.name,
-                                        data.element.username,
-                                        getFormattedDate(data.element.date),
-                                        data.element.text,
-                                        data.element.tags,
-                                        data.element.image,
-                                        data.element.original,
-                                        null,
-                                        0
-                                       );
               $("#feed-tweet").prepend($response);
               $("#count-bar").load(' #navcount');
+            }
+            if($("#feed").length) {
+                $("#count-bar").load(' #navcount');
+                $("#feed").prepend($response);
             }
             $('#attach').remove();
             $successmsg = '<div class="alert alert-success" id="postsuccess"><ul><li>Posted Successfully</li></ul></div>';
@@ -245,15 +249,21 @@ if ( $('#feed-tweet').length ) {
     $("#loading").show();
     loadTweet(null);
 }
+
 if ( $('#feed').length ) {
     unbindscroll();
     $("#loading").show();
     loadFeed(null, null);
 }
+
 if ( $('#searchfeed').length ) {
     unbindscroll();
     $("#loading").show();
     loadSearchedByTagTweets(null);
+}
+
+if ( $('#welcomefeed').length ) {
+    loadLatestTweetsOnWelcomePage();
 }
 
 // autocomplete for cities and countries
@@ -620,6 +630,35 @@ function loadSearchedByTagTweets(_searchbytaglastid) {
     return false;
 };
 
+function loadLatestTweetsOnWelcomePage() {
+    try {
+        $.ajax({
+            url: '/getlatesttweets',
+            type: 'GET',
+            success: function(data) {
+                console.log(data);
+                var $finaldata = " ";
+                for( i=0; i<data.length; i++ ) {
+                    $finaldata += tweetBuilder(data[i].id,
+                        data[i].profile_image,
+                        data[i].name,
+                        data[i].username,
+                        getFormattedDate(data[i].created_at),
+                        data[i].text,
+                        data[i].tags,
+                        data[i].tweet_image,
+                        data[i].original_image,
+                        -1,
+                        data[i].likes
+                    );
+                }
+                $("#welcomefeed").append($finaldata);
+            },
+        });
+    }catch(e) {}
+    return false;
+};
+
 function backtotop() {
     $('html, body').animate({scrollTop : 0},600);
     return false;
@@ -662,6 +701,7 @@ function addHashTags(tagArr, textArr) {
     for( j=0; j<textArr.length; j++) {
         var chirptext = textArr[j];
         var emoji = new EmojiConvertor();
+        emoji.init_env();
         chirptext = emoji.replace_unified(chirptext);
         //console.log(chirptext);
         if(jQuery.inArray(chirptext, tagArr) != -1) {

@@ -16,6 +16,7 @@ Route::post('/tweet', 'TweetController@create');
 Route::get('/gettweets', 'ProfileController@fetchTweets');
 Route::get('/getfeed', 'HomeController@getfeed');
 Route::get('/getsearchbytagtweets', 'TagController@tweets');
+Route::get('/getlatesttweets', 'SiteHomePageController@getlatesttweets');
 
 Route::post('/like/{tweet_id}', 'LikesController@like');
 Route::delete('/unlike/{tweet_id}', 'LikesController@unlike');

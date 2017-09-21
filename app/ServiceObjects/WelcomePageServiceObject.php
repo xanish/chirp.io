@@ -65,7 +65,7 @@ class WelcomePageServiceObject
                 'text' => explode(' ', $tweet->text),
                 'tweet_image' => Config::get("constants.tweet_images").$tweet->tweet_image,
                 'original_image' => Config::get("constants.tweet_images").$tweet->original_image,
-                'created_at' => $tweet->created_at,
+                'created_at' => $tweet->created_at->timestamp,
                 'likes' => $this->likeCount($likes, $tweet->id),
                 'id' => $tweet->id,
                 'user_id' => $tweet->uid,
