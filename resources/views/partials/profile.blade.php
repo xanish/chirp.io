@@ -14,9 +14,9 @@ var _username = {!! json_encode($user->username) !!}
             <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12" id="count-bar">
                 <ul id="navcount" class="nav navbar-nav">
                     @if($path === $user->username)
-                        <li class="active">
+                        <li class="active col-xs-4 no-padding">
                     @else
-                        <li>
+                        <li class="col-xs-4 no-padding">
                      @endif
                             <a href="/{{ $user->username }}">
                                 <ul class="list-unstyled">
@@ -26,9 +26,9 @@ var _username = {!! json_encode($user->username) !!}
                             </a>
                         </li>
                         @if($path === $user->username.'/followers')
-                            <li class="active">
+                            <li class="active col-xs-4 no-padding">
                         @else
-                            <li>
+                            <li class="col-xs-4 no-padding">
                         @endif
                             <a href="/{{ $user->username }}/followers">
                                 <ul class="list-unstyled">
@@ -38,9 +38,9 @@ var _username = {!! json_encode($user->username) !!}
                             </a>
                         </li>
                             @if($path === $user->username.'/following')
-                                <li class="active">
+                                <li class="active col-xs-4 no-padding">
                             @else
-                                <li>
+                                <li class="col-xs-4 no-padding">
                             @endif
                             <a href="/{{ $user->username }}/following">
                                 <ul class="list-unstyled">

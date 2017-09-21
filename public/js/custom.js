@@ -766,19 +766,19 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "</p>";
 
     if (tweet_image != '/tweet_images/') {
-        $response +=          "<div class='chirp_image hidden-xs'>" +
+        $response += "<div class='chirp_image hidden-xs'>" +
         "<a href='/" + original_image + "' data-lightbox='box-" + id + "'>" +
         "<img class='tweetimage img-responsive' src='/" + tweet_image + "' class='img-responsive hidden-xs lightboxed' alt=''>" +
         "</a>" +
         "</div>";
     }
 
-    $response +=        "</div>";
+    $response += "</div>";
 
-    if (tweet_image != '/tweet_image/') {
-        $response += "<div class='col-xs-12 visible-xs text-center'>" +
+    if (tweet_image != '/tweet_images/') {
+        $response += "<div class='col-xs-12 visible-xs'>" +
         "<a href='/" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
-        "<img class='tweetimage img-responsive' src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
+        "<img class='tweetimage img-responsive center-block' src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
         "</a>" +
         "</div>";
     }
@@ -891,8 +891,8 @@ $('#main-page-search-field').keyup(function() {
                 if (data.users.length != 0) {
                     $('#search-results').prepend("<li class='row search-item' id='user-search-items'></div></li>");
                     for (var i = 0; i < data.users.length; i++) {
-                        $element = "<li class='search-item col-lg-6 col-md-6 col-sm-6 col-xs-12'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
-                        "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><a href='/" + data.users[i].username + "'><ul class='list-unstyled'><li><h6>" + data.users[i].name +
+                        $element = "<li class='search-item col-lg-6 col-md-6 col-sm-6 col-xs-12'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
+                        "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><a href='/" + data.users[i].username + "'><ul class='list-unstyled'><li><h6>" + data.users[i].name +
                         "</h6></li><li>@" + data.users[i].username + "</li></ul></a></div></li>";
                         $('#user-search-items').prepend($element);
                     }
