@@ -3,6 +3,7 @@ var EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbf
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
 var currentuser;
+
 var messageFail = '<div id="fail" class="alert alert-danger float-success"><h6>Try Again Later</h6></div>';
 
 try {
@@ -146,10 +147,6 @@ function getText( obj ) {
 }
 
 $(document).ready(function() {
-    $('body').on('click', '.tweetimage', function() {
-        $(window).disablescroll();
-    });
-    
     try {
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
@@ -664,6 +661,9 @@ function ltrim(str, chr) {
 function addHashTags(tagArr, textArr) {
     for( j=0; j<textArr.length; j++) {
         var chirptext = textArr[j];
+        var emoji = new EmojiConvertor();
+        chirptext = emoji.replace_unified(chirptext);
+        //console.log(chirptext);
         if(jQuery.inArray(chirptext, tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
             $response += "<a href='/tag/" + taggedtext + "/tweets'>" + chirptext + "</a>" + " ";

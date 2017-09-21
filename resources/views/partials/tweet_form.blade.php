@@ -12,7 +12,7 @@
                             onclick="document.getElementById('tweet_image_file').click();"><i
                                 class="material-icons">image</i></button>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-4 text-center padding-10">
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-4 text-right padding-10">
                     <span id="count_message"></span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
