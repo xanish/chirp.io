@@ -21,7 +21,7 @@
 		 * @memberof emoji
 		 * @type {string}
 		 */
-		self.img_set = 'twitter';
+		self.img_set = 'emojione';
 
 		/**
 		 * Configuration details for different image sets. This includes a path to a directory containing the
