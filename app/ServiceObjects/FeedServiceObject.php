@@ -104,6 +104,7 @@ class FeedServiceObject
             foreach ($temp as $tag) {
                 array_push($tags, '#'.$tag);
             }
+
             $f = $follow->where('follows', $tweet->uid);
             if ($tweet->uid == Auth::id() or $tweet->created_at < $f->pluck('updated_at')[0] or $f->pluck('created_at')[0] == $f->pluck('updated_at')[0]) {
                 $post = array(

@@ -7,9 +7,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h5 class="modal-title text-center">
+                <h5 class="modal-title text-center pacifico">
                     <i class="icofont icofont-lg icofont-animal-woodpecker"></i>
-                    <b>Compose new chirp</b>
+                    <span>Compose new chirp</span>
                 </h5>
             </div>
             <div class="modal-body">

@@ -70,6 +70,7 @@ class User extends Authenticatable
     {
         $this->where('id', $id)->update([
             'name' => $request->name,
+            'email' => $request->email,
             'city' => $request->city,
             'country' => $request->country,
             'birthdate' => $request->birthdate,

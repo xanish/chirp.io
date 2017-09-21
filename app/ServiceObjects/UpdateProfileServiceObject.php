@@ -29,7 +29,7 @@ class UpdateProfileServiceObject
         try {
             $this->user->updateUserDetails($id, $request, $profile_image, $profile_banner,  Carbon::now());
         } catch (Exception $e) {
-            throw new Exception("Unable To Update Profile Details");
+            throw new Exception($e->getMessage());
         }
     }
 

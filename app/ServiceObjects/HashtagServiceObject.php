@@ -18,7 +18,7 @@ class HashtagServiceObject
             try {
                 $this->hashtag->addTag(ltrim($tag, '#'), $tweet_id);
             } catch (Exception $e) {
-                throw new Exception("Unable To Add Hashtag");
+                throw new Exception($e->getMessage());
             }
         }
     }

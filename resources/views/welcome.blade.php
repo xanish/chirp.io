@@ -23,6 +23,7 @@
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
             <h4 class="pacifico">Latest Tweets</h4>
             <div id="welcomefeed">
+                
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">

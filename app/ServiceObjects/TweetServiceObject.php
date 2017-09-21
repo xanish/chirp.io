@@ -28,7 +28,7 @@ class TweetServiceObject
                 'original_image' => $image == NULL ? $image:'original_'.$image ,
             ]);
         } catch (Exception $e) {
-            throw new Exception("Failed To Save Tweet");
+            throw new Exception($e->getMessage());
         }
         return $tweet->id;
     }
@@ -71,7 +71,7 @@ class TweetServiceObject
                     'scale-down'
                 );
             } catch (Exception $e) {
-                throw new Exception("Error Saving Image");
+                throw new Exception($e->getMessage());
             }
         }
         return $image_name;

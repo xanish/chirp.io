@@ -32,7 +32,7 @@ class SearchServiceObject
             $users = $this->user->findUsers($criteria)->get();
             $tags = $this->hashtag->findTags(ltrim($criteria, '#'))->get();
         } catch (Exception $e) {
-            throw new Exception("Unable To Get Search Results From DB");
+            throw new Exception($e->getMessage());
         }
         return array(
             "users" => $users,
@@ -45,7 +45,7 @@ class SearchServiceObject
         try {
             $data = $this->user->findUsers($criteria)->paginate(24);
         } catch (Exception $e) {
-            throw new Exception("Unable To Get Search Results From DB");
+            throw new Exception($e->getMessage());
         }
         return $data;
     }
