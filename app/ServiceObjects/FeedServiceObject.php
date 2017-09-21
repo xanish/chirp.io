@@ -33,10 +33,10 @@ class FeedServiceObject
         $user = Auth::user();
         $follow = $this->follower->users('user_id = '. $user->id .' or follows = '. $user->id);
         $followingids = $follow->where('user_id', $user->id)->pluck('follows');
-        $followingids->push(Auth::id());
         $currentdata = 0;
 
         if($lastid != '') {
+            $followingids->push($user->id);
             $feed = $this->tweet->whereIn('user_id', $followingids)
             ->where('tweets.id', '<', $lastid)
             ->join('users', 'tweets.user_id', '=', 'users.id')
@@ -54,6 +54,7 @@ class FeedServiceObject
             ->get();
         }
         else {
+            $followingids->push($user->id);
             $feed = Tweet::whereIn('user_id', $followingids)
             ->join('users', 'tweets.user_id', '=', 'users.id')
             ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
@@ -105,7 +106,6 @@ class FeedServiceObject
             }
 
             $f = $follow->where('follows', $tweet->uid);
-
             if ($tweet->uid == Auth::id() or $tweet->created_at < $f->pluck('updated_at')[0] or $f->pluck('created_at')[0] == $f->pluck('updated_at')[0]) {
                 $post = array(
                     'id' => $tweet->id,

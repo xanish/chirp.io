@@ -18,11 +18,15 @@ class SiteHomePageController extends Controller
     public function index()
     {
         if (Auth::guest()) {
-            $data = $this->welcomeSO->welcomePageData();
-            // $popular_tags = $data['popular_tags'];
-            $tweets = $data['latest_tweets'];
-            return view('welcome', compact('tweets'));
+            return view('welcome');
         }
         return redirect(action('HomeController@index'));
+    }
+
+    public function getlatesttweets()
+    {
+        $data = $this->welcomeSO->welcomePageData();
+        $tweets = $data['latest_tweets'];
+        return response($tweets);
     }
 }
