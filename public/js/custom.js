@@ -893,8 +893,8 @@ $('#main-page-search-field').keyup(function() {
                 if (data.users.length != 0) {
                     $('#search-results').prepend("<li class='row search-item' id='user-search-items'></div></li>");
                     for (var i = 0; i < data.users.length; i++) {
-                        $element = "<li class='search-item col-lg-6 col-md-6 col-sm-6 col-xs-12'><div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
-                        "' alt=''></div><div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'><a href='/" + data.users[i].username + "'><ul class='list-unstyled'><li><h6>" + data.users[i].name +
+                        $element = "<li class='search-item col-lg-6 col-md-6 col-sm-6 col-xs-12'><div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
+                        "' alt=''></div><div class='col-lg-9 col-md-9 col-sm-9 col-xs-9'><a href='/" + data.users[i].username + "'><ul class='list-unstyled'><li><h6>" + data.users[i].name +
                         "</h6></li><li>@" + data.users[i].username + "</li></ul></a></div></li>";
                         $('#user-search-items').prepend($element);
                     }

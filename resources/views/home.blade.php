@@ -15,11 +15,11 @@
                         </div>
                     </div>
                     <div class="card-content">
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-3">
                             <img src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}"
                                  class="img-responsive img-circle img-floating"></img>
                         </div>
-                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-9">
                             <a href="/{{ $user->username }}">
                                 <ul class="list-unstyled">
                                     <li>
