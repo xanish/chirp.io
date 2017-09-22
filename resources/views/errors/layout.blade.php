@@ -15,7 +15,7 @@
             background-color: #fff;
             color: #636b6f;
             font-weight: 100;
-            height: 100vh;
+            height: 90vh;
             margin: 0;
         }
         .full-height {
@@ -32,8 +32,9 @@
         .content {
             text-align: center;
         }
-        .title {
-            font-size: 84px;
+
+        .links {
+            margin-top: 30px;
         }
     </style>
 </head>

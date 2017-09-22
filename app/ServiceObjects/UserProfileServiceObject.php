@@ -28,28 +28,25 @@ class UserProfileServiceObject
     public function getUser($username)
     {
         $user;
-        try {
-            if (Auth::guest() or $username != Auth::user()->username) {
-                $user = $this->user->where('username', $username)
-                ->select(
-                    'id',
-                    'name',
-                    'username',
-                    'profile_image',
-                    'profile_banner',
-                    'city',
-                    'country',
-                    'birthdate',
-                    'created_at'
-                    )
-                ->firstOrFail();
-            }
-            else {
-                $user = Auth::user();
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        if (Auth::guest() or $username != Auth::user()->username) {
+            $user = $this->user->where('username', $username)
+            ->select(
+                'id',
+                'name',
+                'username',
+                'profile_image',
+                'profile_banner',
+                'city',
+                'country',
+                'birthdate',
+                'created_at'
+                )
+            ->firstOrFail();
         }
+        else {
+            $user = Auth::user();
+        }
+
         return $user;
     }
 

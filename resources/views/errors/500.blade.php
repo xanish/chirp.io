@@ -1,5 +1,4 @@
 @extends('errors.layout')
 @section('message')
-    <h1 class="pacifico title">500</h1>
-    <h2 class="pacifico">Our Servers Are Having Issues</h2>
+    <h1 class="pacifico title">Our servers are having issues, please try again later!</h1>
 @endsection
