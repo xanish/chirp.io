@@ -406,25 +406,25 @@ $('input#country').autoComplete();
 
 $(document).on('click', '.likes', function() {
     $id = $(this).attr('id');
-    like_unlike($id, '/like/', 'POST', 'likes', 'unlikes', 'favorite', 1, 'Unlike');
+    like_unlike($id, '/like/', 'POST', 'likes', 'unlikes', 'favorite', 1, 'Unlike', this);
     return false;
 });
 
 $(document).on('click', '.unlikes', function() {
     $id = $(this).attr('id');
-    like_unlike($id, '/unlike/', 'DELETE', 'unlikes', 'likes', 'favorite_border', -1, 'Like');
+    like_unlike($id, '/unlike/', 'DELETE', 'unlikes', 'likes', 'favorite_border', -1, 'Like', this);
     return false;
 });
 
 $(document).on('click', '.follow', function() {
     $id = $(this).attr('id');
-    follow_unfollow($id, '/follow/', 'POST', 'unfollow', 'follow', 'btn-danger', 'btn-default', 'Unfollow');
+    follow_unfollow($id, '/follow/', 'POST', 'unfollow', 'follow', 'btn-danger', 'btn-default', 'Unfollow', this);
     return false;
 });
 
 $(document).on('click', '.unfollow', function() {
     $id = $(this).attr('id');
-    follow_unfollow($id, '/unfollow/', 'DELETE', 'follow', 'unfollow', 'btn-default', 'btn-danger', 'Follow');
+    follow_unfollow($id, '/unfollow/', 'DELETE', 'follow', 'unfollow', 'btn-default', 'btn-danger', 'Follow', this);
     return false;
 });
 
@@ -961,7 +961,8 @@ catch (e) {
 
 }
 
-function follow_unfollow(id, url, method, add_class, remove_class, add_class_btn, remove_class_btn, text) {
+function follow_unfollow(id, url, method, add_class, remove_class, add_class_btn, remove_class_btn, text, element) {
+    $(element).attr('disabled', 'disabled');
     $.ajax({
         url: url + id,
         type: method,
@@ -969,12 +970,14 @@ function follow_unfollow(id, url, method, add_class, remove_class, add_class_btn
         contentType: false,
         processData: false,
         success: function (data) {
+            $(element).attr('disabled', false);
             $("#count-bar").load(' #navcount');
             $('#' + $id).removeClass(remove_class).addClass(add_class);
             $('#' + $id).removeClass(remove_class_btn).addClass(add_class_btn);
             $('#' + $id).text(text);
         },
         error: function (jqXHR, xhr) {
+            $(element).attr('disabled', false);
             $('#app').append(messageFail);
             $('#fail').fadeOut(5000, function () {
                 $(this).remove();
@@ -986,7 +989,8 @@ function follow_unfollow(id, url, method, add_class, remove_class, add_class_btn
     });
 }
 
-function like_unlike(id, url, method, remove_class, add_class, icon, increment, title) {
+function like_unlike(id, url, method, remove_class, add_class, icon, increment, title, element) {
+    element.style.pointerEvents = 'none';
     $.ajax({
         url: url + id,
         type: method,
@@ -994,6 +998,7 @@ function like_unlike(id, url, method, remove_class, add_class, icon, increment, 
         contentType: false,
         processData: false,
         success: function (data) {
+            element.style.pointerEvents = 'auto';
             console.log(data);
             $('#' + $id).removeClass(remove_class).addClass(add_class);
             $('#' + $id + ' i.material-icons').text(icon);
@@ -1002,6 +1007,7 @@ function like_unlike(id, url, method, remove_class, add_class, icon, increment, 
             $('#' + $id).children().first().attr('title', title).tooltip('fixTitle').tooltip('show');
         },
         error: function (jqXHR, xhr) {
+            element.style.pointerEvents = 'auto';
             $('#app').append(messageFail);
             $('#fail').fadeOut(5000, function () {
                 $(this).remove();
