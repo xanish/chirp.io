@@ -496,3 +496,6 @@ a:hover, a:focus {
     float: right;
     cursor: pointer;
 }
+#imagePreview {
+    border-radius: 4px;
+}

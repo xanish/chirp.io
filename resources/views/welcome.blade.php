@@ -23,13 +23,20 @@
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
             <h4 class="pacifico">Latest Tweets</h4>
             <div id="welcomefeed">
-                
+                <div class="spinner" id="latesttweetloading">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
             <h4 class="pacifico">Popular Tags</h4>
             <table class="table" id="popular-tags">
-                <div class="spinner" id="loading">
+                <div class="spinner" id="populartagloading">
                     <div class="rect1"></div>
                     <div class="rect2"></div>
                     <div class="rect3"></div>
