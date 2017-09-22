@@ -30,8 +30,8 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => 'required|string|max:30',
             'email' => 'required|string|email|max:40|unique:users,email,'.Auth::user()->id,
-            'profile_image' => 'dimensions:min_width=500,min_height=500|image|max:5000',
-            'profile_banner' => 'dimensions:min_width=900,min_height=400|image|max:5000',
+            'profile_image' => 'image|max:5000',
+            'profile_banner' => 'image|max:5000',
         ];
     }
 
