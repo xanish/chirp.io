@@ -51,9 +51,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        // if ($exception instanceof \Illuminate\Database\QueryException) {
-        //     return response()->view('errors.500');
-        // }
+        if ($exception instanceof \Illuminate\Database\QueryException) {
+            return response()->view('errors.500');
+        }
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
             return redirect('/login');
         }
@@ -82,7 +82,7 @@ class Handler extends ExceptionHandler
             $e = FlattenException::create($exception);
             $handler = new SymfonyExceptionHandler();
             $html = $handler->getHtml($e);
-            Mail::to('developer@example.com')->send(new Error($html));
+            Mail::to(env('DEVELOPER_EMAIL', 'developer@company.com'))->send(new Error($html));
         } catch (Exception $ex) {
             dd($ex);
         }
