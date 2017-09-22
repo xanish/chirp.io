@@ -679,24 +679,31 @@ function backtotop() {
     return false;
 }
 
+function scrollToBottom() {
+    document.body.scrollTop = $(document).height();
+}
+
 function bindscroll() {
     $(window).scroll(function() {
         if( $(window).scrollTop() + $(window).height() + 2 >= $(document).height() ) { //scrolled to bottom of the page
             if(__lastid != null) {
                 unbindscroll();
                 $("#loading").show();
+                scrollToBottom();
                 loadTweet(__lastid);
             }
 
             if(__feedlastid != null) {
                 unbindscroll();
                 $("#loading").show();
+                scrollToBottom();
                 loadFeed(__feedlastid, null);
             }
 
             if(__searchbytaglastid != null) {
                 unbindscroll();
                 $("#loading").show();
+                scrollToBottom();
                 loadSearchedByTagTweets(__searchbytaglastid);
             }
         }
