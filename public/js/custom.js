@@ -55,7 +55,7 @@ var text_max = 150;
 $('#count_message').html(text_max);
 
 function load_popular_tags() {
-    $('#loading').show();
+    $('#populartagloading').show();
     $.ajax({
         url: '/popular_tags',
         type: 'GET',
@@ -68,7 +68,7 @@ function load_popular_tags() {
             $('#popular-tags').append('<h6 class="text-center">Unable To Load Popular Tweets Try Again Later</h6>');
         },
         complete: function () {
-            $("#loading").hide();
+            $("#populartagloading").hide();
         }
     });
 }
@@ -643,6 +643,7 @@ function loadSearchedByTagTweets(_searchbytaglastid) {
 
 function loadLatestTweetsOnWelcomePage() {
     try {
+        $("#latesttweetloading").show();
         $.ajax({
             url: '/getlatesttweets',
             type: 'GET',
@@ -665,6 +666,9 @@ function loadLatestTweetsOnWelcomePage() {
                 }
                 $("#welcomefeed").append($finaldata);
             },
+            complete: function() {
+                $("#latesttweetloading").hide();
+            }
         });
     }catch(e) {}
     return false;
@@ -677,7 +681,7 @@ function backtotop() {
 
 function bindscroll() {
     $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() + 2 >= $(document).height()){ //scrolled to bottom of the page
+        if( $(window).scrollTop() + $(window).height() + 2 >= $(document).height() ) { //scrolled to bottom of the page
             if(__lastid != null) {
                 unbindscroll();
                 $("#loading").show();
@@ -712,9 +716,7 @@ function addHashTags(tagArr, textArr) {
     for( j=0; j<textArr.length; j++) {
         var chirptext = textArr[j];
         var emoji = new EmojiConvertor();
-        emoji.init_env();
         chirptext = emoji.replace_unified(chirptext);
-        //console.log(chirptext);
         if(jQuery.inArray(chirptext, tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
             $response += "<a href='/tag/" + taggedtext + "/tweets'>" + chirptext + "</a>" + " ";
@@ -775,7 +777,7 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
 
     $response +=        "</div>";
 
-    if (tweet_image != '/tweet_image/') {
+    if (tweet_image != '/tweet_images/') {
         $response += "<div class='col-xs-12 visible-xs text-center'>" +
         "<a href='/" + original_image + "' data-lightbox='box-" + id + "-mini'>" +
         "<img class='tweetimage img-responsive' src='/" + tweet_image + "' class='img-responsive visible-xs lightboxed' alt=''>" +
