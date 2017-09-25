@@ -43,6 +43,8 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
                 </div>
             </div>
         @endif
+
+        @include('partials.backtotop')
     </div>
 
     @if(!Auth::guest())

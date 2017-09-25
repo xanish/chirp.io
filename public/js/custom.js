@@ -148,9 +148,9 @@ $('#form').submit(function() {
             }
         },
         complete: function() {
-            if(__lastid == null && $('#feed-tweet').length) {
+            /*if(__lastid == null && $('#feed-tweet').length) {
                 showBackToTop();
-            }
+            }*/
         }
     });
     return false;
@@ -491,10 +491,10 @@ function loadTweet(_lastid) {
                 if(tweetcounter == 0) {
                     $("#notweetmessageprofile").show();
                 }
-                if(__lastid == null) {
+                /*if(__lastid == null) {
                     //$("#loading").hide();
                     showBackToTop();
-                }
+                }*/
             }
         });
     }catch(e) {}
@@ -569,10 +569,10 @@ function loadFeed(_feedlastid, _feedcurrentid) {
                 if(tweetcounter == 0) {
                     $("#notweetmessage").show();
                 }
-                if(__feedlastid == null) {
+                /*if(__feedlastid == null) {
                     //$("#loading").hide();
                     showBackToTop();
-                }
+                }*/
             }
         });
     }catch(e){}
@@ -632,10 +632,10 @@ function loadSearchedByTagTweets(_searchbytaglastid) {
                     $("#tagname").html('#' + _tag);
                     $("#notweetmessage").show();
                 }
-                if(__searchbytaglastid == null) {
+                /*if(__searchbytaglastid == null) {
                     //$("#loading").hide();
                     showBackToTop();
-                }
+                }*/
             }
         });
     }catch(e) {}
@@ -680,33 +680,34 @@ function backtotop() {
     return false;
 }
 
-function scrollToBottom() {
-    document.body.scrollTop = $(document).height();
-}
-
 function bindscroll() {
     $(window).scroll(function() {
         if( $(window).scrollTop() + $(window).height() + 2 >= $(document).height() ) { //scrolled to bottom of the page
             if(__lastid != null) {
                 unbindscroll();
                 $("#loading").show();
-                scrollToBottom();
                 loadTweet(__lastid);
             }
 
             if(__feedlastid != null) {
                 unbindscroll();
                 $("#loading").show();
-                scrollToBottom();
                 loadFeed(__feedlastid, null);
             }
 
             if(__searchbytaglastid != null) {
                 unbindscroll();
                 $("#loading").show();
-                scrollToBottom();
                 loadSearchedByTagTweets(__searchbytaglastid);
             }
+        }
+
+        var offset = 250;
+        if ($(this).scrollTop() > offset) {
+            $('.back-to-top').fadeIn();
+        }
+        else {
+            $('.back-to-top').fadeOut();
         }
     });
 }
@@ -733,23 +734,23 @@ function isURL(text) {
     return false;
 }
 
-function addHashTags(tagArr, textArr) {
+function addTweet(tagArr, textArr) {
     for( j=0; j<textArr.length; j++) {
         var chirptext = textArr[j];
         var emoji = new EmojiConvertor();
         chirptext = emoji.replace_unified(chirptext);
         if(jQuery.inArray(rtrim(chirptext), tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
-            $response += "<a href='/tag/" + rtrim(taggedtext) + "/tweets'>" + chirptext + "</a>" + " ";
+            $response += "<a href='/tag/" + rtrim(taggedtext) + "/tweets'>" + chirptext + "</a>" + " "; // add hashtags
         }
         else if(chirptext == "") {
-            $response += "&nbsp;";
+            $response += "&nbsp;"; // add extra spaces
         }
         else if(isURL(chirptext)) {
-            $response += "<a href='" + chirptext + "'>" + chirptext + "</a>" + " ";
+            $response += "<a href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " "; // add urls
         }
         else {
-            $response += chirptext + " ";
+            $response += chirptext + " "; // add tweet
         }
     }
 }
@@ -768,11 +769,11 @@ function addLikes(likedArr, likescount, id) {
     }
 }
 
-function showBackToTop() {
+/*function showBackToTop() {
     if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) || $('#searchfeed').outerHeight(true) > $(window).height()) {
-        $('.stream-end').show();
+        //$('.stream-end').show();
     }
-}
+}*/
 
 function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
     $response =   "<div class='card hoverable overflow'>" +
@@ -788,7 +789,7 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "<li>" + created_at + "</li>" +
     "</ul>" +
     "<p class='text'>";
-    addHashTags(tagArr, textArr) +
+    addTweet(tagArr, textArr) +
     "</p>";
 
     if (tweet_image != '/tweet_images/') {
