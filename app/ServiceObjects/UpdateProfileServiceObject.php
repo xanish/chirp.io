@@ -32,18 +32,18 @@ class UpdateProfileServiceObject
             $user = Auth::user();
             $newmail = $request->email;
             $this->user->updateUserDetails($id, $request, $profile_image, $profile_banner,  Carbon::now());
-            if ($user->email != $newmail) {
-                $this->sendEmailUpdate($user, $newmail);
-            }
+            // if ($user->email != $newmail) {
+            //     $this->sendEmailUpdate($user, $newmail);
+            // }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-    public function sendEmailUpdate($user, $newmail)
-    {
-        Mail::to($newmail)->send(new EmailUpdate($user, $newmail));
-    }
+    // public function sendEmailUpdate($user, $newmail)
+    // {
+    //     Mail::to($newmail)->send(new EmailUpdate($user, $newmail));
+    // }
 
     public function updateProfile($request)
     {

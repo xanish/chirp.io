@@ -165,6 +165,7 @@ $(document).ready(function() {
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
             defaultValue: bdate,
+            autoclose: true,
         });
     } catch (e) {
 
@@ -712,17 +713,33 @@ function ltrim(str, chr) {
     return str.replace(rgxtrim, '');
 }
 
+function rtrim(str) {
+    return str.replace(/[:!?.,]+$/, '');
+}
+
+function isURL(text) {
+    var exp = /^(((http(s)?):\/\/)?(www\.)?)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,}(:[0-9]{1,5})?(\/.*)?$/gi;
+    var regex = new RegExp(exp);
+    if (text.match(regex)) {
+        return true;
+    }
+    return false;
+}
+
 function addHashTags(tagArr, textArr) {
     for( j=0; j<textArr.length; j++) {
         var chirptext = textArr[j];
         var emoji = new EmojiConvertor();
         chirptext = emoji.replace_unified(chirptext);
-        if(jQuery.inArray(chirptext, tagArr) != -1) {
+        if(jQuery.inArray(rtrim(chirptext), tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
-            $response += "<a href='/tag/" + taggedtext + "/tweets'>" + chirptext + "</a>" + " ";
+            $response += "<a href='/tag/" + rtrim(taggedtext) + "/tweets'>" + chirptext + "</a>" + " ";
         }
         else if(chirptext == "") {
             $response += "&nbsp;";
+        }
+        else if(isURL(chirptext)) {
+            $response += "<a href='" + chirptext + "'>" + chirptext + "</a>" + " ";
         }
         else {
             $response += chirptext + " ";
