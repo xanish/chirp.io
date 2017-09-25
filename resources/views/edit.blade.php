@@ -9,6 +9,7 @@
                 <div class="text-center">
                     <h5>{{ $user->name }}</h5>
                     <h6>{{ '@'.$user->username}}</h6>
+                    <h6>{{ $user->email }}</h6>
                 </div>
                 <div class="form-group">
                 {!! Form::label('profile_image', 'Avatar') !!}
@@ -25,10 +26,6 @@
                     {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'edit-name']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('email', 'Email') !!}
-                    {!! Form::text('email', null, ['class' => 'form-control', 'id' => 'edit-email', 'readonly']) !!}
-                </div>
-                <div class="form-group">
                     {!! Form::label('city', 'City') !!}
                     {!! Form::text('city', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'city']) !!}
                 </div>
@@ -38,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('birthdate', 'Birthdate') !!}
-                    <input type="text" data-provide="datepicker" value="{{ $user->birthdate }}" class="form-control" id="edit-bday" name="birthdate" data-date-format="yyyy-mm-dd">
+                    <input type="text" data-provide="datepicker" value="{{ $user->birthdate }}" class="form-control" id="edit-bday" name="birthdate" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
                 </div>
                 <div class="form-group">
                     {!! Form::label('default', 'Theme Color') !!}

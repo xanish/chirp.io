@@ -2,6 +2,9 @@
 .overflow {
     overflow: visible;
 }
+.middle {
+    vertical-align: middle;
+}
 #imagePreview {
     width: 100px;
     height: 100px;
