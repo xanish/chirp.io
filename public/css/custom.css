@@ -169,6 +169,9 @@ meter[value="4"]::-moz-meter-bar { background: green; }
 .pacifico {
     font-family: Pacifico, cursive;
 }
+.card .card-image img {
+    height: 200px;
+}
 .img-floating {
     position: absolute !important;
     top: -50px;
