@@ -36,11 +36,6 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
                 <div id="notweetmessage">
                     <h5 class="text-center pacifico grey-text">No tweets containing <span id="tagname"></span> found</h5>
                 </div>
-
-                <div class="stream-end">
-                    <i class="icofont icofont-animal-woodpecker"></i>
-                    <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>
-                </div>
             </div>
         @endif
 

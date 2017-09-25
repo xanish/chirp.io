@@ -747,16 +747,12 @@ function addTweet(tagArr, textArr) {
             $response += "&nbsp;"; // add extra spaces
         }
         else if(isURL(chirptext)) {
-<<<<<<< HEAD
-            $response += "<a href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " "; // add urls
-=======
             if (chirptext.indexOf('http://') == -1 && chirptext.indexOf('https://') == -1) {
                 $response += "<a href='http://" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
             }
             else {
                 $response += "<a href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
             }
->>>>>>> 7d454cb033f4d6022d589c97123fc8a1455e578a
         }
         else {
             $response += chirptext + " "; // add tweet

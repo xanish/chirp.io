@@ -10,7 +10,6 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h5 class="modal-title text-center pacifico">
-                    <i class="icofont icofont-lg icofont-animal-woodpecker"></i>
                     <span>Compose new chirp</span>
                 </h5>
             </div>
