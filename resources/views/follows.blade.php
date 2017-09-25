@@ -64,6 +64,7 @@
             {{ $people->links() }}
         </div>
     </div>
-
+    
+    @include('partials.backtotop')
     @include('partials.tweetmodal')
 @endsection

@@ -479,7 +479,7 @@ a:hover, a:focus {
     border-radius: 6px !important;
 }
 .btn-floating{
-	position:fixed;
+	position: fixed;
     background-color: #2bbbad;
 	width:60px;
 	height:60px;
@@ -487,7 +487,6 @@ a:hover, a:focus {
 	right:10px;
 	border-radius:50px;
     z-index: 10000;
-    margin: 0;
 }
 #textcomplete-dropdown-1 {
   z-index: 2000 !important;
@@ -504,4 +503,13 @@ a:hover, a:focus {
 }
 #imagePreview {
     border-radius: 4px;
+}
+.back-to-top {
+    display: none;
+}
+.back-to-top a {
+    margin-bottom: 6rem;
+}
+.back-to-top i {
+  font-size: 35px;
 }

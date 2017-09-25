@@ -34,5 +34,7 @@
             <i class="icofont icofont-animal-woodpecker"></i>
             <p><button class="btn btn-default btn-sm" onclick="backtotop()" id="topbtn">Back to top ↑</button></p>
         </div>
+
+        @include('partials.backtotop')
     </div>
 @endsection
