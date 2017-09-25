@@ -739,7 +739,12 @@ function addHashTags(tagArr, textArr) {
             $response += "&nbsp;";
         }
         else if(isURL(chirptext)) {
-            $response += "<a href='" + chirptext + "'>" + chirptext + "</a>" + " ";
+            if (chirptext.indexOf('http://') == -1 && chirptext.indexOf('https://') == -1) {
+                $response += "<a href='http://" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
+            }
+            else {
+                $response += "<a href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
+            }
         }
         else {
             $response += chirptext + " ";
@@ -897,6 +902,7 @@ $('#navbar-search').keyup(function () {
 
 $('#main-page-search-field').keyup(function() {
     if ($(this).val() != '') {
+        var criteria =  $(this).val();
         $('#main-results-dropdown').show();
         $.ajax({
             url: '/search',
@@ -908,6 +914,7 @@ $('#main-page-search-field').keyup(function() {
                 $('.search-item').remove();
                 console.log(data);
                 if (data.users.length != 0) {
+                    $('#search-results').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/search/" + criteria + "'><h6>Show All Matching Users</h6></a></li></ul></div></li>");
                     $('#search-results').prepend("<li class='row search-item' id='user-search-items'></div></li>");
                     for (var i = 0; i < data.users.length; i++) {
                         $element = "<li class='search-item col-lg-6 col-md-6 col-sm-6 col-xs-12'><div class='col-lg-3 col-md-4 col-sm-4 col-xs-3'><img class='img-responsive img-circle' src='/avatars/" + data.users[i].profile_image +
@@ -922,6 +929,9 @@ $('#main-page-search-field').keyup(function() {
                     $('#search-results').prepend($element);
                 }
                 else {
+                    if (data.tags.length != 0) {
+                        $('#search-results').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/tag/" + criteria + "'><h6>Show All Matching Tags</h6></a></li></ul></div></li>");
+                    }
                     $('#search-results').prepend("<li class='row search-item' id='tag-search-items'></div></li>");
                     for (var i = 0; i < data.tags.length; i++) {
                         $element = "<li class='search-item col-lg-4 col-md-4 col-sm-6 col-xs-12'><a href='/tag/" + data.tags[i].tag + "/tweets'><ul class='list-unstyled'><li><h6>#" + data.tags[i].tag +
