@@ -30,7 +30,7 @@ class UpdateProfileServiceObject
     {
         try {
             $user = Auth::user();
-            $newmail = $request->email;
+            // $newmail = $request->email;
             $this->user->updateUserDetails($id, $request, $profile_image, $profile_banner,  Carbon::now());
             // if ($user->email != $newmail) {
             //     $this->sendEmailUpdate($user, $newmail);
