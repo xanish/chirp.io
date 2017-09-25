@@ -12,7 +12,6 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/emojionearea.css') }}" rel="stylesheet">
     <link href="{{ asset('css/emoji.css') }}" rel="stylesheet">
-    <link href="{{ asset('font/icofont.ttf') }}" rel="application/x-font-ttf">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.min.css') }}">

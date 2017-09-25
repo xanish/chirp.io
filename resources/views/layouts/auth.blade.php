@@ -22,8 +22,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js" async></script>
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/mdb.min.js') }}" type="text/javascript"></script>
@@ -33,6 +33,5 @@
     <script src="{{ asset('js/emoji.js') }}"></script>
     <script src="{{ asset('js/lightbox.js') }}" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCso5QRQXnxgph82Q8tV3oYj24SG56jnCc&libraries=places"></script>
-    <script src="https://use.fontawesome.com/dfa2b313d5.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
                 <div class="text-center">
                     <h5>{{ $user->name }}</h5>
                     <h6>{{ '@'.$user->username}}</h6>
+                    <h6>{{ $user->email }}</h6>
                 </div>
                 <div class="form-group">
                 {!! Form::label('profile_image', 'Avatar') !!}
@@ -23,10 +24,6 @@
                 <div class="form-group">
                     {!! Form::label('name', 'Name') !!}
                     {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'edit-name']) !!}
-                </div>
-                <div class="form-group">
-                    {!! Form::label('email', 'Email') !!}
-                    {!! Form::text('email', null, ['class' => 'form-control', 'id' => 'edit-email', 'readonly']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('city', 'City') !!}
