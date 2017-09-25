@@ -66,16 +66,16 @@ var _username = {!! json_encode($user->username) !!}
                     </li>
                     @if($user->birthdate)
                         <li>
-                            <h6><i class="material-icons">cake</i> {{ $user->birthdate }}</h6>
+                            <h6><i class="material-icons middle">cake</i> {{ $user->birthdate }}</h6>
                         </li>
                     @endif
                     @if ($user->city and $user->country)
                         <li>
-                            <h6><i class="material-icons">place</i> {{ $user->city . ', ' . $user->country }}</h6>
+                            <h6><i class="material-icons middle">place</i> {{ $user->city . ', ' . $user->country }}</h6>
                         </li>
                     @endif
                     <li>
-                        <h6><i class="material-icons">date_range</i> Joined {{ $user->created_at->toFormattedDateString() }}</h6>
+                        <h6><i class="material-icons middle">date_range</i> Joined {{ $user->created_at->toFormattedDateString() }}</h6>
                     </li>
                     <li>
                       @if(Auth::guest())
