@@ -35,7 +35,7 @@
                             <ul id="navcount" class="list-unstyled list-inline">
                                 <li>
                                     <a href="/{{ $user->username }}">
-                                        <ul class="list-unstyled">
+                                        <ul class="list-unstyled text-center">
                                             <li>Tweets</li>
                                             <li>{{ $tweet_count }}</li>
                                         </ul>
@@ -43,7 +43,7 @@
                                 </li>
                                 <li>
                                     <a href="/{{ $user->username }}/followers">
-                                        <ul class="list-unstyled">
+                                        <ul class="list-unstyled text-center">
                                             <li>Followers</li>
                                             <li>{{ $follower_count }}</li>
                                         </ul>
@@ -51,7 +51,7 @@
                                 </li>
                                 <li>
                                     <a href="/{{ $user->username }}/following">
-                                        <ul class="list-unstyled">
+                                        <ul class="list-unstyled text-center">
                                             <li>Following</li>
                                             <li>{{ $following_count }}</li>
                                         </ul>

@@ -3,6 +3,7 @@ var EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbf
 var $newtweetbuffer = " ";
 var tweetcounter = 0;
 var currentuser;
+var isLoadingDone = true;
 
 var messageFail = '<div id="fail" class="alert alert-danger float-success"><h6>Try Again Later</h6></div>';
 
@@ -257,19 +258,19 @@ $(document).ready(function() {
 $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 
 if ( $('#feed-tweet').length ) {
-    unbindscroll();
+    setLoadingStarted();
     $("#loading").show();
     loadTweet(null);
 }
 
 if ( $('#feed').length ) {
-    unbindscroll();
+    setLoadingStarted();
     $("#loading").show();
     loadFeed(null, null);
 }
 
 if ( $('#searchfeed').length ) {
-    unbindscroll();
+    setLoadingStarted();
     $("#loading").show();
     loadSearchedByTagTweets(null);
 }
@@ -488,6 +489,7 @@ function loadTweet(_lastid) {
             complete: function() {
                 $("#loading").hide();
                 bindscroll();
+                setLoadingDone();
                 if(tweetcounter == 0) {
                     $("#notweetmessageprofile").show();
                 }
@@ -566,6 +568,7 @@ function loadFeed(_feedlastid, _feedcurrentid) {
             complete: function() {
                 $("#loading").hide();
                 bindscroll();
+                setLoadingDone();
                 if(tweetcounter == 0) {
                     $("#notweetmessage").show();
                 }
@@ -628,6 +631,7 @@ function loadSearchedByTagTweets(_searchbytaglastid) {
             complete: function() {
                 $("#loading").hide();
                 bindscroll();
+                setLoadingDone();
                 if(tweetcounter == 0) {
                     $("#tagname").html('#' + _tag);
                     $("#notweetmessage").show();
@@ -683,20 +687,20 @@ function backtotop() {
 function bindscroll() {
     $(window).scroll(function() {
         if( $(window).scrollTop() + $(window).height() + 2 >= $(document).height() ) { //scrolled to bottom of the page
-            if(__lastid != null) {
-                unbindscroll();
+            if(__lastid != null && isLoadingDone == true) {
+                setLoadingStarted();
                 $("#loading").show();
                 loadTweet(__lastid);
             }
 
-            if(__feedlastid != null) {
-                unbindscroll();
+            if(__feedlastid != null && isLoadingDone == true) {
+                setLoadingStarted();
                 $("#loading").show();
                 loadFeed(__feedlastid, null);
             }
 
-            if(__searchbytaglastid != null) {
-                unbindscroll();
+            if(__searchbytaglastid != null && isLoadingDone == true) {
+                setLoadingStarted();
                 $("#loading").show();
                 loadSearchedByTagTweets(__searchbytaglastid);
             }
@@ -712,8 +716,12 @@ function bindscroll() {
     });
 }
 
-function unbindscroll() {
-    $(window).off('scroll');
+function setLoadingStarted() {
+    isLoadingDone = false;
+}
+
+function setLoadingDone() {
+    isLoadingDone = true;
 }
 
 function ltrim(str, chr) {

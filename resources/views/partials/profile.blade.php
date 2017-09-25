@@ -19,7 +19,7 @@ var _username = {!! json_encode($user->username) !!}
                         <li class="col-xs-4 no-padding">
                      @endif
                             <a href="/{{ $user->username }}">
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled text-center">
                                     <li>Tweets</li>
                                     <li>{{ $tweet_count }}</li>
                                 </ul>
@@ -31,7 +31,7 @@ var _username = {!! json_encode($user->username) !!}
                             <li class="col-xs-4 no-padding">
                         @endif
                             <a href="/{{ $user->username }}/followers">
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled text-center">
                                     <li>Followers</li>
                                     <li>{{ $follower_count }}</li>
                                 </ul>
@@ -43,7 +43,7 @@ var _username = {!! json_encode($user->username) !!}
                                 <li class="col-xs-4 no-padding">
                             @endif
                             <a href="/{{ $user->username }}/following">
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled text-center">
                                     <li>Following</li>
                                     <li>{{ $following_count }}</li>
                                 </ul>
