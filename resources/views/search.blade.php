@@ -49,6 +49,8 @@
             @endif
         @endforeach
     @endif
+
+    @include('partials.backtotop')
   </div>
   @if(count($data) > 0)
     <div class="text-center">

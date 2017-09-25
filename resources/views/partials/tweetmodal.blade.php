@@ -1,5 +1,7 @@
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large waves-effect waves-light" data-toggle="modal" data-target="#tweetmodal"><i class="material-icons">add</i></a>
+    <a class="btn-floating btn-large waves-effect waves-light" data-toggle="modal" data-target="#tweetmodal">
+        <i class="material-icons">add</i>
+    </a>
 </div>
 
 <div class="modal fade" id="tweetmodal" role="dialog">
