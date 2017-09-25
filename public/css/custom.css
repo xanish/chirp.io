@@ -181,10 +181,14 @@ meter[value="4"]::-moz-meter-bar { background: green; }
     margin-top: 20px;
 }
 .parallax {
-    /*margin-top: -22px;*/
-    min-height: 300px;
+    min-height: 400px;
     background: no-repeat fixed center;
     background-size: cover;
+}
+@media only screen and (max-width: 480px) {
+    .parallax {
+        min-height: 300px;
+    }
 }
 .profile-img {
     position: absolute;
