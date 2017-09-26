@@ -244,6 +244,11 @@ $(document).ready(function() {
                 keydown: function (editor, event) {
                     $(editor).keyup();
                 },
+                click: function (editor, event) {
+                    if ( $('.emojionearea-button').hasClass('active') ) {
+                        $(".emojionearea-button").click();
+                     }
+                },
                 emojibtn_click: function (button, event) {
                     $("div#tweeteditor.emojionearea-editor").keyup();
                 }
