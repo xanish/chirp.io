@@ -24,7 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('profile_image')->default('placeholder.jpg');
             $table->string('profile_banner')->default('banner.jpg');
             $table->string('password');
+            $table->string('email_token', 100);
             $table->rememberToken();
+            $table->tinyInteger('verified', 2)->nullable()->default(NULL);
             $table->timestamps();
         });
     }
