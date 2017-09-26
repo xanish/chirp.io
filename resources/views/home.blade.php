@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row margin-top-70">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 margin-bottom-20">
+            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 margin-bottom-20">
                 <div class="card">
                     <div class="card-image">
                         <div class="view overlay hm-white-slight z-depth-1">
@@ -31,7 +31,7 @@
                                 </ul>
                             </a>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-12" id="count-bar">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="count-bar">
                             <ul id="navcount" class="list-unstyled list-inline">
                                 <li>
                                     <a href="/{{ $user->username }}">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
                 @include('partials.tweet_form')
 
                 <div class="tweet-alert">
