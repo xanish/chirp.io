@@ -123,14 +123,12 @@
     // Attach event handlers to the newly minted DOM elements
     this.$overlay.hide().on('click', function() {
       self.end();
-      $(window).disablescroll("undo");
       return false;
     });
 
     this.$lightbox.hide().on('click', function(event) {
       if ($(event.target).attr('id') === 'lightbox') {
         self.end();
-        $(window).disablescroll("undo");
       }
       return false;
     });
@@ -188,7 +186,6 @@
 
     this.$lightbox.find('.lb-loader, .lb-close').on('click', function() {
       self.end();
-      $(window).disablescroll("undo");
       return false;
     });
   };
@@ -505,6 +502,7 @@
     $('select, object, embed').css({
       visibility: 'visible'
     });
+    $(window).disablescroll("undo");
     if (this.options.disableScrolling) {
       $('body').removeClass('lb-disable-scrolling');
     }
