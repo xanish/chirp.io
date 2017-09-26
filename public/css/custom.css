@@ -5,6 +5,10 @@
 .middle {
     vertical-align: middle;
 }
+#card-alert {
+    padding: 10px;
+    border-radius: 0px;
+}
 #imagePreview {
     width: 100px;
     height: 100px;

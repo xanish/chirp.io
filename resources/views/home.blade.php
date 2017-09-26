@@ -67,7 +67,7 @@
                 <div class="tweet-alert">
                     <div id="card-alert" class="alert alert-primary">
                       <div class="alerttext">
-                        <p>View <span id="newcount">0</span> new Tweet</p>
+                        <p class="no-margin">View <span id="newcount">0</span> new Tweet</p>
                       </div>
                     </div>
                     <div class="margin-top-10">

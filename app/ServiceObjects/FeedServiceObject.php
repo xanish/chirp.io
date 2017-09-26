@@ -37,20 +37,19 @@ class FeedServiceObject
 
         $feed = $this->tweet->join('users', 'tweets.user_id', '=', 'users.id')
             ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
-            ->orderBy('tweets.id', 'DESC')
-            ->take(20);
+            ->orderBy('tweets.id', 'DESC');
 
         if($lastid != '') {
             $followingids->push($user->id);
-            $feed = $feed->whereIn('user_id', $followingids)->where('tweets.id', '<', $lastid)->get();
+            $feed = $feed->whereIn('user_id', $followingids)->where('tweets.id', '<', $lastid)->take(20)->get();
         }
         elseif ($currentid != '') {
             $currentdata = 1;
-            $feed = $feed->where('tweets.id', '>', $currentid)->get();
+            $feed = $feed->whereIn('user_id', $followingids)->where('tweets.id', '>', $currentid)->get();
         }
         else {
             $followingids->push($user->id);
-            $feed = $feed->whereIn('user_id', $followingids)->get();
+            $feed = $feed->whereIn('user_id', $followingids)->take(20)->get();
         }
 
         $posts = $this->parseFeed($feed, $follow->where('user_id', $user->id));
