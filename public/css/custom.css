@@ -419,3 +419,6 @@ a:hover, a:focus {
 .back-to-top i {
     font-size: 35px;
 }
+.underline:hover {
+    text-decoration: underline;
+}

@@ -10,7 +10,7 @@ var _tag = {!! json_encode(ltrim($tag, '#')) !!}
             <div class="row margin-top-50">
                 @foreach($tags as $tag)
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 padding-bottom-15">
-                        <h6><a href="/tag/{{$tag->tag}}/tweets">#{{$tag->tag}}</a></h6>
+                        <h6><a href="/tag/{{$tag->tag}}/tweets">#<span class="underline">{{$tag->tag}}</span></a></h6>
                     </div>
                 @endforeach
             </div>

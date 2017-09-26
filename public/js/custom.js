@@ -754,17 +754,17 @@ function addTweet(tagArr, textArr) {
         chirptext = emoji.replace_unified(chirptext);
         if(jQuery.inArray(rtrim(chirptext), tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
-            $response += "<a href='/tag/" + rtrim(taggedtext) + "/tweets'>" + chirptext + "</a>" + " "; // add hashtags
+            $response += "<a href='/tag/" + rtrim(taggedtext) + "/tweets'>#" + "<span class='underline'>" + taggedtext + "</span>" + "</a>" + " "; // add hashtags
         }
         else if(chirptext == "") {
             $response += "&nbsp;"; // add extra spaces
         }
         else if(isURL(chirptext)) {
             if (chirptext.indexOf('http://') == -1 && chirptext.indexOf('https://') == -1) {
-                $response += "<a href='http://" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
+                $response += "<a class='underline' href='http://" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
             }
             else {
-                $response += "<a href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
+                $response += "<a class='underline' href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
             }
         }
         else {
@@ -802,7 +802,7 @@ function tweetBuilder(id, profile_image, name, username, created_at, textArr, ta
     "</div>" +
     "<div class='col-lg-10 col-md-10 col-sm-10 col-xs-9'>" +
     "<ul class='list-unstyled list-inline'>" +
-    "<li><a href='/" + username + "'><h6>" + name + "</h6></li>" +
+    "<li><a href='/" + username + "'><h6><span class='underline'>" + name + "</span></h6></li>" +
     "<li> @" + username + "</a></li>" +
     "<li>" + created_at + "</li>" +
     "</ul>" +
