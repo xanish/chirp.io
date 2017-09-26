@@ -896,7 +896,7 @@ $('#navbar-search').keyup(function () {
                 }
                 else {
                     if (data.tags.length != 0) {
-                        $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/tag/" + criteria + "'><h6>Show All Matching Tags</h6></a></li></ul></div></li>");
+                        $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/tag/" + ltrim(criteria, '#') + "'><h6>Show All Matching Tags</h6></a></li></ul></div></li>");
                     }
                     else {
                         $('#search-results-dropdown').prepend("<li class='row search-item'><div class='col-xs-12 text-center'>No Tags Found</div></li>");
@@ -951,7 +951,7 @@ $('#main-page-search-field').keyup(function() {
                 }
                 else {
                     if (data.tags.length != 0) {
-                        $('#search-results').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/tag/" + criteria + "'><h6>Show All Matching Tags</h6></a></li></ul></div></li>");
+                        $('#search-results').prepend("<li class='row search-item'><div class='col-xs-12'><ul class='list-unstyled'><li><a href='/tag/" + ltrim(criteria, '#') + "'><h6>Show All Matching Tags</h6></a></li></ul></div></li>");
                     }
                     else {
                         $('#search-results').prepend("<li class='row search-item'><div class='col-xs-12 text-center grey-text'>No Tags Found</div></li>");

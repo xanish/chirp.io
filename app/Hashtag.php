@@ -42,7 +42,7 @@ class Hashtag extends Model
 
     public function findTags($criteria)
     {
-        return $this->where('tag', 'LIKE', $criteria.'%')
+        return $this->where('tag', 'LIKE', '%'.$criteria.'%')
             ->select('tag')
             ->distinct()
             ->limit(10);
