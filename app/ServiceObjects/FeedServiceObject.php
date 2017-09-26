@@ -35,31 +35,22 @@ class FeedServiceObject
         $followingids = $follow->where('user_id', $user->id)->pluck('follows');
         $currentdata = 0;
 
-        if($lastid != '') {
-            $followingids->push($user->id);
-            $feed = $this->tweet->whereIn('user_id', $followingids)
-            ->where('tweets.id', '<', $lastid)
-            ->join('users', 'tweets.user_id', '=', 'users.id')
+        $feed = $this->tweet->join('users', 'tweets.user_id', '=', 'users.id')
             ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
             ->orderBy('tweets.id', 'DESC')
-            ->take(20)->get();
+            ->take(20);
+
+        if($lastid != '') {
+            $followingids->push($user->id);
+            $feed = $feed->whereIn('user_id', $followingids)->where('tweets.id', '<', $lastid)->get();
         }
         elseif ($currentid != '') {
             $currentdata = 1;
-            $feed = $this->tweet->whereIn('user_id', $followingids)
-            ->where('tweets.id', '>', $currentid)
-            ->join('users', 'tweets.user_id', '=', 'users.id')
-            ->select('users.id as uid', 'users.id', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
-            ->orderBy('tweets.id', 'DESC')
-            ->get();
+            $feed = $feed->where('tweets.id', '>', $currentid)->get();
         }
         else {
             $followingids->push($user->id);
-            $feed = Tweet::whereIn('user_id', $followingids)
-            ->join('users', 'tweets.user_id', '=', 'users.id')
-            ->select('users.id as uid', 'users.name', 'users.username', 'users.profile_image', 'tweets.id', 'tweets.text', 'tweets.tweet_image', 'tweets.original_image', 'tweets.created_at')
-            ->orderBy('tweets.id', 'DESC')
-            ->take(20)->get();
+            $feed = $feed->whereIn('user_id', $followingids)->get();
         }
 
         $posts = $this->parseFeed($feed, $follow->where('user_id', $user->id));

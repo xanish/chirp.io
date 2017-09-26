@@ -69,25 +69,20 @@ class UserProfileServiceObject
 
     public function getTweets($username, $lastid)
     {
+        $user = $this->getUser($username);
+        $tweets = $user->tweets()
+                    ->take(20)
+                    ->select('id', 'text', 'tweet_image', 'original_image', 'user_id', 'created_at');
         if($lastid != '') {
             try {
-                $user = $this->getUser($username);
-                $tweets = $user->tweets()
-                ->where('id', '<', $lastid)
-                ->take(20)
-                ->select('id', 'text', 'tweet_image', 'original_image', 'user_id', 'created_at')
-                ->get();
+                $tweets = $tweets->where('id', '<', $lastid)->get();
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
         }
         else {
             try {
-                $user = $this->getUser($username);
-                $tweets = $user->tweets()
-                ->take(20)
-                ->select('id', 'text', 'tweet_image', 'original_image', 'user_id', 'created_at')
-                ->get();
+                $tweets = $tweets->get();
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
