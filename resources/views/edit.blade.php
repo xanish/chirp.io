@@ -14,10 +14,12 @@
                 <div class="form-group">
                 {!! Form::label('profile_image', 'Avatar') !!}
                 {!! Form::file('profile_image',['class' => 'form-control', 'accept' => '.jpeg,.png,.jpg,.gif']) !!}
+                <i class="material-icons remove-file" id="remove-profile">close</i>
                 </div>
                 <div class="form-group">
                     {!! Form::label('profile_banner', 'Banner') !!}
                     {!! Form::file('profile_banner',['class' => 'form-control', 'accept' => '.jpeg,.png,.jpg,.gif']) !!}
+                    <i class="material-icons remove-file" id="remove-banner">close</i>
                 </div>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">

@@ -20,16 +20,21 @@ try {
 $('#search-results-dropdown').hide();
 $('#password-strength-meter').hide();
 $('#main-results-dropdown').hide();
+$('#remove-profile').hide();
+$('#remove-banner').hide();
 try {
+    document.getElementById('profile_image').onchange = function () {
+        $('#remove-profile').show();
+    }
+    document.getElementById('profile_banner').onchange = function () {
+        $('#remove-banner').show();
+    }
     document.getElementById('tweet_image_file').onchange = function () {
         try {
             $('#attach').remove();
         } catch(e) {}
-        $upload =   '<div class="alert alert-success row" id="attach"><ul id="attach-item"><li><i class="material-icons">attach_file</i>' +
-                    this.files.item(0).name +
-                    '<i class="material-icons remove-attach-file">close</i>' +
-                    '</li></ul>' +
-                    '</div>';
+        $upload = '<div class="alert alert-success row no-margin" id="attach"><ul id="attach-item"><li><i class="material-icons">attach_file</i>' +
+                this.files.item(0).name + '<i class="material-icons remove-attach-file">close</i></li></ul></div>';
         var files = !!this.files ? this.files : [];
         if (/^image/.test( files[0].type)) { // only image file
             var reader = new FileReader(); // instance of the FileReader
@@ -182,6 +187,14 @@ $(document).ready(function() {
         $("#tweet_image_file").val('');
         $('#attach').remove();
         $('#imagePreview').remove();
+    });
+    $('body').on('click', '#remove-profile', function() {
+        $("#profile_image").val('');
+        $('#remove-profile').hide();
+    });
+    $('body').on('click', '#remove-banner', function() {
+        $("#profile_banner").val('');
+        $('#remove-banner').hide();
     });
 
     if ($("#popular-tags").length > 0) {

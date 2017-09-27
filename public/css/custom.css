@@ -403,9 +403,14 @@ a:hover, a:focus {
 #ERRMSG {
     display: none;
 }
-.remove-attach-file {
+.remove-attach-file, .remove-file {
     float: right;
     cursor: pointer;
+}
+.remove-file {
+    position: relative;
+    right: 5px;
+    bottom: 30px;
 }
 #imagePreview {
     border-radius: 4px;
