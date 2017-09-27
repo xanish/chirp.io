@@ -49,7 +49,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt(['username' => $request->get('username'), 'password' => $request->get('password'), 'verified' => 1])) {
-            return redirect('/home');
+            return $request->session()->get('backUrl') ? redirect($request->session()->get('backUrl')) : redirect('/home');
         }
         else if (Auth::attempt(['username' => $request->get('username'), 'password' => $request->get('password'), 'verified' => NULL])) {
             Auth::logout();

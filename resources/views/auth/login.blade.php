@@ -1,6 +1,9 @@
 @extends('layouts.auth')
 
 @section('content')
+<?php
+  Session::put('backUrl', URL::previous());
+?>
 <div class="container">
     <div class="row margin-top-90">
         <div class="col-md-8 col-md-offset-2">
