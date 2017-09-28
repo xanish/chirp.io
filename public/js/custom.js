@@ -27,13 +27,17 @@ try {
     document.getElementById('profile_banner').onchange = function () {
         $('#remove-banner').show();
     }
+} catch(e) {
+    // element by id not found
+}
+try {
     document.getElementById('tweet_image_file').onchange = function () {
         try {
             $('#attach').remove();
         } catch(e) {
             // attach not found
         }
-        $upload = '<div class="alert alert-success row no-margin" id="attach"><ul id="attach-item"><li><i class="material-icons">attach_file</i>' +
+        $upload = '<div class="alert alert-success row no-margin margin-bottom-20" id="attach"><ul id="attach-item"><li><i class="material-icons">attach_file</i>' +
                 this.files.item(0).name + '<i class="material-icons remove-attach-file">close</i></li></ul></div>';
         var files = !!this.files ? this.files : [];
         if (/^image/.test( files[0].type)) { // only image file
@@ -47,9 +51,8 @@ try {
         $('#tweetform').append($upload);
         $('#attach-item').append('<li><div id="imagePreview"></div></li>');
     };
-} catch(e) {
-    // element by id not found
 }
+catch(e) {}
 
 $.ajaxSetup({
     headers: {

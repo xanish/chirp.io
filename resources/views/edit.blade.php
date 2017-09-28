@@ -5,7 +5,9 @@
         <div class="row margin-top-90">
             {!! Form::model($user, ['method' => 'PATCH', 'url' => 'edit-profile', 'files' => true, 'id' => 'edit-profile']) !!}
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <img class="img-responsive center-block" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
+                <a href="{{ asset(Config::get('constants.avatars').'original_'.$user->profile_image) }}" data-lightbox="profile-image-box">
+                    <img class="img-responsive center-block lightboxed" src="{{ asset(Config::get('constants.avatars').$user->profile_image) }}" alt="">
+                </a>
                 <div class="text-center">
                     <h5>{{ $user->name }}</h5>
                     <h6>{{ '@'.$user->username}}</h6>
