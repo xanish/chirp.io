@@ -760,7 +760,7 @@ function addTweet(tagArr, textArr) {
         }
         else if(isURL(chirptext)) {
             if (chirptext.indexOf('http://') == -1 && chirptext.indexOf('https://') == -1) {
-                $response += "<a class='underline' href='http://" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
+                $response += "<a class='underline' href='http://" + chirptext + "' target='_blank' rel='noopener'>" + chirptext + "</a>" + " ";
             }
             else {
                 $response += "<a class='underline' href='" + chirptext + "' target='_blank'>" + chirptext + "</a>" + " ";
