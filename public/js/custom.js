@@ -748,8 +748,7 @@ function addTweet(tagArr, textArr) {
     for( j=0; j<textArr.length; j++) {
         var chirptext = textArr[j];
         var emoji = new EmojiConvertor();
-        emoji.use_sheet = true;
-        emoji.img_sets.emojione.sheet = '/emoji-data/sheet_emojione_32.png';
+        emoji.img_sets.emojione.path = 'https://cdnjs.cloudflare.com/ajax/libs/emojione/2.1.4/assets/png/';
         chirptext = emoji.replace_unified(chirptext);
         if(jQuery.inArray(rtrim(chirptext), tagArr) != -1) {
             var taggedtext = ltrim(chirptext, '#');
