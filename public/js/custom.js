@@ -12,9 +12,7 @@ try {
         $('#'+color).prop('checked', true);
     }
 } catch (e) {
-
-} finally {
-
+    // color not found
 }
 
 $('#search-results-dropdown').hide();
@@ -32,7 +30,9 @@ try {
     document.getElementById('tweet_image_file').onchange = function () {
         try {
             $('#attach').remove();
-        } catch(e) {}
+        } catch(e) {
+            // attach not found
+        }
         $upload = '<div class="alert alert-success row no-margin" id="attach"><ul id="attach-item"><li><i class="material-icons">attach_file</i>' +
                 this.files.item(0).name + '<i class="material-icons remove-attach-file">close</i></li></ul></div>';
         var files = !!this.files ? this.files : [];
@@ -48,7 +48,7 @@ try {
         $('#attach-item').append('<li><div id="imagePreview"></div></li>');
     };
 } catch(e) {
-
+    // element by id not found
 }
 
 $.ajaxSetup({
@@ -152,11 +152,6 @@ $('#form').submit(function() {
             if(jqXHR.status == 401 || jqXHR.status == 500) {
                 redirectToLogin();
             }
-        },
-        complete: function() {
-            /*if(__lastid == null && $('#feed-tweet').length) {
-                showBackToTop();
-            }*/
         }
     });
     return false;
@@ -174,8 +169,6 @@ $(document).ready(function() {
             autoclose: true,
         });
     } catch (e) {
-
-    } finally {
 
     }
 
@@ -511,10 +504,6 @@ function loadTweet(_lastid) {
                 if(tweetcounter == 0) {
                     $("#notweetmessageprofile").show();
                 }
-                /*if(__lastid == null) {
-                    //$("#loading").hide();
-                    showBackToTop();
-                }*/
             }
         });
     }catch(e) {}
@@ -590,10 +579,6 @@ function loadFeed(_feedlastid, _feedcurrentid) {
                 if(tweetcounter == 0) {
                     $("#notweetmessage").show();
                 }
-                /*if(__feedlastid == null) {
-                    //$("#loading").hide();
-                    showBackToTop();
-                }*/
             }
         });
     }catch(e){}
@@ -654,10 +639,6 @@ function loadSearchedByTagTweets(_searchbytaglastid) {
                     $("#tagname").html('#' + _tag);
                     $("#notweetmessage").show();
                 }
-                /*if(__searchbytaglastid == null) {
-                    //$("#loading").hide();
-                    showBackToTop();
-                }*/
             }
         });
     }catch(e) {}
@@ -799,12 +780,6 @@ function addLikes(likedArr, likescount, id) {
         $response += "<div class='card-action'>" + "<h6><a class='red-text'  href='/login'><i class='material-icons'>favorite_border</i> <span>" + likescount + "</span></a></h6></div>";
     }
 }
-
-/*function showBackToTop() {
-    if ($('#feed-tweet').outerHeight(true) || $('#feed').outerHeight(true) || $('#searchfeed').outerHeight(true) > $(window).height()) {
-        //$('.stream-end').show();
-    }
-}*/
 
 function tweetBuilder(id, profile_image, name, username, created_at, textArr, tagArr, tweet_image, original_image, likedArr, likescount) {
     $response =   "<div class='card hoverable overflow'>" +
