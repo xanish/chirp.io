@@ -11,6 +11,8 @@ use App\Color;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Jobs\SendVerificationEmail;
+use Illuminate\Support\Facades\Hash;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -111,11 +113,11 @@ class RegisterController extends Controller
         $user = User::where('email_token',$token)->first();
         $user->verified = 1;
         if($user->save()){
+            Mail::to($user)->send(new Welcome($user));
             return view('message')->with([
                 'title' => 'Registration Confirmed',
                 'msg' => 'Your e-mail address has been verified successfully. Click here to <a href="/login">Login</a> to your account.',
             ]);
         }
-        \Mail::to($user)->send(new Welcome($user));
     }
 }
