@@ -427,3 +427,7 @@ a:hover, a:focus {
 .underline:hover {
     text-decoration: underline;
 }
+.emoji-sizer {
+    font-size: 1.2em !important;
+    vertical-align: middle;
+}
