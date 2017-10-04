@@ -126,6 +126,9 @@ $('#form').submit(function() {
                 $("#count-bar").load(' #navcount');
                 $("#feed").prepend($response);
             }
+            if($("#notweetmessage").length) {
+                $("#notweetmessage").hide();
+            }
             $('#attach').remove();
             $successmsg = '<div class="alert alert-success" id="postsuccess"><ul><li>Posted Successfully</li></ul></div>';
             $('#tweetform').append($successmsg);
