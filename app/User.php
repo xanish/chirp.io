@@ -81,10 +81,11 @@ class User extends Authenticatable
 
     public function findUsers($criteria)
     {
+        $len = strlen($criteria);
         return $this->where('name', 'LIKE', '%'.$criteria.'%')
             ->orWhere('username', 'LIKE', '%'.$criteria.'%')
             ->select('id', 'name', 'username', 'birthdate', 'city', 'country', 'created_at', 'profile_image', 'profile_banner')
-            ->orderBy('name')
+            ->orderByRaw('LENGTH(name)')
             ->limit(10);
     }
 }

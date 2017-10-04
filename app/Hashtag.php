@@ -45,6 +45,7 @@ class Hashtag extends Model
         return $this->where('tag', 'LIKE', '%'.$criteria.'%')
             ->select('tag')
             ->distinct()
+            ->orderByRaw('LENGTH(tag)')
             ->limit(10);
     }
 
